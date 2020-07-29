@@ -1,9 +1,4 @@
 class Generator {
-    part = null
-    length = null
-    connector = null
-    character_set = null
-
     constructor() {
         this.update()
     }

@@ -1,9 +1,7 @@
 class UI {
-    kernel = null
-    password = null
-
     constructor(kernel) {
         this.kernel = kernel
+        this.password = null
     }
 
     copy_password(password = null) {

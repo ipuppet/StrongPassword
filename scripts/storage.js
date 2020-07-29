@@ -23,10 +23,8 @@ function jsonToStrMap(jsonStr) {
 }
 
 class Storage {
-    storage = null
-    local_path = "assets/StrongPassword.txt"
-
     constructor() {
+        this.local_path = "assets/StrongPassword.txt"
         this.storage = new Map()
         if ($file.exists(this.local_path)) {
             this.load_from_local()

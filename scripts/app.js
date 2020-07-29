@@ -3,9 +3,6 @@ const Storage = require("./storage").Storage
 const UI = require("./ui").UI
 
 class Kernel {
-    generator = null
-    storage = null
-
     constructor() {
         this.generator = new Generator()
         this.storage = new Storage()
