@@ -37,7 +37,6 @@ class Storage {
 
     update_local_data() {
         let str = strMapToJson(this.storage)
-        console.log(str)
         return $file.write({
             data: $data({ string: str }),
             path: this.local_path
@@ -55,7 +54,7 @@ class Storage {
 
     delete(name) {
         this.storage.delete(name)
-        console.log(this.keys())
+        this.update_local_data()
     }
 
     has(name) {
