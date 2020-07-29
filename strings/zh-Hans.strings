@@ -1,0 +1,34 @@
+"STRONG_PASSWORD_APP" = "强密码生成器";
+
+"ALERT_INFO" = "提示";
+"OK" = "好";
+"CANCEL" = "取消";
+
+"SETTINGS" = "设置";
+
+"SETTINGS_GENERAL" = "一般";
+"SETTINGS_GENERAL_AUTO_COPY" = "自动复制";
+"SETTINGS_GENERAL_AUTO_RESET_NAME_INPUT" = "自动重置密码名输入框";
+
+"SETTINGS_ADVANCED" = "高级";
+"SETTINGS_ADVANCED_GENERATOR_PART" = "分段个数";
+"SETTINGS_ADVANCED_GENERATOR_LENGTH" = "单分段长度";
+"SETTINGS_ADVANCED_GENERATOR_CONNECTOR" = "分段连接符";
+"SETTINGS_ADVANCED_GENERATOR_CHARACTER_SET" = "随机字符集";
+
+"SETTINGS_ABOUT" = "关于";
+"SETTINGS_ABOUT_VERSION" = "版本号";
+
+"CLICK_TO_COPY" = "点击密码即可复制";
+"GENERATE_BUTTON" = "生成强密码";
+"PASSWORD_NAME" = "密码名称";
+"COPY" = "已复制到剪切板";
+"SAVE_BUTTON" = "保存";
+"NO_PASSWORD_NAME" = "请设置密码名称";
+"ALREADY_SAVED_PASSWORD" = "该名称已存在，是否覆盖旧密码？";
+"PASSWORD_NAME_TIPS" = "重复的名称会覆盖之前的密码";
+"SAVE_SUCCESS" = "保存成功";
+"PASSWORD_HAS_GENERATED" = "当前已有密码，是否重新生成？";
+
+"PASSWORD_STORAGE" = "保存的密码";
+"STORAGE_SEARCH" = "搜索";
