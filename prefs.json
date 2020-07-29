@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "title": "SETTINGS",
     "groups": [
@@ -58,4 +59,66 @@
             ]
         }
     ]
+=======
+{
+    "title": "SETTINGS",
+    "groups": [
+        {
+            "title": "SETTINGS_GENERAL",
+            "items": [
+                {
+                    "title": "SETTINGS_GENERAL_AUTO_COPY",
+                    "type": "boolean",
+                    "key": "settings.general.auto_copy",
+                    "value": true
+                },
+                {
+                    "title": "SETTINGS_GENERAL_AUTO_RESET_NAME_INPUT",
+                    "type": "boolean",
+                    "key": "settings.general.auto_reset_name_input",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "title": "SETTINGS_ADVANCED",
+            "items": [
+                {
+                    "title": "SETTINGS_ADVANCED_GENERATOR_PART",
+                    "type": "integer",
+                    "key": "settings.generator.part",
+                    "value": 3
+                },
+                {
+                    "title": "SETTINGS_ADVANCED_GENERATOR_LENGTH",
+                    "type": "integer",
+                    "key": "settings.generator.length",
+                    "value": 6
+                },
+                {
+                    "title": "SETTINGS_ADVANCED_GENERATOR_CONNECTOR",
+                    "type": "boolean",
+                    "key": "settings.generator.connector",
+                    "value": true
+                },
+                {
+                    "title": "SETTINGS_ADVANCED_GENERATOR_CHARACTER_SET",
+                    "type": "string",
+                    "key": "settings.generator.character_set",
+                    "value": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                }
+            ]
+        },
+        {
+            "title": "SETTINGS_ABOUT",
+            "items": [
+                {
+                    "title": "SETTINGS_ABOUT_VERSION",
+                    "type": "info",
+                    "value": "v1.0.0"
+                }
+            ]
+        }
+    ]
+>>>>>>> 0a1b00b45c83e9fe790ee5c8312707e94c1028fc
 }
