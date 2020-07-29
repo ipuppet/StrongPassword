@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
     "info": {
         "name": "StrongPassword",
@@ -17,24 +16,4 @@
         "keyboardToolbarEnabled": false,
         "rotateDisabled": false
     }
-=======
-{
-    "info": {
-        "name": "StrongPassword",
-        "url": "",
-        "version": "1.0.0",
-        "author": "ipuppet",
-        "website": "",
-        "types": 0
-    },
-    "settings": {
-        "theme": "light",
-        "minSDKVer": "2.0.0",
-        "minOSVer": "12.0.0",
-        "idleTimerDisabled": false,
-        "autoKeyboardEnabled": false,
-        "keyboardToolbarEnabled": false,
-        "rotateDisabled": false
-    }
->>>>>>> 0a1b00b45c83e9fe790ee5c8312707e94c1028fc
 }

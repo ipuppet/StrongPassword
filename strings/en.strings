@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 "STRONG_PASSWORD" = "Strong Password Generateor";
 
 "ALERT_INFO" = "Information";
@@ -32,39 +31,4 @@
 "PASSWORD_HAS_GENERATED" = "There is a password, do you want to regenerate it?";
 
 "PASSWORD_STORAGE" = "Saved Password";
-=======
-"STRONG_PASSWORD" = "Strong Password Generateor";
-
-"ALERT_INFO" = "Information";
-"OK" = "OK";
-"CANCEL" = "Cancel";
-
-"SETTINGS" = "Settings";
-
-"SETTINGS_GENERAL" = "General";
-"SETTINGS_GENERAL_AUTO_COPY" = "Auto Copy";
-"SETTINGS_GENERAL_AUTO_RESET_NAME_INPUT" = "Auto Reset Name Input Box.";
-
-"SETTINGS_ADVANCED" = "Advanced";
-"SETTINGS_ADVANCED_GENERATOR_PART" = "Part";
-"SETTINGS_ADVANCED_GENERATOR_LENGTH" = "Length";
-"SETTINGS_ADVANCED_GENERATOR_CONNECTOR" = "Connector";
-"SETTINGS_ADVANCED_GENERATOR_CHARACTER_SET" = "Character Set";
-
-"SETTINGS_ABOUT" = "About";
-"SETTINGS_ABOUT_VERSION" = "Version";
-
-"CLICK_TO_COPY" = "Click To Copy";
-"GENERATE_BUTTON" = "Generate Password";
-"PASSWORD_NAME" = "Password Name";
-"COPY" = "Copied";
-"SAVE_BUTTON" = "Save";
-"NO_PASSWORD_NAME" = "Please set a password name.";
-"ALREADY_SAVED_PASSWORD" = "The name already exists. Do you want to overwrite the old password?";
-"PASSWORD_NAME_TIPS" = "Duplicate names will overwrite previous passwords.";
-"SAVE_SUCCESS" = "Saved successfully.";
-"PASSWORD_HAS_GENERATED" = "There is a password, do you want to regenerate it?";
-
-"PASSWORD_STORAGE" = "Saved Password";
->>>>>>> 0a1b00b45c83e9fe790ee5c8312707e94c1028fc
 "STORAGE_SEARCH" = "Search";
