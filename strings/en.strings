@@ -18,6 +18,7 @@
 
 "SETTINGS_ABOUT" = "About";
 "SETTINGS_ABOUT_VERSION" = "Version";
+"AUTHOR" = "Author";
 
 "CLICK_TO_COPY" = "Click To Copy";
 "GENERATE_BUTTON" = "Generate Password";
@@ -27,8 +28,12 @@
 "NO_PASSWORD_NAME" = "Please set a password name.";
 "ALREADY_SAVED_PASSWORD" = "The name already exists. Do you want to overwrite the old password?";
 "PASSWORD_NAME_TIPS" = "Duplicate names will overwrite previous passwords.";
-"SAVE_SUCCESS" = "Saved successfully.";
 "PASSWORD_HAS_GENERATED" = "There is a password, do you want to regenerate it?";
+
+"SAVE_SUCCESS" = "Saved successfully.";
+"SAVE_ERROR" = "Save failed.";
+"DELETE_SUCCESS" = "Delete successfully.";
+"DELETE_ERROR" = "Delete failed.";
 
 "PASSWORD_STORAGE" = "Saved Password";
 "STORAGE_SEARCH" = "Search";

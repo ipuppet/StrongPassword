@@ -24,13 +24,15 @@ class UI {
             return
         }
         let save_action = () => {
-            let status = this.kernel.storage.save(name, this.password)
-            console.log(status)
+            this.password['name'] = name
+            let status = this.kernel.storage.save(this.password)
             if (status) {
                 $ui.success($l10n("SAVE_SUCCESS"))
                 if ($prefs.get("settings.general.auto_reset_name_input")) {
                     $("password_name").text = ''
                 }
+            } else {
+                $ui.error($l10n("SAVE_ERROR"))
             }
         }
         if (this.kernel.storage.has(name)) {
@@ -54,26 +56,28 @@ class UI {
         }
     }
 
+    display_password() {
+        // 显示密码
+        $("password").title = this.password.password
+        $("password").hidden = false
+        // 显示输入框以及保存按钮
+        $("password_name").hidden = false
+        $("password_save").hidden = false
+        // 显示提示
+        $("click_to_copy").hidden = false
+        $("password_name_tips").hidden = false
+    }
+
     generate_button_handler() {
         if (this.password === null) {
             if ($prefs.get("settings.general.auto_reset_name_input")) {
                 $("password_name").text = ''
             }
-            let password = this.kernel.generate_strong_password()
-            let date = new Date()
             this.password = {
-                password: password,
-                date: date.toLocaleDateString()
+                password: this.kernel.generate_strong_password(),
+                date: new Date().toLocaleDateString()
             }
-            // 显示密码
-            $("password").title = password
-            $("password").hidden = false
-            // 显示输入框以及保存按钮
-            $("password_name").hidden = false
-            $("password_save").hidden = false
-            // 显示提示
-            $("click_to_copy").hidden = false
-            $("password_name_tips").hidden = false
+            this.display_password()
             // 是否自动复制
             if ($prefs.get("settings.general.auto_copy")) {
                 this.copy_password()
@@ -95,6 +99,29 @@ class UI {
                     }
                 ]
             })
+        }
+    }
+
+    all_data_to_ui() {
+        function get_label(password) {
+            return {
+                list_password: {
+                    text: password.password
+                },
+                list_name: {
+                    text: password.name
+                },
+                list_date: {
+                    text: password.date
+                },
+            }
+        }
+        if (this.all_data !== false) {
+            let result = []
+            for (let password of this.kernel.storage.all()) {
+                result.push(get_label(password))
+            }
+            return result
         }
     }
 
@@ -143,14 +170,18 @@ class UI {
                                 font: $font(12)
                             }
                         },
-                        data: this.kernel.storage.all(),
+                        data: this.all_data_to_ui(),
                         actions: [
                             {
                                 title: "delete",
                                 color: $color("gray"),
                                 handler: (sender, indexPath) => {
                                     let keys = this.kernel.storage.keys()
-                                    this.kernel.storage.delete(keys[indexPath.item])
+                                    if (this.kernel.storage.delete(keys[indexPath.item])) {
+                                        $ui.success($l10n("DELETE_SUCCESS"))
+                                    } else {
+                                        $ui.error($l10n("DELETE_ERROR"))
+                                    }
                                 }
                             }
                         ],
@@ -202,7 +233,7 @@ class UI {
                     },
                     events: {
                         didSelect: (sender, indexPath, data) => {
-                            this.copy_password({ password: data.list_password.text })
+                            this.copy_password({ password: data.list_password.text.trim() })
                         }
                     },
                     layout: (make, view) => {

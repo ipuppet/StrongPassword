@@ -18,6 +18,7 @@
 
 "SETTINGS_ABOUT" = "关于";
 "SETTINGS_ABOUT_VERSION" = "版本号";
+"AUTHOR" = "作者";
 
 "CLICK_TO_COPY" = "点击密码即可复制";
 "GENERATE_BUTTON" = "生成强密码";
@@ -27,8 +28,12 @@
 "NO_PASSWORD_NAME" = "请设置密码名称";
 "ALREADY_SAVED_PASSWORD" = "该名称已存在，是否覆盖旧密码？";
 "PASSWORD_NAME_TIPS" = "重复的名称会覆盖之前的密码";
-"SAVE_SUCCESS" = "保存成功";
 "PASSWORD_HAS_GENERATED" = "当前已有密码，是否重新生成？";
+
+"SAVE_SUCCESS" = "保存成功";
+"SAVE_ERROR" = "保存失败";
+"DELETE_SUCCESS" = "删除成功";
+"DELETE_ERROR" = "删除失败";
 
 "PASSWORD_STORAGE" = "保存的密码";
 "STORAGE_SEARCH" = "搜索";

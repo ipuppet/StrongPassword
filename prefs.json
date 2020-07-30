@@ -44,6 +44,11 @@
                     "type": "string",
                     "key": "settings.generator.character_set",
                     "value": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                },
+                {
+                    "title": "旧数据迁移",
+                    "type": "script",
+                    "value": "require('scripts/storage').to_new()"
                 }
             ]
         },
@@ -53,7 +58,17 @@
                 {
                     "title": "SETTINGS_ABOUT_VERSION",
                     "type": "info",
-                    "value": "1.0.2"
+                    "value": "1.1.0"
+                },
+                {
+                    "title": "AUTHOR",
+                    "type": "info",
+                    "value": "ipuppet"
+                },
+                {
+                    "title": "Github",
+                    "type": "link",
+                    "value": "https://github.com/ipuppet/StrongPassword"
                 }
             ]
         }
