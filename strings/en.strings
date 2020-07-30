@@ -9,6 +9,7 @@
 "SETTINGS_GENERAL" = "General";
 "SETTINGS_GENERAL_AUTO_COPY" = "Auto Copy";
 "SETTINGS_GENERAL_AUTO_RESET_NAME_INPUT" = "Auto Reset Name Input Box.";
+"SETTINGS_GENERAL_DELETE_CONFIRM" = "Confirm before deleting.";
 
 "SETTINGS_ADVANCED" = "Advanced";
 "SETTINGS_ADVANCED_GENERATOR_PART" = "Part";
@@ -32,8 +33,11 @@
 
 "SAVE_SUCCESS" = "Saved successfully.";
 "SAVE_ERROR" = "Save failed.";
+"DELETE" = "Delete";
+"CONFIRM_DELETE_MSG" = "Are you sure you want to delete?";
 "DELETE_SUCCESS" = "Delete successfully.";
 "DELETE_ERROR" = "Delete failed.";
 
 "PASSWORD_STORAGE" = "Saved Password";
 "STORAGE_SEARCH" = "Search";
+"NO_RESULT" = "No result.";

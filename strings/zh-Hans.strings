@@ -9,6 +9,7 @@
 "SETTINGS_GENERAL" = "一般";
 "SETTINGS_GENERAL_AUTO_COPY" = "自动复制";
 "SETTINGS_GENERAL_AUTO_RESET_NAME_INPUT" = "自动重置密码名输入框";
+"SETTINGS_GENERAL_DELETE_CONFIRM" = "删除前确认";
 
 "SETTINGS_ADVANCED" = "高级";
 "SETTINGS_ADVANCED_GENERATOR_PART" = "分段个数";
@@ -32,8 +33,11 @@
 
 "SAVE_SUCCESS" = "保存成功";
 "SAVE_ERROR" = "保存失败";
+"DELETE" = "删除";
+"CONFIRM_DELETE_MSG" = "确认要删除吗？";
 "DELETE_SUCCESS" = "删除成功";
 "DELETE_ERROR" = "删除失败";
 
 "PASSWORD_STORAGE" = "保存的密码";
 "STORAGE_SEARCH" = "搜索";
+"NO_RESULT" = "无结果";

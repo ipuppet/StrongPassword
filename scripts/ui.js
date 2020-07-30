@@ -102,7 +102,30 @@ class UI {
         }
     }
 
-    all_data_to_ui() {
+    search(name) {
+        let data = this.kernel.storage.search(name)
+        if (data.length > 0) {
+            $("password_list").data = this.all_data_to_ui(data)
+
+        } else {
+            $("password_list").data = [{
+                list_password: {
+                    text: ""
+                },
+                list_name: {
+                    text: ""
+                },
+                list_date: {
+                    text: ""
+                },
+                no_result: {
+                    text: $l10n("NO_RESULT")
+                }
+            }]
+        }
+    }
+
+    all_data_to_ui(data) {
         function get_label(password) {
             return {
                 list_password: {
@@ -114,11 +137,14 @@ class UI {
                 list_date: {
                     text: password.date
                 },
+                no_result: {
+                    text: ""
+                }
             }
         }
         if (this.all_data !== false) {
             let result = []
-            for (let password of this.kernel.storage.all()) {
+            for (let password of data) {
                 result.push(get_label(password))
             }
             return result
@@ -144,17 +170,19 @@ class UI {
                         make.top.equalTo(10)
                         make.left.right.inset(10)
                     },
-                    changed: (sender) => {
-                        this.kernel.storage.search(sender)
-                    },
-                    returned: (sender) => {
-                        this.kernel.storage.search(sender)
+                    events: {
+                        changed: (sender) => {
+                            this.search(sender.text)
+                        },
+                        returned: (sender) => {
+                            this.search(sender.text)
+                        }
                     }
                 },
                 {
                     type: "list",
-                    id: "password_list",
                     props: {
+                        id: "password_list",
                         reorder: false,
                         rowHeight: 50,
                         header: {
@@ -170,17 +198,39 @@ class UI {
                                 font: $font(12)
                             }
                         },
-                        data: this.all_data_to_ui(),
+                        data: this.all_data_to_ui(this.kernel.storage.all()),
                         actions: [
                             {
-                                title: "delete",
-                                color: $color("gray"),
+                                title: $l10n("DELETE"),
+                                color: $color("red"),
                                 handler: (sender, indexPath) => {
-                                    let keys = this.kernel.storage.keys()
-                                    if (this.kernel.storage.delete(keys[indexPath.item])) {
-                                        $ui.success($l10n("DELETE_SUCCESS"))
+                                    let delete_action = () => {
+                                        let keys = this.kernel.storage.keys()
+                                        if (this.kernel.storage.delete(keys[indexPath.item])) {
+                                            sender.delete(indexPath)
+                                            $ui.success($l10n("DELETE_SUCCESS"))
+                                        } else {
+                                            $ui.error($l10n("DELETE_ERROR"))
+                                        }
+                                    }
+                                    if ($prefs.get("settings.general.delete_confirm")) {
+                                        $ui.alert({
+                                            title: $l10n("ALERT_INFO"),
+                                            message: $l10n("CONFIRM_DELETE_MSG"),
+                                            actions: [
+                                                {
+                                                    title: $l10n("OK"),
+                                                    handler: () => {
+                                                        delete_action()
+                                                    }
+                                                },
+                                                {
+                                                    title: $l10n("CANCEL")
+                                                }
+                                            ]
+                                        })
                                     } else {
-                                        $ui.error($l10n("DELETE_ERROR"))
+                                        delete_action()
                                     }
                                 }
                             }
@@ -227,13 +277,25 @@ class UI {
                                     layout: (make, view) => {
                                         make.right.bottom.inset(5)
                                     }
+                                },
+                                {
+                                    type: "label",
+                                    props: {
+                                        id: "no_result",
+                                        align: $align.center
+                                    },
+                                    layout: (make, view) => {
+                                        make.left.right.inset(5)
+                                        make.top.inset(15)
+                                    }
                                 }
                             ]
                         }
                     },
                     events: {
                         didSelect: (sender, indexPath, data) => {
-                            this.copy_password({ password: data.list_password.text.trim() })
+                            if (data.no_result.text.trim() !== $l10n("NO_RESULT"))
+                                this.copy_password({ password: data.list_password.text.trim() })
                         }
                     },
                     layout: (make, view) => {

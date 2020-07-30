@@ -15,6 +15,12 @@
                     "type": "boolean",
                     "key": "settings.general.auto_reset_name_input",
                     "value": true
+                },
+                {
+                    "title": "SETTINGS_GENERAL_DELETE_CONFIRM",
+                    "type": "boolean",
+                    "key": "settings.general.delete_confirm",
+                    "value": true
                 }
             ]
         },

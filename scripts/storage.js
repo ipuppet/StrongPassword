@@ -97,7 +97,12 @@ class Storage {
     }
 
     search(name) {
-
+        let result = this.sqlite.query({
+            sql: "SELECT * FROM password_storage where name like ?",
+            args: ["%" + name + "%"]
+        })
+        let data = this.parse(result)
+        return data
     }
 
     save(password) {
