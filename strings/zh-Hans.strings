@@ -41,3 +41,7 @@
 "PASSWORD_STORAGE" = "保存的密码";
 "STORAGE_SEARCH" = "搜索";
 "NO_RESULT" = "无结果";
+
+"ADD" = "添加";
+"ADD_BY_USER" = "手动添加";
+"PASSWORD_BY_USER" = "密码";

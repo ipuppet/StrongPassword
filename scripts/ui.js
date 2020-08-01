@@ -14,8 +14,21 @@ class UI {
         }
     }
 
+    save_action = (password) => {
+        let status = this.kernel.storage.save(password)
+        if (status) {
+            $ui.success($l10n("SAVE_SUCCESS"))
+            if ($prefs.get("settings.general.auto_reset_name_input")) {
+                $("password_name").text = ''
+            }
+        } else {
+            $ui.error($l10n("SAVE_ERROR"))
+        }
+        return status
+    }
+
     save() {
-        let name = $("password_name").text
+        let name = $("password_name").text.trim()
         if (name === '') {
             $ui.alert({
                 title: $l10n("ALERT_INFO"),
@@ -23,18 +36,7 @@ class UI {
             })
             return
         }
-        let save_action = () => {
-            this.password['name'] = name
-            let status = this.kernel.storage.save(this.password)
-            if (status) {
-                $ui.success($l10n("SAVE_SUCCESS"))
-                if ($prefs.get("settings.general.auto_reset_name_input")) {
-                    $("password_name").text = ''
-                }
-            } else {
-                $ui.error($l10n("SAVE_ERROR"))
-            }
-        }
+        this.password['name'] = name
         if (this.kernel.storage.has(name)) {
             $ui.alert({
                 title: $l10n("ALERT_INFO"),
@@ -43,7 +45,7 @@ class UI {
                     {
                         title: $l10n("OK"),
                         handler: () => {
-                            save_action()
+                            this.save_action(this.password)
                         }
                     },
                     {
@@ -52,20 +54,45 @@ class UI {
                 ]
             })
         } else {
-            save_action()
+            this.save_action(this.password)
         }
     }
 
-    display_password() {
-        // 显示密码
-        $("password").title = this.password.password
-        $("password").hidden = false
-        // 显示输入框以及保存按钮
-        $("password_name").hidden = false
-        $("password_save").hidden = false
-        // 显示提示
-        $("click_to_copy").hidden = false
-        $("password_name_tips").hidden = false
+    save_by_user() {
+        let name = $("password_name_by_user").text.trim()
+        if (name === '') {
+            $ui.alert({
+                title: $l10n("ALERT_INFO"),
+                message: $l10n("NO_PASSWORD_NAME"),
+            })
+            return
+        }
+        let password = {
+            name: name,
+            password: $("password_by_user").text,
+            date: new Date().toLocaleDateString()
+        }
+        let status = false
+        if (this.kernel.storage.has(name)) {
+            $ui.alert({
+                title: $l10n("ALERT_INFO"),
+                message: $l10n("ALREADY_SAVED_PASSWORD"),
+                actions: [
+                    {
+                        title: $l10n("OK"),
+                        handler: () => {
+                            status = this.save_action(password)
+                        }
+                    },
+                    {
+                        title: $l10n("CANCEL")
+                    }
+                ]
+            })
+        } else {
+            status = this.save_action(password)
+        }
+        return status
     }
 
     generate_button_handler() {
@@ -77,7 +104,8 @@ class UI {
                 password: this.kernel.generate_strong_password(),
                 date: new Date().toLocaleDateString()
             }
-            this.display_password()
+            // 显示密码
+            $("password").title = this.password.password
             // 是否自动复制
             if ($prefs.get("settings.general.auto_copy")) {
                 this.copy_password()
@@ -106,7 +134,6 @@ class UI {
         let data = this.kernel.storage.search(name)
         if (data.length > 0) {
             $("password_list").data = this.all_data_to_ui(data)
-
         } else {
             $("password_list").data = [{
                 list_password: {
@@ -155,7 +182,87 @@ class UI {
         $ui.push({
             props: {
                 id: "storage",
-                title: $l10n("PASSWORD_STORAGE")
+                title: $l10n("PASSWORD_STORAGE"),
+                navButtons: [
+                    {
+                        title: $l10n("ADD"),
+                        image: $image("assets/icon/add.png"),
+                        handler: (sender) => {
+                            const popover = $ui.popover({
+                                sourceView: sender,
+                                sourceRect: sender.bounds,
+                                directions: $popoverDirection.any,
+                                size: $size(320, 200),
+                                views: [
+                                    {
+                                        type: "label",
+                                        props: {
+                                            text: $l10n("ADD_BY_USER"),
+                                            align: $align.left,
+                                            line: 1,
+                                            font: $font(16),
+                                            textColor: $color({
+                                                light: "#ADADAD",
+                                                dark: "#DDDDDD"
+                                            })
+                                        },
+                                        layout: (make, view) => {
+                                            make.left.right.inset(5)
+                                            make.top.equalTo(20)
+                                        }
+                                    },
+                                    {
+                                        type: "input",
+                                        props: {
+                                            id: "password_by_user",
+                                            type: $kbType.search,
+                                            placeholder: $l10n("PASSWORD_BY_USER"),
+                                        },
+                                        layout: (make, view) => {
+                                            make.left.right.inset(5)
+                                            make.top.equalTo(50)
+                                            make.height.equalTo(40)
+                                        }
+                                    },
+                                    {
+                                        type: "input",
+                                        props: {
+                                            id: "password_name_by_user",
+                                            type: $kbType.search,
+                                            placeholder: $l10n("PASSWORD_NAME"),
+                                        },
+                                        layout: (make, view) => {
+                                            make.left.right.inset(5)
+                                            make.top.equalTo(105)
+                                            make.height.equalTo(40)
+                                        }
+                                    },
+                                    {
+                                        type: "button",
+                                        props: {
+                                            title: $l10n("SAVE_BUTTON"),
+                                            contentEdgeInsets: 10,
+                                        },
+                                        layout: (make, view) => {
+                                            make.left.right.inset(5)
+                                            make.bottom.inset(10)
+                                        },
+                                        events: {
+                                            tapped: sender => {
+                                                if (this.save_by_user()) {
+                                                    setTimeout(() => {
+                                                        popover.dismiss()
+                                                        $("password_list").data = this.all_data_to_ui(this.kernel.storage.all())
+                                                    }, 1000)
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            })
+                        }
+                    }
+                ],
             },
             views: [
                 {
@@ -172,10 +279,11 @@ class UI {
                     },
                     events: {
                         changed: (sender) => {
-                            this.search(sender.text)
+                            this.search(sender.text.trim())
                         },
                         returned: (sender) => {
-                            this.search(sender.text)
+                            this.search(sender.text.trim()),
+                                sender.blur()
                         }
                     }
                 },
@@ -323,7 +431,7 @@ class UI {
                     },
                     {
                         title: $l10n("PASSWORD_STORAGE"),
-                        icon: "109",
+                        image: $image("assets/icon/storage.png"),
                         handler: () => {
                             this.ui_storage()
                         }
@@ -338,7 +446,6 @@ class UI {
                         title: "",
                         align: $align.center,
                         editable: false,
-                        hidden: true,
                         bgcolor: $color({
                             light: "#eff0f2",
                             dark: "#4B4B4B"
@@ -350,8 +457,8 @@ class UI {
                     },
                     layout: (make, view) => {
                         make.left.right.inset(10)
-                        make.top.equalTo(60)
                         make.height.equalTo(40)
+                        make.top.inset(40)
                     },
                     events: {
                         tapped: sender => {
@@ -362,11 +469,9 @@ class UI {
                 {
                     type: "label",
                     props: {
-                        id: "click_to_copy",
                         text: $l10n("CLICK_TO_COPY"),
                         align: $align.left,
                         line: 1,
-                        hidden: true,
                         font: $font(12),
                         textColor: $color({
                             light: "#C0C0C0",
@@ -375,7 +480,7 @@ class UI {
                     },
                     layout: (make, view) => {
                         make.left.inset(10)
-                        make.top.equalTo(100)
+                        make.top.equalTo($("password").top).offset(40)
                     }
                 },
                 {
@@ -384,28 +489,26 @@ class UI {
                         id: "password_name",
                         type: $kbType.search,
                         placeholder: $l10n("PASSWORD_NAME"),
-                        hidden: true
                     },
                     layout: (make, view) => {
-                        make.width.equalTo(230)
+                        make.right.inset(80)
                         make.left.inset(10)
                         make.height.equalTo(40)
-                        make.top.equalTo(150)
+                        make.top.equalTo($("password").top).offset(40 + 40)
                     },
                     events: {
                         returned: sender => {
                             this.save()
+                            sender.blur()
                         }
                     }
                 },
                 {
                     type: "label",
                     props: {
-                        id: "password_name_tips",
                         text: $l10n("PASSWORD_NAME_TIPS"),
                         align: $align.left,
                         line: 1,
-                        hidden: true,
                         font: $font(12),
                         textColor: $color({
                             light: "#C0C0C0",
@@ -413,27 +516,26 @@ class UI {
                         })
                     },
                     layout: (make, view) => {
-                        make.width.equalTo(230)
-                        make.left.inset(10)
-                        make.top.equalTo(190)
+                        make.left.right.inset(10)
+                        make.top.equalTo($("password").top).offset(40 + 40 + 40)
                     }
                 },
                 {
                     type: "button",
                     props: {
-                        id: "password_save",
                         title: $l10n("SAVE_BUTTON"),
                         contentEdgeInsets: 10,
-                        hidden: true
                     },
                     layout: (make, view) => {
                         make.right.inset(10)
                         make.height.equalTo(40)
-                        make.top.equalTo(150)
+                        make.width.equalTo(60)
+                        make.top.equalTo($("password").top).offset(40 + 40)
                     },
                     events: {
                         tapped: sender => {
                             this.save()
+                            $("password_name").blur()
                         }
                     }
                 },
@@ -446,11 +548,11 @@ class UI {
                     },
                     layout: (make, view) => {
                         make.left.right.inset(10)
-                        make.bottom.equalTo(-100)
+                        make.bottom.equalTo(-50)
                     },
                     events: {
                         tapped: sender => {
-                            this.generate_button_handler(sender)
+                            this.generate_button_handler()
                         }
                     }
                 }

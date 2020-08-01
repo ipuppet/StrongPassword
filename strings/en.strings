@@ -41,3 +41,7 @@
 "PASSWORD_STORAGE" = "Saved Password";
 "STORAGE_SEARCH" = "Search";
 "NO_RESULT" = "No result.";
+
+"ADD" = "Add";
+"ADD_BY_USER" = "Add manully";
+"PASSWORD_BY_USER" = "Password";
