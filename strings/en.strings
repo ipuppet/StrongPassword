@@ -8,7 +8,6 @@
 
 "SETTINGS_GENERAL" = "General";
 "SETTINGS_GENERAL_AUTO_COPY" = "Auto Copy";
-"SETTINGS_GENERAL_AUTO_RESET_NAME_INPUT" = "Auto Reset Name Input Box.";
 "SETTINGS_GENERAL_DELETE_CONFIRM" = "Confirm before deleting.";
 
 "SETTINGS_ADVANCED" = "Advanced";
@@ -21,16 +20,18 @@
 "SETTINGS_ABOUT_VERSION" = "Version";
 "AUTHOR" = "Author";
 
+"ACCOUNT" = "Account";
+"PASSWORD" = "Password";
+"WEBSITE" = "Website";
+
 "CLICK_TO_COPY" = "Click To Copy";
 "GENERATE_BUTTON" = "Generate Password";
-"PASSWORD_NAME" = "Password Name";
-"COPY" = "Copied";
-"SAVE_BUTTON" = "Save";
-"NO_PASSWORD_NAME" = "Please set a password name.";
-"ALREADY_SAVED_PASSWORD" = "The name already exists. Do you want to overwrite the old password?";
-"PASSWORD_NAME_TIPS" = "Duplicate names will overwrite previous passwords.";
+"COPY" = "Copy";
+"COPY_SUCCESS" = "Copied";
+"NO_PASSWORD" = "Password is empty.";
 "PASSWORD_HAS_GENERATED" = "There is a password, do you want to regenerate it?";
 
+"SAVE" = "Save";
 "SAVE_SUCCESS" = "Saved successfully.";
 "SAVE_ERROR" = "Save failed.";
 "DELETE" = "Delete";
@@ -38,10 +39,11 @@
 "DELETE_SUCCESS" = "Delete successfully.";
 "DELETE_ERROR" = "Delete failed.";
 
+"ADD" = "Add";
+"ADD_PASSWORD" = "Add a password";
+"EDIT" = "Edit";
+
 "PASSWORD_STORAGE" = "Saved Password";
 "STORAGE_SEARCH" = "Search";
-"NO_RESULT" = "No result.";
-
-"ADD" = "Add";
-"ADD_BY_USER" = "Add manully";
-"PASSWORD_BY_USER" = "Password";
+"NO_RESULT" = "No result";
+"LIST_END" = "end.";

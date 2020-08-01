@@ -1,10 +1,10 @@
-function strMapToObj(strMap) {
+/* function strMapToObj(strMap) {
     let obj = Object.create(null)
     for (let [k, v] of strMap) {
         obj[k] = v
     }
     return obj
-}
+} */
 
 function objToStrMap(obj) {
     let strMap = new Map()
@@ -24,13 +24,13 @@ function jsonToStrMap(jsonStr) {
 
 function to_new() {
     let path = "assets/StrongPassword.txt"
+    let storage = new Storage()
     if ($file.exists(path)) {
         let file_content = $file.read(path).string
         if (file_content.substring(0, 3) !== "END") {
             let old_data = jsonToStrMap(file_content)
-            let storage = new Storage()
-            for (let [name, password] of old_data) {
-                password['name'] = name
+            for (let [account, password] of old_data) {
+                password['account'] = account
                 storage.save(password)
             }
             $file.write({
@@ -38,6 +38,23 @@ function to_new() {
                 path: path
             })
             return
+        }
+    }
+    let sqlite = $sqlite.open("assets/StrongPassword.db")
+    let result = sqlite.query("SELECT * FROM password_storage")
+    if (result !== null && result.result !== null) {
+        let data = []
+        while (result.result.next()) {
+            data.push({
+                account: result.result.get('name'),
+                password: result.result.get('password'),
+                date: result.result.get('date'),
+                website: [],
+            })
+        }
+        for (let item of data) {
+            if (item.password !== '')
+                storage.save(item)
         }
     }
     $ui.alert({
@@ -49,7 +66,7 @@ function to_new() {
 class Storage {
     constructor() {
         this.sqlite = $sqlite.open("assets/StrongPassword.db")
-        this.sqlite.update("CREATE TABLE IF NOT EXISTS password_storage(name text, password text,date text)")
+        this.sqlite.update("CREATE TABLE IF NOT EXISTS password(id INTEGER PRIMARY KEY NOT NULL, account TEXT, password TEXT, date TEXT, website TEXT)")
     }
 
     parse(result) {
@@ -60,46 +77,26 @@ class Storage {
         let data = []
         while (result.result.next()) {
             data.push({
-                name: result.result.get('name'),
+                id: result.result.get('id'),
+                account: result.result.get('account'),
                 password: result.result.get('password'),
                 date: result.result.get('date'),
+                website: JSON.parse(result.result.get('website')),
             })
         }
         // result.result.close()
         return data
     }
 
-    get(name) {
-        let result = this.sqlite.query({
-            sql: "SELECT * FROM password_storage where name = ?",
-            args: [name]
-        })
-        let data = this.parse(result)
-        return data.length === 0 ? null : data[0]
-    }
-
     all() {
-        let result = this.sqlite.query("SELECT * FROM password_storage")
+        let result = this.sqlite.query("SELECT * FROM password ORDER BY date DESC")
         return this.parse(result)
     }
 
-    keys() {
-        let result = this.sqlite.query("SELECT name FROM password_storage")
-        let data = []
-        for (let name of this.parse(result)) {
-            data.push(name.name)
-        }
-        return data
-    }
-
-    has(name) {
-        return this.get(name) === null ? false : true
-    }
-
-    search(name) {
+    search(kw) {
         let result = this.sqlite.query({
-            sql: "SELECT * FROM password_storage where name like ?",
-            args: ["%" + name + "%"]
+            sql: "SELECT * FROM password where account like ? or website like ?",
+            args: ["%" + kw + "%", "%" + kw + "%"]
         })
         let data = this.parse(result)
         return data
@@ -107,17 +104,10 @@ class Storage {
 
     save(password) {
         let result = null
-        if (this.has(password.name)) {
-            result = this.sqlite.update({
-                sql: "UPDATE password_storage SET password = ?, date = ? WHERE name = ?",
-                args: [password.password, password.date, password.name]
-            })
-        } else {
-            result = this.sqlite.update({
-                sql: "INSERT INTO password_storage (name, password, date) values(?, ?, ?)",
-                args: [password.name, password.password, password.date]
-            })
-        }
+        result = this.sqlite.update({
+            sql: "INSERT INTO password (account, password, date, website) values(?, ?, ?, ?)",
+            args: [password.account, password.password, password.date, JSON.stringify(password.website)]
+        })
         if (result.result) {
             return true
         }
@@ -125,10 +115,23 @@ class Storage {
         return false
     }
 
-    delete(name) {
+    update(password) {
+        let result = null
+        result = this.sqlite.update({
+            sql: "UPDATE password SET password = ?, date = ?, website = ?,account = ? WHERE id = ?",
+            args: [password.password, password.date, JSON.stringify(password.website), password.account, password.id]
+        })
+        if (result.result) {
+            return true
+        }
+        $console.error(result.error)
+        return false
+    }
+
+    delete(id) {
         let result = this.sqlite.update({
-            sql: "DELETE FROM password_storage where name = ?",
-            args: [name]
+            sql: "DELETE FROM password where id = ?",
+            args: [id]
         })
         if (result.result) {
             return true

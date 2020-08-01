@@ -11,12 +11,6 @@
                     "value": true
                 },
                 {
-                    "title": "SETTINGS_GENERAL_AUTO_RESET_NAME_INPUT",
-                    "type": "boolean",
-                    "key": "settings.general.auto_reset_name_input",
-                    "value": true
-                },
-                {
                     "title": "SETTINGS_GENERAL_DELETE_CONFIRM",
                     "type": "boolean",
                     "key": "settings.general.delete_confirm",
@@ -64,7 +58,7 @@
                 {
                     "title": "SETTINGS_ABOUT_VERSION",
                     "type": "info",
-                    "value": "1.1.2"
+                    "value": "1.2.0"
                 },
                 {
                     "title": "AUTHOR",

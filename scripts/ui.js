@@ -4,111 +4,43 @@ class UI {
         this.password = null
     }
 
-    copy_password(password = null) {
-        if (password === null) {
-            password = this.password
-        }
+    copy_password(password) {
         if (password !== null) {
-            $clipboard.text = password.password
-            $ui.toast($l10n("COPY"))
+            $clipboard.text = password
+            $ui.toast($l10n("COPY_SUCCESS"))
         }
     }
 
-    save_action(password) {
-        let status = this.kernel.storage.save(password)
-        if (status) {
+    save(password, is_update = false) {
+        if (password.password === "") {
+            $ui.toast($l10n("NO_PASSWORD"))
+            return false
+        }
+        let result = false
+        if (is_update) {
+            result = this.kernel.storage.update(password)
+        } else {
+            result = this.kernel.storage.save(password)
+        }
+        if (result) {
             $ui.success($l10n("SAVE_SUCCESS"))
-            if ($prefs.get("settings.general.auto_reset_name_input")) {
-                $("password_name").text = ''
-            }
+            $("password_list").data = this.password_list_to_ui(this.kernel.storage.all())
+            setTimeout(() => {
+                $ui.pop()
+            }, 500)
         } else {
             $ui.error($l10n("SAVE_ERROR"))
         }
-        return status
-    }
-
-    save() {
-        let name = $("password_name").text.trim()
-        if (name === '') {
-            $ui.alert({
-                title: $l10n("ALERT_INFO"),
-                message: $l10n("NO_PASSWORD_NAME"),
-            })
-            return
-        }
-        this.password['name'] = name
-        if (this.kernel.storage.has(name)) {
-            $ui.alert({
-                title: $l10n("ALERT_INFO"),
-                message: $l10n("ALREADY_SAVED_PASSWORD"),
-                actions: [
-                    {
-                        title: $l10n("OK"),
-                        handler: () => {
-                            this.save_action(this.password)
-                        }
-                    },
-                    {
-                        title: $l10n("CANCEL")
-                    }
-                ]
-            })
-        } else {
-            this.save_action(this.password)
-        }
-    }
-
-    save_by_user() {
-        let name = $("password_name_by_user").text.trim()
-        if (name === '') {
-            $ui.alert({
-                title: $l10n("ALERT_INFO"),
-                message: $l10n("NO_PASSWORD_NAME"),
-            })
-            return
-        }
-        let password = {
-            name: name,
-            password: $("password_by_user").text,
-            date: new Date().toLocaleDateString()
-        }
-        let status = false
-        if (this.kernel.storage.has(name)) {
-            $ui.alert({
-                title: $l10n("ALERT_INFO"),
-                message: $l10n("ALREADY_SAVED_PASSWORD"),
-                actions: [
-                    {
-                        title: $l10n("OK"),
-                        handler: () => {
-                            status = this.save_action(password)
-                        }
-                    },
-                    {
-                        title: $l10n("CANCEL")
-                    }
-                ]
-            })
-        } else {
-            status = this.save_action(password)
-        }
-        return status
     }
 
     generate_button_handler() {
         if (this.password === null) {
-            if ($prefs.get("settings.general.auto_reset_name_input")) {
-                $("password_name").text = ''
-            }
-            this.password = {
-                password: this.kernel.generate_strong_password(),
-                date: new Date().toLocaleDateString()
-            }
+            this.password = this.kernel.generate_strong_password()
             // 显示密码
-            $("password").title = this.password.password
+            $("password_show").title = this.password
             // 是否自动复制
             if ($prefs.get("settings.general.auto_copy")) {
-                this.copy_password()
+                this.copy_password(this.password)
             }
         } else {
             $ui.alert({
@@ -130,19 +62,28 @@ class UI {
         }
     }
 
-    search(name) {
-        let data = this.kernel.storage.search(name)
+    search(account) {
+        let data = this.kernel.storage.search(account)
         if (data.length > 0) {
-            $("password_list").data = this.all_data_to_ui(data)
+            $("password_list").data = this.password_list_to_ui(data)
         } else {
             $("password_list").data = [{
-                list_password: {
+                id: {
                     text: ""
                 },
-                list_name: {
+                website_data: {
                     text: ""
                 },
-                list_date: {
+                website: {
+                    text: ""
+                },
+                password: {
+                    text: ""
+                },
+                account: {
+                    text: ""
+                },
+                date: {
                     text: ""
                 },
                 no_result: {
@@ -152,16 +93,25 @@ class UI {
         }
     }
 
-    all_data_to_ui(data) {
+    password_list_to_ui(data) {
         function get_label(password) {
             return {
-                list_password: {
+                id: {
+                    text: password.id
+                },
+                website_data: {
+                    text: JSON.stringify(password.website)
+                },
+                website: {
+                    text: password.website[0]
+                },
+                password: {
                     text: password.password
                 },
-                list_name: {
-                    text: password.name
+                account: {
+                    text: password.account
                 },
-                list_date: {
+                date: {
                     text: password.date
                 },
                 no_result: {
@@ -188,78 +138,7 @@ class UI {
                         title: $l10n("ADD"),
                         image: $image("assets/icon/add.png"),
                         handler: (sender) => {
-                            let popover = $ui.popover({
-                                sourceView: sender,
-                                sourceRect: sender.bounds,
-                                directions: $popoverDirection.any,
-                                size: $size(320, 200),
-                                views: [
-                                    {
-                                        type: "label",
-                                        props: {
-                                            text: $l10n("ADD_BY_USER"),
-                                            align: $align.left,
-                                            line: 1,
-                                            font: $font(16),
-                                            textColor: $color({
-                                                light: "#ADADAD",
-                                                dark: "#DDDDDD"
-                                            })
-                                        },
-                                        layout: (make, view) => {
-                                            make.left.right.inset(5)
-                                            make.top.equalTo(20)
-                                        }
-                                    },
-                                    {
-                                        type: "input",
-                                        props: {
-                                            id: "password_by_user",
-                                            type: $kbType.search,
-                                            placeholder: $l10n("PASSWORD_BY_USER"),
-                                        },
-                                        layout: (make, view) => {
-                                            make.left.right.inset(5)
-                                            make.top.equalTo(50)
-                                            make.height.equalTo(40)
-                                        }
-                                    },
-                                    {
-                                        type: "input",
-                                        props: {
-                                            id: "password_name_by_user",
-                                            type: $kbType.search,
-                                            placeholder: $l10n("PASSWORD_NAME"),
-                                        },
-                                        layout: (make, view) => {
-                                            make.left.right.inset(5)
-                                            make.top.equalTo(105)
-                                            make.height.equalTo(40)
-                                        }
-                                    },
-                                    {
-                                        type: "button",
-                                        props: {
-                                            title: $l10n("SAVE_BUTTON"),
-                                            contentEdgeInsets: 10,
-                                        },
-                                        layout: (make, view) => {
-                                            make.left.right.inset(5)
-                                            make.bottom.inset(10)
-                                        },
-                                        events: {
-                                            tapped: sender => {
-                                                if (this.save_by_user()) {
-                                                    setTimeout(() => {
-                                                        popover.dismiss()
-                                                        $("password_list").data = this.all_data_to_ui(this.kernel.storage.all())
-                                                    }, 1000)
-                                                }
-                                            }
-                                        }
-                                    }
-                                ]
-                            })
+                            this.ui_password()
                         }
                     }
                 ],
@@ -291,30 +170,31 @@ class UI {
                     type: "list",
                     props: {
                         id: "password_list",
+                        style: 1,
                         reorder: false,
-                        rowHeight: 50,
-                        header: {
+                        rowHeight: 60,
+                        footer: {
                             type: "label",
                             props: {
                                 height: 20,
-                                text: $l10n("PASSWORD_STORAGE"),
+                                text: $l10n("LIST_END"),
                                 textColor: $color({
                                     light: "#C0C0C0",
                                     dark: "#DDDDDD"
                                 }),
-                                align: $align.left,
+                                align: $align.center,
                                 font: $font(12)
                             }
                         },
-                        data: this.all_data_to_ui(this.kernel.storage.all()),
+                        data: this.password_list_to_ui(this.kernel.storage.all()),
                         actions: [
                             {
                                 title: $l10n("DELETE"),
                                 color: $color("red"),
                                 handler: (sender, indexPath) => {
                                     let delete_action = () => {
-                                        let keys = this.kernel.storage.keys()
-                                        if (this.kernel.storage.delete(keys[indexPath.item])) {
+                                        let id = sender.object(indexPath).id.text
+                                        if (this.kernel.storage.delete(id)) {
                                             sender.delete(indexPath)
                                             $ui.success($l10n("DELETE_SUCCESS"))
                                         } else {
@@ -332,9 +212,7 @@ class UI {
                                                         delete_action()
                                                     }
                                                 },
-                                                {
-                                                    title: $l10n("CANCEL")
-                                                }
+                                                { title: $l10n("CANCEL") }
                                             ]
                                         })
                                     } else {
@@ -349,17 +227,33 @@ class UI {
                                 {
                                     type: "label",
                                     props: {
-                                        id: "list_password",
-                                        align: $align.left
-                                    },
-                                    layout: (make, view) => {
-                                        make.left.top.inset(5)
+                                        id: "id",
+                                        hidden: true,
                                     }
                                 },
                                 {
                                     type: "label",
                                     props: {
-                                        id: "list_name",
+                                        id: "website_data",
+                                        hidden: true,
+                                    }
+                                },
+                                {
+                                    type: "label",
+                                    props: {
+                                        id: "website",
+                                        font: $font(18),
+                                        align: $align.left
+                                    },
+                                    layout: (make, view) => {
+                                        make.top.inset(10)
+                                        make.left.inset(10)
+                                    }
+                                },
+                                {
+                                    type: "label",
+                                    props: {
+                                        id: "account",
                                         font: $font(14),
                                         textColor: $color({
                                             light: "#C0C0C0",
@@ -368,13 +262,14 @@ class UI {
                                         align: $align.left
                                     },
                                     layout: (make, view) => {
-                                        make.left.bottom.inset(5)
+                                        make.bottom.inset(5)
+                                        make.left.inset(10)
                                     }
                                 },
                                 {
                                     type: "label",
                                     props: {
-                                        id: "list_date",
+                                        id: "date",
                                         font: $font(14),
                                         textColor: $color({
                                             light: "#C0C0C0",
@@ -383,7 +278,8 @@ class UI {
                                         align: $align.right
                                     },
                                     layout: (make, view) => {
-                                        make.right.bottom.inset(5)
+                                        make.bottom.inset(5)
+                                        make.right.inset(10)
                                     }
                                 },
                                 {
@@ -393,7 +289,7 @@ class UI {
                                         align: $align.center
                                     },
                                     layout: (make, view) => {
-                                        make.left.right.inset(5)
+                                        make.left.right.inset(10)
                                         make.top.inset(15)
                                     }
                                 }
@@ -402,14 +298,228 @@ class UI {
                     },
                     events: {
                         didSelect: (sender, indexPath, data) => {
-                            if (data.no_result.text.trim() !== $l10n("NO_RESULT"))
-                                this.copy_password({ password: data.list_password.text.trim() })
+                            if (data.no_result.text.trim() !== $l10n("NO_RESULT")) {
+                                let password = {
+                                    id: sender.object(indexPath).id.text,
+                                    account: sender.object(indexPath).account.text,
+                                    password: sender.object(indexPath).password.text,
+                                    website: JSON.parse(sender.object(indexPath).website_data.text),
+                                    date: sender.object(indexPath).date.text
+                                }
+                                this.ui_password(password, $l10n("EDIT"))
+                            }
                         }
                     },
                     layout: (make, view) => {
-                        make.top.equalTo(60)
-                        make.bottom.equalTo(10)
+                        make.top.equalTo(50)
+                        make.bottom.inset(5)
+                        make.right.left.inset(0)
+                    },
+                }
+            ]
+        })
+    }
+
+    ui_password(password = null, title = $l10n("ADD_PASSWORD")) {
+        if (password === null) {
+            password = {
+                id: null,
+                account: "",
+                password: "",
+                website: [],
+                date: ""
+            }
+        }
+        $ui.push({
+            props: {
+                id: "ui_password",
+                title: title,
+                navButtons: [
+                    {
+                        title: $l10n("SAVE"),
+                        image: $image("assets/icon/check.png"),
+                        handler: (sender) => {
+                            password.account = $("account").text.trim()
+                            password.password = $("password").text.trim()
+                            password.website = $("website").data
+                            password.date = new Date().toLocaleDateString()
+                            let is_update = false
+                            if (password.id !== null) {
+                                password['id'] = password.id
+                                is_update = true
+                            }
+                            this.save(password, is_update)
+                        }
+                    },
+                    {
+                        title: $l10n("COPY"),
+                        image: $image("assets/icon/copy.png"),
+                        handler: (sender) => {
+                            this.copy_password(password.password)
+                        }
+                    }
+                ],
+            },
+            views: [
+                {
+                    type: "label",
+                    props: {
+                        text: $l10n("ACCOUNT"),
+                        align: $align.left,
+                        font: $font(12),
+                        textColor: $color({
+                            light: "#C0C0C0",
+                            dark: "#DDDDDD"
+                        }),
+                        line: 1,
+                    },
+                    layout: (make, view) => {
+                        make.left.inset(10)
+                        make.width.equalTo(40)
+                        make.top.equalTo(10)
+                    }
+                },
+                {
+                    type: "input",
+                    props: {
+                        id: "account",
+                        align: $align.left,
+                        insets: 0,
+                        text: password.account,
+                        placeholder: $l10n("ACCOUNT"),
+                    },
+                    layout: (make, view) => {
                         make.left.right.inset(10)
+                        make.height.equalTo(40)
+                        make.top.equalTo(25)
+                    },
+                    events: {
+                        returned: sender => {
+                            sender.blur()
+                        }
+                    }
+                },
+                {
+                    type: "label",
+                    props: {
+                        text: $l10n("PASSWORD"),
+                        align: $align.left,
+                        font: $font(12),
+                        textColor: $color({
+                            light: "#C0C0C0",
+                            dark: "#DDDDDD"
+                        }),
+                        line: 1,
+                    },
+                    layout: (make, view) => {
+                        make.left.inset(10)
+                        make.top.equalTo($("account").top).offset(40 + 10)
+                    }
+                },
+                {
+                    type: "input",
+                    props: {
+                        id: "password",
+                        align: $align.left,
+                        text: password.password,
+                        placeholder: $l10n("PASSWORD"),
+                    },
+                    layout: (make, view) => {
+                        make.left.right.inset(10)
+                        make.height.equalTo(40)
+                        make.top.equalTo($("account").top).offset(40 + 25)
+                    },
+                    events: {
+                        returned: sender => {
+                            sender.blur()
+                        }
+                    }
+                },
+                {
+                    type: "input",
+                    props: {
+                        id: "website_inbox",
+                        type: $kbType.url,
+                        align: $align.left,
+                        placeholder: $l10n("WEBSITE"),
+                    },
+                    layout: (make, view) => {
+                        make.right.inset(80)
+                        make.left.inset(10)
+                        make.height.equalTo(40)
+                        make.top.equalTo($("password").top).offset(40 + 20)
+                    },
+                    events: {
+                        returned: sender => {
+                            if (sender.text === "") return
+                            let website = $("website")
+                            website.insert({
+                                index: website.data.length,
+                                value: sender.text
+                            })
+                            sender.blur()
+                            sender.text = ""
+                        }
+                    }
+                },
+                {
+                    type: "button",
+                    props: {
+                        title: $l10n("ADD"),
+                        contentEdgeInsets: 10,
+                    },
+                    layout: (make, view) => {
+                        make.right.inset(10)
+                        make.width.equalTo(60)
+                        make.height.equalTo(40)
+                        make.top.equalTo($("password").top).offset(40 + 20)
+                    },
+                    events: {
+                        tapped: sender => {
+                            let website_inbox = $("website_inbox")
+                            if (website_inbox.text === "") return
+                            let website = $("website")
+                            website.insert({
+                                index: website.data.length,
+                                value: website_inbox.text
+                            })
+                            website_inbox.blur()
+                            website_inbox.text = ""
+                        }
+                    }
+                },
+                {
+                    type: "list",
+                    props: {
+                        id: "website",
+                        reorder: false,
+                        header: {
+                            type: "label",
+                            props: {
+                                height: 20,
+                                text: $l10n("WEBSITE"),
+                                textColor: $color({
+                                    light: "#C0C0C0",
+                                    dark: "#DDDDDD"
+                                }),
+                                align: $align.left,
+                                font: $font(12)
+                            }
+                        },
+                        data: password.website,
+                        actions: [
+                            {
+                                title: "delete",
+                                handler: (sender, indexPath) => {
+
+                                }
+                            }
+                        ]
+                    },
+                    layout: (make, view) => {
+                        make.left.right.inset(10)
+                        make.bottom.inset(10)
+                        make.top.equalTo($("website_inbox").top).offset(40 + 15)
                     },
                 }
             ]
@@ -442,7 +552,7 @@ class UI {
                 {
                     type: "button",
                     props: {
-                        id: "password",
+                        id: "password_show",
                         title: "",
                         align: $align.center,
                         editable: false,
@@ -462,7 +572,7 @@ class UI {
                     },
                     events: {
                         tapped: sender => {
-                            this.copy_password()
+                            this.copy_password(this.password)
                         }
                     }
                 },
@@ -480,69 +590,30 @@ class UI {
                     },
                     layout: (make, view) => {
                         make.left.inset(10)
-                        make.top.equalTo($("password").top).offset(40)
+                        make.top.equalTo($("password_show").top).offset(40)
                     }
                 },
                 {
-                    type: "input",
+                    type: "button",
                     props: {
-                        id: "password_name",
-                        type: $kbType.search,
-                        placeholder: $l10n("PASSWORD_NAME"),
-                    },
-                    layout: (make, view) => {
-                        make.right.inset(80)
-                        make.left.inset(10)
-                        make.height.equalTo(40)
-                        make.top.equalTo($("password").top).offset(40 + 40)
-                    },
-                    events: {
-                        returned: sender => {
-                            this.save()
-                            sender.blur()
-                        }
-                    }
-                },
-                {
-                    type: "label",
-                    props: {
-                        text: $l10n("PASSWORD_NAME_TIPS"),
-                        align: $align.left,
-                        line: 1,
-                        font: $font(12),
-                        textColor: $color({
-                            light: "#C0C0C0",
-                            dark: "#DDDDDD"
-                        })
+                        title: $l10n("SAVE"),
+                        contentEdgeInsets: 10
                     },
                     layout: (make, view) => {
                         make.left.right.inset(10)
-                        make.top.equalTo($("password").top).offset(40 + 40 + 40)
-                    }
-                },
-                {
-                    type: "button",
-                    props: {
-                        title: $l10n("SAVE_BUTTON"),
-                        contentEdgeInsets: 10,
-                    },
-                    layout: (make, view) => {
-                        make.right.inset(10)
-                        make.height.equalTo(40)
-                        make.width.equalTo(60)
-                        make.top.equalTo($("password").top).offset(40 + 40)
+                        make.bottom.inset(140)
                     },
                     events: {
                         tapped: sender => {
-                            this.save()
-                            $("password_name").blur()
+                            if (this.password !== null) {
+                                this.ui_password({ password: this.password })
+                            }
                         }
                     }
                 },
                 {
                     type: "button",
                     props: {
-                        id: "generate_password",
                         title: $l10n("GENERATE_BUTTON"),
                         contentEdgeInsets: 10
                     },
