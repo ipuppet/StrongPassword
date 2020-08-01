@@ -14,9 +14,9 @@ function objToStrMap(obj) {
     return strMap
 }
 
-function strMapToJson(strMap) {
+/* function strMapToJson(strMap) {
     return JSON.stringify(strMapToObj(strMap))
-}
+} */
 
 function jsonToStrMap(jsonStr) {
     return objToStrMap(JSON.parse(jsonStr))

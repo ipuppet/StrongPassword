@@ -13,13 +13,11 @@ class Kernel {
     }
 }
 
-function run() {
-    // 实例化应用核心
-    let kernel = new Kernel()
-    // 渲染UI
-    new UI(kernel).render()
-}
-
 module.exports = {
-    run: run
+    run: () => {
+        // 实例化应用核心
+        let kernel = new Kernel()
+        // 渲染UI
+        new UI(kernel).render()
+    }
 }

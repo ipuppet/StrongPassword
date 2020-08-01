@@ -2,7 +2,7 @@
     "info": {
         "name": "StrongPassword",
         "url": "https://github.com/ipuppet/StrongPassword",
-        "version": "1.1.1",
+        "version": "1.1.2",
         "author": "ipuppet",
         "website": "https://blog.ipuppet.cn",
         "types": 0
@@ -12,8 +12,8 @@
         "minSDKVer": "2.0.0",
         "minOSVer": "12.0.0",
         "idleTimerDisabled": false,
-        "autoKeyboardEnabled": false,
-        "keyboardToolbarEnabled": false,
+        "autoKeyboardEnabled": true,
+        "keyboardToolbarEnabled": true,
         "rotateDisabled": false
     }
 }

@@ -14,7 +14,7 @@ class UI {
         }
     }
 
-    save_action = (password) => {
+    save_action(password) {
         let status = this.kernel.storage.save(password)
         if (status) {
             $ui.success($l10n("SAVE_SUCCESS"))
@@ -188,7 +188,7 @@ class UI {
                         title: $l10n("ADD"),
                         image: $image("assets/icon/add.png"),
                         handler: (sender) => {
-                            const popover = $ui.popover({
+                            let popover = $ui.popover({
                                 sourceView: sender,
                                 sourceRect: sender.bounds,
                                 directions: $popoverDirection.any,
