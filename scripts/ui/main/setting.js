@@ -1,3 +1,5 @@
+const info = JSON.parse($file.read("config.json"))['info']
+
 class SettingUI {
     constructor(kernel) {
         this.kernel = kernel
@@ -27,6 +29,9 @@ class SettingUI {
     }
 
     create_info(title, value) {
+        let is_array = Array.isArray(value)
+        let text = is_array ? value[0] : value
+        let more_info = is_array ? value[1] : value
         return {
             type: "view",
             views: [
@@ -34,11 +39,32 @@ class SettingUI {
                 {
                     type: "label",
                     props: {
-                        text: value
+                        text: text,
+                        align: $align.right,
+                        textColor: $color("darkGray")
+                    },
+                    events: {
+                        tapped: function () {
+                            $ui.alert({
+                                title: title,
+                                message: more_info,
+                                actions: [
+                                    {
+                                        title: $l10n("COPY"),
+                                        handler: () => {
+                                            $clipboard.text = more_info
+                                            $ui.toast($l10n("COPY_SUCCESS"))
+                                        }
+                                    },
+                                    { title: $l10n("OK") }
+                                ]
+                            })
+                        }
                     },
                     layout: (make, view) => {
                         make.centerY.equalTo(view.prev)
                         make.right.inset(15)
+                        make.width.equalTo(200)
                     }
                 }
             ],
@@ -228,7 +254,7 @@ class SettingUI {
                             type: "label",
                             props: {
                                 font: $font(14),
-                                text: $l10n("VERSION") + " " + $addin.current.version + " © " + $addin.current.author,
+                                text: $l10n("VERSION") + " " + info.version + " © " + info.author,
                                 textColor: $color({
                                     light: "#C0C0C0",
                                     dark: "#545454"

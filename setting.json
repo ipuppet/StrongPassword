@@ -44,5 +44,25 @@
                 "value": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             }
         ]
+    },
+    {
+        "title": "SETTING_ABOUT",
+        "items": [
+            {
+                "title": "Github",
+                "type": "info",
+                "key": "setting.about.github",
+                "value": "https://github.com/ipuppet/StrongPassword"
+            },
+            {
+                "title": "AUTHOR",
+                "type": "info",
+                "key": "setting.about.author",
+                "value": [
+                    "ipuppet",
+                    "https://blog.ipuppet.cn"
+                ]
+            }
+        ]
     }
 ]

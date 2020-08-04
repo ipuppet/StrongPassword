@@ -8,8 +8,12 @@ class StorageUI {
         this.delete_t = null // 真正的删除操作
     }
 
-    search(account) {
-        let data = this.kernel.storage.search(account)
+    search(kw) {
+        if (kw === "") {
+            $("password_list").data = this.password_list_to_ui(this.kernel.storage.all())
+            return
+        }
+        let data = this.kernel.storage.search(kw)
         if (data.length > 0) {
             $("password_list").data = this.password_list_to_ui(data)
         } else {
