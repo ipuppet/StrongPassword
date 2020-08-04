@@ -1,10 +1,12 @@
-const Generator = require("./generator").Generator
-const Storage = require("./storage").Storage
-const UI = require("./ui").UI
+const { MainUI } = require("./ui/main")
+const { Generator } = require("./generator")
+const { Storage } = require("./storage")
+const { Setting } = require("./setting")
 
 class Kernel {
     constructor() {
-        this.generator = new Generator()
+        this.setting = new Setting()
+        this.generator = new Generator(this.setting)
         this.storage = new Storage()
     }
 
@@ -18,6 +20,6 @@ module.exports = {
         // 实例化应用核心
         let kernel = new Kernel()
         // 渲染UI
-        new UI(kernel).render()
+        new MainUI(kernel).render()
     }
 }

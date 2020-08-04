@@ -1,0 +1,48 @@
+[
+    {
+        "title": "SETTING_GENERAL",
+        "items": [
+            {
+                "title": "SETTING_GENERAL_AUTO_COPY",
+                "type": "switch",
+                "key": "setting.general.auto_copy",
+                "value": true
+            },
+            {
+                "title": "SETTING_GENERAL_DELETE_CONFIRM",
+                "type": "switch",
+                "key": "setting.general.delete_confirm",
+                "value": true
+            }
+        ]
+    },
+    {
+        "title": "SETTING_ADVANCED",
+        "items": [
+            {
+                "title": "SETTING_ADVANCED_GENERATOR_PART",
+                "type": "stepper",
+                "key": "setting.generator.part",
+                "value": 3
+            },
+            {
+                "title": "SETTING_ADVANCED_GENERATOR_LENGTH",
+                "type": "stepper",
+                "key": "setting.generator.length",
+                "value": 6
+            },
+            {
+                "title": "SETTING_ADVANCED_GENERATOR_CONNECTOR",
+                "type": "switch",
+                "key": "setting.generator.connector",
+                "value": true
+            },
+            {
+                "title": "SETTING_ADVANCED_GENERATOR_CHARACTER_SET",
+                "type": "string",
+                "key": "setting.generator.character_set",
+                "value": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            }
+        ]
+    }
+]

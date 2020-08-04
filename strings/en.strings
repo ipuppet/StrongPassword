@@ -4,20 +4,20 @@
 "OK" = "OK";
 "CANCEL" = "Cancel";
 
-"SETTINGS" = "Settings";
+"SETTING" = "SETTING";
 
-"SETTINGS_GENERAL" = "General";
-"SETTINGS_GENERAL_AUTO_COPY" = "Auto Copy";
-"SETTINGS_GENERAL_DELETE_CONFIRM" = "Confirm before deleting.";
+"SETTING_GENERAL" = "General";
+"SETTING_GENERAL_AUTO_COPY" = "Auto Copy";
+"SETTING_GENERAL_DELETE_CONFIRM" = "Confirm before deleting.";
 
-"SETTINGS_ADVANCED" = "Advanced";
-"SETTINGS_ADVANCED_GENERATOR_PART" = "Part";
-"SETTINGS_ADVANCED_GENERATOR_LENGTH" = "Length";
-"SETTINGS_ADVANCED_GENERATOR_CONNECTOR" = "Connector";
-"SETTINGS_ADVANCED_GENERATOR_CHARACTER_SET" = "Character Set";
+"SETTING_ADVANCED" = "Advanced";
+"SETTING_ADVANCED_GENERATOR_PART" = "Part";
+"SETTING_ADVANCED_GENERATOR_LENGTH" = "Length";
+"SETTING_ADVANCED_GENERATOR_CONNECTOR" = "Connector";
+"SETTING_ADVANCED_GENERATOR_CHARACTER_SET" = "Character Set";
 
-"SETTINGS_ABOUT" = "About";
-"SETTINGS_ABOUT_VERSION" = "Version";
+"SETTING_ABOUT" = "About";
+"VERSION" = "Version";
 "AUTHOR" = "Author";
 
 "ACCOUNT" = "Account";
@@ -39,11 +39,13 @@
 "DELETE_SUCCESS" = "Delete successfully.";
 "DELETE_ERROR" = "Delete failed.";
 
-"ADD" = "Add";
 "ADD_PASSWORD" = "Add a password";
 "EDIT" = "Edit";
 
+"STORAGE" = "Storage";
 "PASSWORD_STORAGE" = "Saved Password";
 "STORAGE_SEARCH" = "Search";
 "NO_RESULT" = "No result";
 "LIST_END" = "end.";
+
+"UNDO" = "Undo";

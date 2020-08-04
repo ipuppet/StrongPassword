@@ -1,13 +1,16 @@
+const { settings } = require("cluster")
+
 class Generator {
-    constructor() {
+    constructor(setting) {
+        this.setting = setting
         this.update()
     }
 
     update() {
-        this.part = $prefs.get("settings.generator.part")
-        this.length = $prefs.get("settings.generator.length")
-        this.connector = $prefs.get("settings.generator.connector") ? "-" : ""
-        this.character_set = $prefs.get("settings.generator.character_set")
+        this.part = this.setting.get("setting.generator.part")
+        this.length = this.setting.get("setting.generator.length")
+        this.connector = this.setting.get("setting.generator.connector") ? "-" : ""
+        this.character_set = this.setting.get("setting.generator.character_set")
     }
 
     _generate_part() {

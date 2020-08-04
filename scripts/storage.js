@@ -95,7 +95,7 @@ class Storage {
 
     search(kw) {
         let result = this.sqlite.query({
-            sql: "SELECT * FROM password where account like ? or website like ?",
+            sql: "SELECT * FROM password WHERE account like ? or website like ?",
             args: ["%" + kw + "%", "%" + kw + "%"]
         })
         let data = this.parse(result)
@@ -130,7 +130,7 @@ class Storage {
 
     delete(id) {
         let result = this.sqlite.update({
-            sql: "DELETE FROM password where id = ?",
+            sql: "DELETE FROM password WHERE id = ?",
             args: [id]
         })
         if (result.result) {
