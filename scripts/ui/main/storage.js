@@ -291,7 +291,7 @@ class StorageUI {
                         }
                     }
                 },
-                layout: (make, view) => {
+                layout: make => {
                     make.top.equalTo($("storage_search").top).offset(60)
                     make.bottom.right.left.inset(0)
                 },
