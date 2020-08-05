@@ -49,3 +49,7 @@
 "LIST_END" = "end.";
 
 "UNDO" = "Undo";
+
+"SETTING_KEYBOARD" = "Keyboard";
+"SETTING_KEYBOARD_AUTO_INSERT" = "Auto Insert";
+"CLICK_TO_INSERT" = "Click password to insert text.";

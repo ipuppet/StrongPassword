@@ -15,6 +15,17 @@
                 "value": true
             }
         ]
+    }
+    ,{
+        "title": "SETTING_KEYBOARD",
+        "items": [
+            {
+                "title": "SETTING_KEYBOARD_AUTO_INSERT",
+                "type": "switch",
+                "key": "setting.keyboard.auto_insert",
+                "value": true
+            }
+        ]
     },
     {
         "title": "SETTING_ADVANCED",

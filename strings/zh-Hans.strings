@@ -49,3 +49,7 @@
 "LIST_END" = "已经到底啦~";
 
 "UNDO" = "撤销";
+
+"SETTING_KEYBOARD" = "键盘";
+"SETTING_KEYBOARD_AUTO_INSERT" = "自动输入";
+"CLICK_TO_INSERT" = "点击密码插入文本";
