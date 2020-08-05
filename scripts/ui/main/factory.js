@@ -1,7 +1,6 @@
 class Factory {
     constructor(kernel) {
         this.kernel = kernel
-        this.blur_style = $device.isDarkMode ? 3 : 0 // 菜单模糊样式
         this.selected_page = 0 // 首页屏幕 0首页 1储藏室 2设置
         this.menu_data = [
             {
@@ -139,7 +138,7 @@ class Factory {
                         {
                             type: "blur",
                             props: {
-                                style: this.blur_style,
+                                style: $blurStyle.thinMaterial,
                             },
                             layout: $layout.fill,
                         },
@@ -166,12 +165,7 @@ class Factory {
                     }
                 }
             ],
-            events: Object.assign(events, {
-                themeChanged: (sender, isDarkMode) => {
-                    this.blur_style = isDarkMode ? 3 : 0
-                    this.render()
-                }
-            })
+            events: events
         })
     }
 

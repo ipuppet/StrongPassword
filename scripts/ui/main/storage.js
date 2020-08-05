@@ -127,6 +127,7 @@ class StorageUI {
                     id: "password_list",
                     style: 1,
                     reorder: false,
+                    indicatorInsets: $insets(0, 0, 50, 0),
                     rowHeight: 60,
                     footer: {
                         type: "view",

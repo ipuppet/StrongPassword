@@ -10,6 +10,15 @@
 "SETTING_GENERAL_AUTO_COPY" = "Auto Copy";
 "SETTING_GENERAL_DELETE_CONFIRM" = "Confirm before deleting.";
 
+"SETTING_KEYBOARD" = "Keyboard";
+"SETTING_KEYBOARD_AUTO_INSERT" = "Auto Insert";
+"CLICK_TO_INSERT" = "Click password to insert text.";
+
+"SETTING_BACKUP" = "Backup";
+"SETTING_AUTO_BACKUP_ICLOUD" = "Automatic backup to iCloud";
+"SETTING_BACKUP_ICLOUD" = "Backup to iCloud";
+"SETTING_RECOVER_ICLOUD" = "Recover from iCloud";
+
 "SETTING_ADVANCED" = "Advanced";
 "SETTING_ADVANCED_GENERATOR_PART" = "Part";
 "SETTING_ADVANCED_GENERATOR_LENGTH" = "Length";
@@ -49,7 +58,3 @@
 "LIST_END" = "end.";
 
 "UNDO" = "Undo";
-
-"SETTING_KEYBOARD" = "Keyboard";
-"SETTING_KEYBOARD_AUTO_INSERT" = "Auto Insert";
-"CLICK_TO_INSERT" = "Click password to insert text.";

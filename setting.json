@@ -15,8 +15,8 @@
                 "value": true
             }
         ]
-    }
-    ,{
+    },
+    {
         "title": "SETTING_KEYBOARD",
         "items": [
             {
@@ -24,6 +24,29 @@
                 "type": "switch",
                 "key": "setting.keyboard.auto_insert",
                 "value": true
+            }
+        ]
+    },
+    {
+        "title": "SETTING_BACKUP",
+        "items": [
+            {
+                "title": "SETTING_AUTO_BACKUP_ICLOUD",
+                "type": "switch",
+                "key": "setting.backup.auto_backup",
+                "value": true
+            },
+            {
+                "title": "SETTING_BACKUP_ICLOUD",
+                "type": "script",
+                "key": "setting.backup.backup",
+                "value": "this.backup_to_iCloud()"
+            },
+            {
+                "title": "SETTING_RECOVER_ICLOUD",
+                "type": "script",
+                "key": "setting.backup.recover",
+                "value": "this.recover_from_iCloud()"
             }
         ]
     },

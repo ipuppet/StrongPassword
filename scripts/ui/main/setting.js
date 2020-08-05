@@ -5,6 +5,20 @@ class SettingUI {
         this.kernel = kernel
     }
 
+    backup_to_iCloud() {
+        $ui.alert({
+            title: "111",
+            message: "111",
+        });
+    }
+
+    recover_from_iCloud() {
+        $ui.alert({
+            title: "222",
+            message: "222",
+        });
+    }
+
     update_setting(key, value) {
         return this.kernel.setting.save(key, value)
     }
@@ -217,6 +231,56 @@ class SettingUI {
         }
     }
 
+    create_script(title, script) {
+        return {
+            type: "view",
+            props: {
+                bgcolor: $color("white", "#212121"),
+            },
+            views: [
+                {
+                    type: "label",
+                    props: {
+                        text: title,
+                        align: $align.left,
+                        textColor: $color("primaryText", "darkGray"),
+                    },
+                    events: {
+                        tapped: sender => {
+                            // 点击动画
+                            sender.super.bgcolor = $color("separatorColor", "primarySurface")
+                            setTimeout(() => {
+                                sender.super.bgcolor = $color("white", "clear")
+                            }, 100)
+                            // 执行代码
+                            //eval(script)
+                        }
+                    },
+                    layout: make => {
+                        make.left.inset(15)
+                        make.right.inset(15)
+                        make.height.equalTo(50)
+                    }
+                },/* 
+                {// TODO 加载动画
+                    type: "view",
+                    props: {
+                        //bgcolor:$color("blue")
+                    },
+                    events: {
+                        tapped: () => {
+                        }
+                    },
+                    layout: make => {
+                        make.right.inset(15)
+                        make.height.width.equalTo(50)
+                    }
+                } */
+            ],
+            layout: $layout.fill,
+        }
+    }
+
     get_views() {
         return [
             {
@@ -225,6 +289,7 @@ class SettingUI {
                     style: 1,
                     reorder: false,
                     rowHeight: 50,
+                    indicatorInsets: $insets(10, 0, 50, 0),
                     header: {
                         type: "view",
                         views: [{
@@ -244,28 +309,33 @@ class SettingUI {
                     },
                     footer: {
                         type: "view",
-                        views: [{
-                            type: "label",
-                            props: {
-                                font: $font(14),
-                                text: $l10n("VERSION") + " " + info.version + " © " + info.author,
-                                textColor: $color({
-                                    light: "#C0C0C0",
-                                    dark: "#545454"
-                                }),
-                                align: $align.center
-                            },
-                            layout: (make, view) => {
-                                make.left.right.inset(0)
-                                make.bottom.inset(10)
+                        props: {
+                            height: 130,
+                        },
+                        views: [
+                            {
+                                type: "label",
+                                props: {
+                                    font: $font(14),
+                                    text: $l10n("VERSION") + " " + info.version + " © " + info.author,
+                                    textColor: $color({
+                                        light: "#C0C0C0",
+                                        dark: "#545454"
+                                    }),
+                                    align: $align.center
+                                },
+                                layout: make => {
+                                    make.left.right.inset(0)
+                                    make.top.inset(10)
+                                }
                             }
-                        }]
+                        ]
                     },
                     data: this.get_sections(),
                 },
                 layout: make => {
                     make.left.right.top.inset(0)
-                    make.bottom.inset(50)
+                    make.bottom.inset(0)
                 }
             }
         ]
@@ -290,6 +360,9 @@ class SettingUI {
                         break
                     case "info":
                         row = this.create_info($l10n(item.title), value)
+                        break
+                    case "script":
+                        row = this.create_script($l10n(item.title), value)
                         break
                 }
                 rows.push(row)
