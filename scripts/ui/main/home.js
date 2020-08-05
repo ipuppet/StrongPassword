@@ -1,7 +1,6 @@
 class HomeUI {
     constructor(kernel) {
         this.kernel = kernel
-        this.password = null
     }
 
     copy_password(password) {
@@ -12,14 +11,13 @@ class HomeUI {
     }
 
     generate_button_handler() {
-        if (this.password === null) {
-            this.password = this.kernel.generate_strong_password()
-            $cache.set("password", this.password)
+        if (!$cache.get("password")) {
+            $cache.set("password", this.kernel.generate_strong_password())
             // 显示密码
-            $("password_show").title = this.password
+            $("password_show").title = $cache.get("password")
             // 是否自动复制
             if (this.kernel.setting.get("setting.general.auto_copy")) {
-                this.copy_password(this.password)
+                this.copy_password($cache.get("password"))
             }
         } else {
             $ui.alert({
@@ -29,7 +27,7 @@ class HomeUI {
                     {
                         title: $l10n("OK"),
                         handler: () => {
-                            this.password = null
+                            $cache.remove("password")
                             this.generate_button_handler()
                         }
                     },
@@ -80,7 +78,7 @@ class HomeUI {
                 },
                 events: {
                     tapped: sender => {
-                        this.copy_password(this.password)
+                        this.copy_password(sender.title.trim())
                     }
                 }
             },
@@ -113,9 +111,9 @@ class HomeUI {
                 },
                 events: {
                     tapped: sender => {
-                        if (this.password !== null) {
+                        if ($cache.get("password")) {
                             const { EditorUI } = require("./editor")
-                            new EditorUI(this.kernel).push({ password: this.password })
+                            new EditorUI(this.kernel).push({ password: $cache.get("password") })
                         }
                     }
                 }
