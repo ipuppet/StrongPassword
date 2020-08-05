@@ -80,7 +80,7 @@ class StorageUI {
 
     get_views() {
         let delete_confirm = this.kernel.setting.get("setting.general.delete_confirm")
-        let data = this.password_list_to_ui(this.kernel.storage.all())
+        this.data = this.password_list_to_ui(this.kernel.storage.all())
         return [
             {
                 type: "label",
@@ -150,23 +150,24 @@ class StorageUI {
                             }
                         ]
                     },
-                    data: data,
+                    data: this.data,
                     actions: [{
                         title: delete_confirm ? $l10n("DELETE") : "delete",
                         color: $color("red"),
                         handler: (sender, indexPath) => {
                             let delete_action = () => {
-                                let id = data[indexPath.item].id.text
-                                if (delete_confirm)
-                                    sender.delete(indexPath)
+                                let id = this.data[indexPath.item].id.text
+                                let password = this.data[indexPath.item]
+                                this.data = sender.data
                                 // 将被删除的内容写入缓存，用于撤销
                                 $cache.set("delete", {
                                     indexPath: indexPath,
-                                    value: data[indexPath.item]
+                                    value: password
                                 })
                                 // 显示按钮
                                 $("undo").hidden = false
                                 // 按钮消失
+                                clearTimeout(this.undo_t)// 防止按钮显示错乱
                                 this.undo_t = setTimeout(() => {
                                     $("undo").hidden = true
                                     $cache.remove("delete")
@@ -174,12 +175,13 @@ class StorageUI {
                                 // 执行真正删除操作
                                 this.delete_t = setTimeout(() => {
                                     if (this.kernel.storage.delete(id)) {
-                                        $ui.success($l10n("DELETE_SUCCESS"))
+                                        //$ui.success($l10n("DELETE_SUCCESS"))
                                     } else {
                                         sender.insert({
                                             indexPath: indexPath,
-                                            value: data[indexPath.item]
+                                            value: password
                                         })
+                                        this.data.splice(indexPath.item, password)
                                         $ui.error($l10n("DELETE_ERROR"))
                                     }
                                 }, this.undo_time)
@@ -192,6 +194,7 @@ class StorageUI {
                                         {
                                             title: $l10n("OK"),
                                             handler: () => {
+                                                sender.delete(indexPath)
                                                 delete_action()
                                             }
                                         },
@@ -341,6 +344,7 @@ class StorageUI {
                         $("undo").hidden = true
                         // 将被删除的列表项重新插入
                         $("password_list").insert($cache.get("delete"))
+                        this.data = $("password_list").data
                         $cache.remove("delete")
                     }
                 },
@@ -389,7 +393,8 @@ class StorageUI {
                 // 直接写会不明原因无法更新
                 // 放到箭头函数里就没问题
                 let update = () => {
-                    $("password_list").data = this.password_list_to_ui(this.kernel.storage.all())
+                    this.data = this.password_list_to_ui(this.kernel.storage.all())
+                    $("password_list").data = this.data
                 }
                 update()
             }
