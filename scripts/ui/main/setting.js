@@ -83,7 +83,7 @@ class SettingUI {
                         on: on
                     },
                     events: {
-                        changed: (sender) => {
+                        changed: sender => {
                             if (!this.update_setting(id, sender.on)) {
                                 sender.on = !sender.on
                             }
@@ -140,7 +140,8 @@ class SettingUI {
                                             make.top.inset(20)
                                             make.height.equalTo(90)
                                         }
-                                    }, {
+                                    },
+                                    {
                                         type: "button",
                                         props: {
                                             image: $image("assets/icon/check.png", "assets/icon/check-dark.png"),
@@ -274,7 +275,7 @@ class SettingUI {
                         return false
                     },
                 },
-                layout: (make, view) => {
+                layout: make => {
                     make.left.right.top.inset(0)
                     make.bottom.inset(50)
                 }

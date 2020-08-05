@@ -49,7 +49,7 @@ class HomeUI {
                     font: $font("bold", 34),
                     line: 1,
                 },
-                layout: (make, view) => {
+                layout: make => {
                     make.left.right.inset(10)
                     make.height.equalTo(40)
                     make.top.equalTo(30)
@@ -94,7 +94,7 @@ class HomeUI {
                         dark: "#DDDDDD"
                     })
                 },
-                layout: (make, view) => {
+                layout: make => {
                     make.left.inset(10)
                     make.top.equalTo($("password_show").top).offset(40)
                 }
@@ -105,12 +105,12 @@ class HomeUI {
                     title: $l10n("SAVE"),
                     contentEdgeInsets: 10
                 },
-                layout: (make, view) => {
+                layout: make => {
                     make.left.right.inset(10)
                     make.centerY.equalTo(-20).multipliedBy(1.2)
                 },
                 events: {
-                    tapped: sender => {
+                    tapped: () => {
                         if ($cache.get("password")) {
                             const { EditorUI } = require("./editor")
                             new EditorUI(this.kernel).push({ password: $cache.get("password") })
@@ -124,12 +124,12 @@ class HomeUI {
                     title: $l10n("GENERATE_BUTTON"),
                     contentEdgeInsets: 10
                 },
-                layout: (make, view) => {
+                layout: make => {
                     make.left.right.inset(10)
                     make.centerY.equalTo(-20).multipliedBy(1.6)
                 },
                 events: {
-                    tapped: sender => {
+                    tapped: () => {
                         this.generate_button_handler()
                     }
                 }

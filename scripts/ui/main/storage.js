@@ -78,10 +78,6 @@ class StorageUI {
         }
     }
 
-    get_action(data) {
-
-    }
-
     get_views() {
         let delete_confirm = this.kernel.setting.get("setting.general.delete_confirm")
         let data = this.password_list_to_ui(this.kernel.storage.all())
@@ -94,7 +90,7 @@ class StorageUI {
                     font: $font("bold", 34),
                     line: 1,
                 },
-                layout: (make, view) => {
+                layout: make => {
                     make.left.inset(10)
                     make.width.equalTo(120)
                     make.height.equalTo(40)
@@ -109,7 +105,7 @@ class StorageUI {
                     type: $kbType.search,
                     autoFontSize: true,
                 },
-                layout: (make, view) => {
+                layout: make => {
                     make.height.equalTo(40)
                     make.top.equalTo(30)
                     make.right.inset(10)
@@ -336,7 +332,7 @@ class StorageUI {
                     }
                 ],
                 events: {
-                    tapped: sender => {
+                    tapped: () => {
                         // 销毁操作
                         clearTimeout(this.undo_t)
                         clearTimeout(this.delete_t)
@@ -369,7 +365,7 @@ class StorageUI {
                     }),
                     bgcolor: $color("clear")
                 },
-                layout: (make, view) => {
+                layout: make => {
                     make.right.inset(20)
                     if ($device.isIphoneX) {
                         make.bottom.inset(55 + 60)

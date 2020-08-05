@@ -86,7 +86,7 @@ class Factory {
                 make.height.equalTo(50)
             },
             events: {
-                didSelect: (sender, indexPath, data) => {
+                didSelect: (sender, indexPath) => {
                     let new_data = []
                     for (let i in sender.data) {
                         let tmp = sender.data[i]

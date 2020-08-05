@@ -61,13 +61,13 @@ class EditorUI {
                                 image: $image("assets/icon/back.png", "assets/icon/back-dark.png"),
                                 bgcolor: $color("clear")
                             },
-                            layout: (make, view) => {
+                            layout: make => {
                                 make.left.inset(10)
                                 make.width.height.equalTo(20)
                                 make.top.equalTo(30)
                             },
                             events: {
-                                tapped: sender => {
+                                tapped: () => {
                                     $ui.pop()
                                 }
                             }
@@ -79,13 +79,13 @@ class EditorUI {
                                 image: $image("assets/icon/check.png", "assets/icon/check-dark.png"),
                                 bgcolor: $color("clear")
                             },
-                            layout: (make, view) => {
+                            layout: make => {
                                 make.right.inset(10)
                                 make.width.height.equalTo(20)
                                 make.top.equalTo(30)
                             },
                             events: {
-                                tapped: sender => {
+                                tapped: () => {
                                     password.account = $("account").text.trim()
                                     password.password = $("password").text.trim()
                                     password.website = $("website").data
@@ -111,7 +111,7 @@ class EditorUI {
                                 make.top.equalTo(30)
                             },
                             events: {
-                                tapped: sender => {
+                                tapped: () => {
                                     if (password.password === "") {
                                         $ui.toast($l10n("NO_PASSWORD"))
                                     } else {
@@ -133,7 +133,7 @@ class EditorUI {
                                 }),
                                 line: 1,
                             },
-                            layout: (make, view) => {
+                            layout: make => {
                                 make.left.inset(10)
                                 make.width.equalTo(60)
                                 make.height.equalTo(40)
@@ -149,7 +149,7 @@ class EditorUI {
                                 text: password.account,
                                 placeholder: $l10n("ACCOUNT"),
                             },
-                            layout: (make, view) => {
+                            layout: make => {
                                 make.right.inset(10)
                                 make.left.inset(60)
                                 make.height.equalTo(40)
@@ -173,7 +173,7 @@ class EditorUI {
                                 }),
                                 line: 1,
                             },
-                            layout: (make, view) => {
+                            layout: make => {
                                 make.left.inset(10)
                                 make.width.equalTo(60)
                                 make.height.equalTo(40)
@@ -188,7 +188,7 @@ class EditorUI {
                                 text: password.password,
                                 placeholder: $l10n("PASSWORD"),
                             },
-                            layout: (make, view) => {
+                            layout: make => {
                                 make.right.inset(10)
                                 make.left.inset(60)
                                 make.height.equalTo(40)
@@ -222,13 +222,11 @@ class EditorUI {
                                 actions: [
                                     {
                                         title: "delete",
-                                        handler: (sender, indexPath) => {
-
-                                        }
+                                        handler: () => { }
                                     }
                                 ]
                             },
-                            layout: (make, view) => {
+                            layout: make => {
                                 make.left.right.inset(10)
                                 make.bottom.inset(10)
                                 make.centerY.equalTo(0).multipliedBy(1.5)
@@ -273,7 +271,7 @@ class EditorUI {
                                                     align: $align.left,
                                                     placeholder: $l10n("WEBSITE"),
                                                 },
-                                                layout: (make, view) => {
+                                                layout: make => {
                                                     make.left.right.inset(10)
                                                     make.top.inset(20)
                                                     make.height.equalTo(40)
@@ -290,7 +288,8 @@ class EditorUI {
                                                         sender.text = ""
                                                     }
                                                 }
-                                            }, {
+                                            },
+                                            {
                                                 type: "button",
                                                 props: {
                                                     title: "+",
@@ -301,14 +300,14 @@ class EditorUI {
                                                     titleEdgeInsets: 10,
                                                     contentEdgeInsets: 0,
                                                 },
-                                                layout: (make, view) => {
+                                                layout: make => {
                                                     make.right.inset(10)
                                                     make.width.equalTo(30)
                                                     make.height.equalTo(30)
                                                     make.centerY.equalTo(0).offset(20)
                                                 },
                                                 events: {
-                                                    tapped: sender => {
+                                                    tapped: () => {
                                                         let website_inbox = $("website_inbox")
                                                         if (website_inbox.text === "") return
                                                         let website = $("website")
