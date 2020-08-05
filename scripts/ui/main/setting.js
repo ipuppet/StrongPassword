@@ -228,7 +228,6 @@ class SettingUI {
             {
                 type: "list",
                 props: {
-                    id: "password_list",
                     style: 1,
                     reorder: false,
                     rowHeight: 50,
@@ -269,11 +268,6 @@ class SettingUI {
                         }]
                     },
                     data: this.get_sections(),
-                },
-                events: {
-                    swipeEnabled: () => {
-                        return false
-                    },
                 },
                 layout: make => {
                     make.left.right.top.inset(0)
