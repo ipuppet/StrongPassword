@@ -104,6 +104,7 @@ class Storage {
 
     save(password) {
         let result = null
+        password.website = password.website ? password.website : []
         result = this.sqlite.update({
             sql: "INSERT INTO password (account, password, date, website) values(?, ?, ?, ?)",
             args: [password.account, password.password, password.date, JSON.stringify(password.website)]
