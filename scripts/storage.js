@@ -64,8 +64,13 @@ function to_new() {
 }
 
 class Storage {
-    constructor() {
-        this.sqlite = $sqlite.open("assets/StrongPassword.db")
+    constructor(setting) {
+        this.setting = setting
+        this.local_db = "assets/StrongPassword.db"
+        this.icloud_path = "drive://StrongPassword/"
+        this.icloud_db = this.icloud_path + "StrongPassword.db"
+        this.icloud_auto_db = this.icloud_path + "auto.db"
+        this.sqlite = $sqlite.open(this.local_db)
         this.sqlite.update("CREATE TABLE IF NOT EXISTS password(id INTEGER PRIMARY KEY NOT NULL, account TEXT, password TEXT, date TEXT, website TEXT)")
     }
 
@@ -110,10 +115,40 @@ class Storage {
             args: [password.account, password.password, password.date, JSON.stringify(password.website)]
         })
         if (result.result) {
+            if (this.setting.get("setting.backup.auto_backup")) {
+                if (!$file.exists(this.icloud_path)) {
+                    $file.mkdir(this.icloud_path)
+                }
+                $file.write({
+                    data: $data({ path: this.local_db }),
+                    path: this.icloud_auto_db
+                })
+            }
             return true
         }
         $console.error(result.error)
         return false
+    }
+
+    has_backup() {
+        return $file.exists(this.icloud_db)
+    }
+
+    backup_to_iCloud() {
+        if (!$file.exists(this.icloud_path)) {
+            $file.mkdir(this.icloud_path)
+        }
+        return $file.write({
+            data: $data({ path: this.local_db }),
+            path: this.icloud_db
+        })
+    }
+
+    recover_from_iCloud(data) {
+        return $file.write({
+            data: data,
+            path: this.local_db
+        })
     }
 
     update(password) {
