@@ -15,8 +15,6 @@ class MainUI {
     }
 
     render() {
-        this.ui_keyboard()
-        return
         switch ($app.env) {
             case $env.app:
                 this.ui_main()
