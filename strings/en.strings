@@ -6,26 +6,33 @@
 
 "SETTING" = "SETTING";
 
-"SETTING_GENERAL" = "General";
-"SETTING_GENERAL_AUTO_COPY" = "Auto Copy";
-"SETTING_GENERAL_DELETE_CONFIRM" = "Confirm before deleting.";
+"GENERAL" = "General";
+"AUTO_COPY" = "Auto Copy";
+"DELETE_CONFIRM" = "Confirm before deleting.";
 
-"SETTING_KEYBOARD" = "Keyboard";
-"SETTING_KEYBOARD_AUTO_INSERT" = "Auto Insert";
+"KEYBOARD" = "Keyboard";
+"AUTO_INSERT" = "Auto Insert";
 "CLICK_TO_INSERT" = "Click password to insert text.";
 
-"SETTING_BACKUP" = "Backup";
-"SETTING_AUTO_BACKUP_ICLOUD" = "Automatic backup to iCloud";
-"SETTING_BACKUP_ICLOUD" = "Backup to iCloud";
-"SETTING_RECOVER_ICLOUD" = "Recover from iCloud";
+"BACKUP" = "Backup";
+"AUTO_BACKUP_ICLOUD" = "Automatic backup to iCloud";
+"BACKUP_ICLOUD" = "Backup to iCloud";
+"RECOVER_ICLOUD" = "Recover from iCloud";
+"ALREADY_HAS_BACKUP" = "There is a backup, do you want to overwrite it?";
+"BACKUP_SUCCESS" = "Successful backup";
+"BACKUP_ERROR" = "Backup failed";
+"RECOVER" = "Recover";
+"WHICH_FILE_TO_RECOVER_FROM" = "Which file to recover from?";
+"RECOVER_SUCCESS" = "Successful recovery";
+"RECOVER_ERROR" = "Recovery failed";
 
-"SETTING_ADVANCED" = "Advanced";
-"SETTING_ADVANCED_GENERATOR_PART" = "Part";
-"SETTING_ADVANCED_GENERATOR_LENGTH" = "Length";
-"SETTING_ADVANCED_GENERATOR_CONNECTOR" = "Connector";
-"SETTING_ADVANCED_GENERATOR_CHARACTER_SET" = "Character Set";
+"ADVANCED" = "Advanced";
+"GENERATOR_PART" = "Part";
+"GENERATOR_LENGTH" = "Length";
+"GENERATOR_CONNECTOR" = "Connector";
+"GENERATOR_CHARACTER_SET" = "Character Set";
 
-"SETTING_ABOUT" = "About";
+"ABOUT" = "About";
 "VERSION" = "Version";
 "AUTHOR" = "Author";
 

@@ -145,10 +145,14 @@ class Storage {
     }
 
     recover_from_iCloud(data) {
-        return $file.write({
+        let result = $file.write({
             data: data,
             path: this.local_db
         })
+        if (result) {
+            this.sqlite = $sqlite.open(this.local_db)
+        }
+        return result
     }
 
     update(password) {

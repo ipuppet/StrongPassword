@@ -6,26 +6,33 @@
 
 "SETTING" = "设置";
 
-"SETTING_GENERAL" = "一般";
-"SETTING_GENERAL_AUTO_COPY" = "自动复制";
-"SETTING_GENERAL_DELETE_CONFIRM" = "删除前确认";
+"GENERAL" = "一般";
+"AUTO_COPY" = "自动复制";
+"DELETE_CONFIRM" = "删除前确认";
 
-"SETTING_KEYBOARD" = "键盘";
-"SETTING_KEYBOARD_AUTO_INSERT" = "自动输入";
+"KEYBOARD" = "键盘";
+"AUTO_INSERT" = "自动输入";
 "CLICK_TO_INSERT" = "点击密码插入文本";
 
-"SETTING_BACKUP" = "备份";
-"SETTING_AUTO_BACKUP_ICLOUD" = "自动备份到iCloud";
-"SETTING_BACKUP_ICLOUD" = "备份到iCloud";
-"SETTING_RECOVER_ICLOUD" = "从iCloud恢复";
+"BACKUP" = "备份";
+"AUTO_BACKUP_ICLOUD" = "自动备份到iCloud";
+"BACKUP_ICLOUD" = "备份到iCloud";
+"RECOVER_ICLOUD" = "从iCloud恢复";
+"ALREADY_HAS_BACKUP" = "已有备份，是否覆盖？";
+"BACKUP_SUCCESS" = "备份成功";
+"BACKUP_ERROR" = "备份失败";
+"RECOVER" = "恢复";
+"WHICH_FILE_TO_RECOVER_FROM" = "从哪个文件恢复？";
+"RECOVER_SUCCESS" = "恢复成功";
+"RECOVER_ERROR" = "恢复失败";
 
-"SETTING_ADVANCED" = "高级";
-"SETTING_ADVANCED_GENERATOR_PART" = "分段个数";
-"SETTING_ADVANCED_GENERATOR_LENGTH" = "单分段长度";
-"SETTING_ADVANCED_GENERATOR_CONNECTOR" = "分段连接符";
-"SETTING_ADVANCED_GENERATOR_CHARACTER_SET" = "随机字符集";
+"ADVANCED" = "高级";
+"GENERATOR_PART" = "分段个数";
+"GENERATOR_LENGTH" = "单分段长度";
+"GENERATOR_CONNECTOR" = "分段连接符";
+"GENERATOR_CHARACTER_SET" = "随机字符集";
 
-"SETTING_ABOUT" = "关于";
+"ABOUT" = "关于";
 "VERSION" = "Version";
 "AUTHOR" = "作者";
 

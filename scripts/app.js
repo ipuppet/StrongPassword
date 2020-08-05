@@ -7,7 +7,7 @@ class Kernel {
     constructor() {
         this.setting = new Setting()
         this.generator = new Generator(this.setting)
-        this.storage = new Storage()
+        this.storage = new Storage(this.setting)
     }
 
     generate_strong_password() {

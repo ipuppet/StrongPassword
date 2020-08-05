@@ -1,15 +1,15 @@
 [
     {
-        "title": "SETTING_GENERAL",
+        "title": "GENERAL",
         "items": [
             {
-                "title": "SETTING_GENERAL_AUTO_COPY",
+                "title": "AUTO_COPY",
                 "type": "switch",
                 "key": "setting.general.auto_copy",
                 "value": true
             },
             {
-                "title": "SETTING_GENERAL_DELETE_CONFIRM",
+                "title": "DELETE_CONFIRM",
                 "type": "switch",
                 "key": "setting.general.delete_confirm",
                 "value": true
@@ -17,10 +17,10 @@
         ]
     },
     {
-        "title": "SETTING_KEYBOARD",
+        "title": "KEYBOARD",
         "items": [
             {
-                "title": "SETTING_KEYBOARD_AUTO_INSERT",
+                "title": "AUTO_INSERT",
                 "type": "switch",
                 "key": "setting.keyboard.auto_insert",
                 "value": true
@@ -28,22 +28,22 @@
         ]
     },
     {
-        "title": "SETTING_BACKUP",
+        "title": "BACKUP",
         "items": [
             {
-                "title": "SETTING_AUTO_BACKUP_ICLOUD",
+                "title": "AUTO_BACKUP_ICLOUD",
                 "type": "switch",
                 "key": "setting.backup.auto_backup",
                 "value": true
             },
             {
-                "title": "SETTING_BACKUP_ICLOUD",
+                "title": "BACKUP_ICLOUD",
                 "type": "script",
                 "key": "setting.backup.backup",
                 "value": "this.backup_to_iCloud()"
             },
             {
-                "title": "SETTING_RECOVER_ICLOUD",
+                "title": "RECOVER_ICLOUD",
                 "type": "script",
                 "key": "setting.backup.recover",
                 "value": "this.recover_from_iCloud()"
@@ -51,28 +51,28 @@
         ]
     },
     {
-        "title": "SETTING_ADVANCED",
+        "title": "ADVANCED",
         "items": [
             {
-                "title": "SETTING_ADVANCED_GENERATOR_PART",
+                "title": "GENERATOR_PART",
                 "type": "stepper",
                 "key": "setting.generator.part",
                 "value": 3
             },
             {
-                "title": "SETTING_ADVANCED_GENERATOR_LENGTH",
+                "title": "GENERATOR_LENGTH",
                 "type": "stepper",
                 "key": "setting.generator.length",
                 "value": 6
             },
             {
-                "title": "SETTING_ADVANCED_GENERATOR_CONNECTOR",
+                "title": "GENERATOR_CONNECTOR",
                 "type": "switch",
                 "key": "setting.generator.connector",
                 "value": true
             },
             {
-                "title": "SETTING_ADVANCED_GENERATOR_CHARACTER_SET",
+                "title": "GENERATOR_CHARACTER_SET",
                 "type": "string",
                 "key": "setting.generator.character_set",
                 "value": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -80,7 +80,7 @@
         ]
     },
     {
-        "title": "SETTING_ABOUT",
+        "title": "ABOUT",
         "items": [
             {
                 "title": "Github",
@@ -96,6 +96,12 @@
                     "ipuppet",
                     "https://blog.ipuppet.cn"
                 ]
+            },
+            {
+                "title": "README",
+                "type": "script",
+                "key": "setting.about.readme",
+                "value": "this.readme()"
             }
         ]
     }

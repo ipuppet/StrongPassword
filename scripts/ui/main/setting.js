@@ -5,18 +5,60 @@ class SettingUI {
         this.kernel = kernel
     }
 
+    readme() {
+        const content = $file.read("README.md").string
+        $ui.push({
+            props: {
+                title: "README"
+            },
+            views: [{
+                type: "markdown",
+                props: {
+                    content: content,
+                },
+                layout: $layout.fillSafeArea
+            }]
+        })
+    }
+
     backup_to_iCloud() {
-        $ui.alert({
-            title: "111",
-            message: "111",
-        });
+        const backup_action = () => {
+            if (this.kernel.storage.backup_to_iCloud()) {
+                $ui.alert($l10n('BACKUP_SUCCESS'))
+            } else {
+                $ui.alert($l10n('BACKUP_ERROR'))
+            }
+        }
+        if (this.kernel.storage.has_backup()) {
+            $ui.alert({
+                title: $l10n("BACKUP"),
+                message: $l10n("ALREADY_HAS_BACKUP"),
+                actions: [
+                    {
+                        title: $l10n("OK"),
+                        handler: () => {
+                            backup_action()
+                        }
+                    },
+                    { title: $l10n("CANCEL") }
+                ]
+            })
+        } else {
+            backup_action()
+        }
     }
 
     recover_from_iCloud() {
-        $ui.alert({
-            title: "222",
-            message: "222",
-        });
+        $drive.open({
+            handler: data => {
+                if (this.kernel.storage.recover_from_iCloud(data)) {
+                    $ui.alert({
+                        title: $l10n("RECOVER"),
+                        message: $l10n("RECOVER_SUCCESS"),
+                    });
+                }
+            }
+        })
     }
 
     update_setting(key, value) {
@@ -234,48 +276,35 @@ class SettingUI {
     create_script(title, script) {
         return {
             type: "view",
-            props: {
-                bgcolor: $color("white", "#212121"),
-            },
             views: [
+                this.create_line_label(title),
                 {
-                    type: "label",
-                    props: {
-                        text: title,
-                        align: $align.left,
-                        textColor: $color("primaryText", "darkGray"),
-                    },
-                    events: {
-                        tapped: sender => {
-                            // 点击动画
-                            sender.super.bgcolor = $color("separatorColor", "primarySurface")
-                            setTimeout(() => {
-                                sender.super.bgcolor = $color("white", "clear")
-                            }, 100)
-                            // 执行代码
-                            //eval(script)
-                        }
-                    },
-                    layout: make => {
-                        make.left.inset(15)
-                        make.right.inset(15)
-                        make.height.equalTo(50)
-                    }
-                },/* 
-                {// TODO 加载动画
                     type: "view",
-                    props: {
-                        //bgcolor:$color("blue")
-                    },
+                    views: [
+                        {
+                            type: "button",
+                            props: {
+                                bgcolor: $color("clear"),
+                                image: $imagekit.flip(
+                                    $image("assets/icon/back.png", "assets/icon/back-dark.png"), 1)
+                            },
+                            layout: (make, view) => {
+                                make.center.equalTo(view.super)
+                                make.size.equalTo(15)
+                            }
+                        }
+                    ],
                     events: {
                         tapped: () => {
+                            // 执行代码
+                            eval(script)
                         }
                     },
                     layout: make => {
                         make.right.inset(15)
-                        make.height.width.equalTo(50)
+                        make.size.equalTo(50)
                     }
-                } */
+                }
             ],
             layout: $layout.fill,
         }
