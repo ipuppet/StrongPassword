@@ -281,7 +281,7 @@ class SettingUI {
                 {
                     type: "view",
                     views: [
-                        {
+                        {// 仅用于显示图片
                             type: "button",
                             props: {
                                 bgcolor: $color("clear"),
@@ -292,14 +292,21 @@ class SettingUI {
                                 make.center.equalTo(view.super)
                                 make.size.equalTo(15)
                             }
+                        },
+                        {// 覆盖在图片上监听点击动作
+                            type: "view",
+                            events: {
+                                tapped: () => {
+                                    // 执行代码
+                                    eval(script)
+                                }
+                            },
+                            layout: make => {
+                                make.right.inset(0)
+                                make.size.equalTo(50)
+                            }
                         }
                     ],
-                    events: {
-                        tapped: () => {
-                            // 执行代码
-                            eval(script)
-                        }
-                    },
                     layout: make => {
                         make.right.inset(15)
                         make.size.equalTo(50)
