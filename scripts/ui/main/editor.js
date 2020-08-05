@@ -256,12 +256,6 @@ class EditorUI {
                                         sourceRect: sender.bounds,
                                         directions: $popoverDirection.down,
                                         size: $size(320, 150),
-                                        props: {
-                                            bgcolor: $color({
-                                                light: "#545454",
-                                                dark: "#C0C0C0"
-                                            })
-                                        },
                                         views: [
                                             {
                                                 type: "input",
