@@ -11,8 +11,9 @@
 "DELETE_CONFIRM" = "删除前确认";
 
 "KEYBOARD" = "键盘";
-"AUTO_INSERT" = "自动输入";
-"CLICK_TO_INSERT" = "点击密码插入文本";
+"COPY_ACCOUNT" = "复制账号";
+"INSERT_ACCOUNT" = "输入账号";
+"IF_SAVE_THIS_PASSWORD" = "是否保存该密码？账号及网站将被自动设置为'AUTO-SAVE'";
 
 "BACKUP" = "备份";
 "AUTO_BACKUP_ICLOUD" = "自动备份到iCloud";
@@ -40,7 +41,7 @@
 "PASSWORD" = "密码";
 "WEBSITE" = "网站";
 
-"CLICK_TO_COPY" = "点击密码即可复制";
+"CLICK_TO_COPY" = "点击复制";
 "GENERATE_BUTTON" = "生成强密码";
 "COPY" = "复制";
 "COPY_SUCCESS" = "已复制到剪切板";

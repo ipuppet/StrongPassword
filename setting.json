@@ -17,17 +17,6 @@
         ]
     },
     {
-        "title": "KEYBOARD",
-        "items": [
-            {
-                "title": "AUTO_INSERT",
-                "type": "switch",
-                "key": "setting.keyboard.auto_insert",
-                "value": true
-            }
-        ]
-    },
-    {
         "title": "BACKUP",
         "items": [
             {

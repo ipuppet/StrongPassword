@@ -14,6 +14,11 @@ class MainUI {
         new KeyboardUI(this.kernel).render()
     }
 
+    ui_today(){
+        const { TodayUI } = require("./today/today")
+        new TodayUI(this.kernel).render()
+    }
+
     render() {
         switch ($app.env) {
             case $env.app:
@@ -22,10 +27,13 @@ class MainUI {
             case $env.keyboard:
                 this.ui_keyboard()
                 break
+            case $env.today:
+                this.ui_today()
+                break
             default:
                 $ui.alert({
                     title: $l10n("ALERT_INFO"),
-                    message: "该功能正在开发，敬请期待！",
+                    message: "后续可能开发，敬请期待！",
                 })
         }
 

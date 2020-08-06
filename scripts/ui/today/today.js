@@ -1,13 +1,11 @@
-class KeyboardUI {
+class TodayUI {
     constructor(kernel) {
         this.kernel = kernel
     }
 
-    copy_password(password) {
-        // 苹果隐私保护，第三方输入法无法输入密码
-        // 故此处使用复制
-        if (password !== null) {
-            $clipboard.text = password
+    copy_data(data) {
+        if (data) {
+            $clipboard.text = data
             $ui.toast($l10n("COPY_SUCCESS"))
         }
     }
@@ -17,9 +15,9 @@ class KeyboardUI {
             $cache.set("password", this.kernel.generate_strong_password())
             // 显示密码
             $("password").title = $cache.get("password")
-            // 是否自动复制
-            if (this.kernel.setting.get("setting.general.auto_copy")) {
-                this.copy_password($cache.get("password"))
+            // 是否自动输入
+            if (this.kernel.setting.get("setting.keyboard.auto_insert")) {
+                this.copy_data($cache.get("password"))
             }
         } else {
             $ui.alert({
@@ -97,6 +95,7 @@ class KeyboardUI {
                 id: "password_list",
                 style: 1,
                 reorder: false,
+                bgcolor: $color("clear"),
                 rowHeight: 60,
                 header: {
                     type: "view",
@@ -108,8 +107,8 @@ class KeyboardUI {
                                 font: $font(12),
                                 text: $l10n("CLICK_TO_COPY"),
                                 textColor: $color({
-                                    light: "#C0C0C0",
-                                    dark: "#545454"
+                                    light: "#545454",
+                                    dark: "#DDDDDD"
                                 }),
                                 align: $align.left
                             },
@@ -129,8 +128,8 @@ class KeyboardUI {
                                 font: $font(14),
                                 text: $l10n("LIST_END"),
                                 textColor: $color({
-                                    light: "#C0C0C0",
-                                    dark: "#545454"
+                                    light: "#545454",
+                                    dark: "#DDDDDD"
                                 }),
                                 align: $align.center
                             },
@@ -143,6 +142,9 @@ class KeyboardUI {
                 },
                 data: [],
                 template: {
+                    props: {
+
+                    },
                     views: [
                         {
                             type: "label",
@@ -162,7 +164,7 @@ class KeyboardUI {
                             type: "label",
                             props: {
                                 id: "website",
-                                font: $font(18),
+                                font: $font(20),
                                 align: $align.left
                             },
                             layout: (make, view) => {
@@ -174,10 +176,10 @@ class KeyboardUI {
                             type: "label",
                             props: {
                                 id: "account",
-                                font: $font(14),
+                                font: $font(12),
                                 textColor: $color({
-                                    light: "#C0C0C0",
-                                    dark: "#545454"
+                                    light: "#545454",
+                                    dark: "#DDDDDD"
                                 }),
                                 align: $align.left
                             },
@@ -190,10 +192,10 @@ class KeyboardUI {
                             type: "label",
                             props: {
                                 id: "date",
-                                font: $font(14),
+                                font: $font(12),
                                 textColor: $color({
-                                    light: "#C0C0C0",
-                                    dark: "#545454"
+                                    light: "#545454",
+                                    dark: "#DDDDDD"
                                 }),
                                 align: $align.right
                             },
@@ -216,19 +218,16 @@ class KeyboardUI {
                     ]
                 },
                 actions: [{
-                    title: $l10n("INSERT_ACCOUNT"),
+                    title: $l10n("COPY_ACCOUNT"),
                     handler: (sender, indexPath) => {
-                        while ($keyboard.hasText)
-                            $keyboard.delete()
-                        $keyboard.insert(sender.object(indexPath).account.text)
-                        $keyboard.playInputClick()
+                        this.copy_data(sender.object(indexPath).account.text)
                     }
                 }],
             },
             events: {
                 didSelect: (sender, indexPath, data) => {
                     let password = data.password.text
-                    this.copy_password(password)
+                    this.copy_data(password)
                 }
             },
             layout: make => {
@@ -262,7 +261,7 @@ class KeyboardUI {
             },
             events: {
                 tapped: sender => {
-                    this.copy_password(sender.title.trim())
+                    this.copy_data(sender.title.trim())
                 }
             }
         },
@@ -274,7 +273,7 @@ class KeyboardUI {
                 line: 1,
                 font: $font(12),
                 textColor: $color({
-                    light: "#C0C0C0",
+                    light: "#545454",
                     dark: "#DDDDDD"
                 })
             },
@@ -393,5 +392,5 @@ class KeyboardUI {
 }
 
 module.exports = {
-    KeyboardUI: KeyboardUI
+    TodayUI: TodayUI
 }

@@ -11,8 +11,9 @@
 "DELETE_CONFIRM" = "Confirm before deleting.";
 
 "KEYBOARD" = "Keyboard";
-"AUTO_INSERT" = "Auto Insert";
-"CLICK_TO_INSERT" = "Click password to insert text.";
+"COPY_ACCOUNT" = "Copy Account";
+"INSERT_ACCOUNT" = "Insert Account";
+"IF_SAVE_THIS_PASSWORD" = "Do you want to save the password? Account and website will be automatically set to'AUTO-SAVE'";
 
 "BACKUP" = "Backup";
 "AUTO_BACKUP_ICLOUD" = "Automatic backup to iCloud";
