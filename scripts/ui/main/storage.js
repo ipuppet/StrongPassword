@@ -90,11 +90,11 @@ class StorageUI {
                     font: $font("bold", 34),
                     line: 1,
                 },
-                layout: make => {
+                layout: (make, view) => {
                     make.left.inset(10)
                     make.width.equalTo(120)
                     make.height.equalTo(40)
-                    make.top.equalTo(30)
+                    make.top.equalTo(view.super.safeAreaTop).offset(50)
                 }
             },
             {
@@ -105,9 +105,9 @@ class StorageUI {
                     type: $kbType.search,
                     autoFontSize: true,
                 },
-                layout: make => {
+                layout: (make, view) => {
                     make.height.equalTo(40)
-                    make.top.equalTo(30)
+                    make.top.equalTo(view.prev)
                     make.right.inset(10)
                     make.left.inset(130)
                 },
@@ -296,7 +296,7 @@ class StorageUI {
                     }
                 },
                 layout: make => {
-                    make.top.equalTo($("storage_search").top).offset(60)
+                    make.top.equalTo($("storage_search").top).offset(70)
                     make.bottom.right.left.inset(0)
                 },
             },

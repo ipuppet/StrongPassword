@@ -12,7 +12,7 @@ class HomeUI {
 
     generate_button_handler() {
         if (!$cache.get("password")) {
-            $cache.set("password", this.kernel.generate_strong_password())
+            $cache.set("password", this.kernel.generator.generate())
             // 显示密码
             $("password_show").title = $cache.get("password")
             // 是否自动复制
@@ -49,10 +49,10 @@ class HomeUI {
                     font: $font("bold", 34),
                     line: 1,
                 },
-                layout: make => {
+                layout: (make,view) => {
                     make.left.right.inset(10)
                     make.height.equalTo(40)
-                    make.top.equalTo(30)
+                    make.top.equalTo(view.super.safeAreaTop).offset(50)
                 }
             },
             {

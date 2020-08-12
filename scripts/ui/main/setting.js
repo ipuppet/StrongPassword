@@ -7,18 +7,15 @@ class SettingUI {
 
     readme() {
         const content = $file.read("README.md").string
-        $ui.push({
+        this.kernel.ui_push([{
+            type: "markdown",
             props: {
-                title: "README"
+                content: content,
             },
-            views: [{
-                type: "markdown",
-                props: {
-                    content: content,
-                },
-                layout: $layout.fillSafeArea
-            }]
-        })
+            layout: (make, view) => {
+                make.size.equalTo(view.super)
+            }
+        }])
     }
 
     backup_to_iCloud() {
@@ -289,7 +286,8 @@ class SettingUI {
                                     $image("assets/icon/back.png", "assets/icon/back-dark.png"), 1)
                             },
                             layout: (make, view) => {
-                                make.center.equalTo(view.super)
+                                make.centerY.equalTo(view.super)
+                                make.right.inset(0)
                                 make.size.equalTo(15)
                             }
                         },
@@ -301,15 +299,16 @@ class SettingUI {
                                     eval(script)
                                 }
                             },
-                            layout: make => {
+                            layout: (make, view) => {
                                 make.right.inset(0)
-                                make.size.equalTo(50)
+                                make.size.equalTo(view.super)
                             }
                         }
                     ],
-                    layout: make => {
+                    layout: (make, view) => {
                         make.right.inset(15)
-                        make.size.equalTo(50)
+                        make.height.equalTo(50)
+                        make.width.equalTo(view.super)
                     }
                 }
             ],
@@ -323,11 +322,14 @@ class SettingUI {
                 type: "list",
                 props: {
                     style: 1,
-                    reorder: false,
+                    bgcolor: $color("clear"),
                     rowHeight: 50,
-                    indicatorInsets: $insets(10, 0, 50, 0),
+                    indicatorInsets: $insets(40, 0, 50, 0),
                     header: {
                         type: "view",
+                        props: {
+                            height: 90
+                        },
                         views: [{
                             type: "label",
                             props: {
@@ -337,9 +339,9 @@ class SettingUI {
                                 line: 1
                             },
                             layout: (make, view) => {
-                                make.left.right.inset(10)
+                                make.left.inset(10)
+                                make.top.equalTo(view.super.safeAreaTop).offset(50)
                                 make.height.equalTo(40)
-                                make.top.inset(30)
                             }
                         }]
                     },
@@ -369,10 +371,7 @@ class SettingUI {
                     },
                     data: this.get_sections(),
                 },
-                layout: make => {
-                    make.left.right.top.inset(0)
-                    make.bottom.inset(0)
-                }
+                layout: $layout.fillSafeArea
             }
         ]
     }

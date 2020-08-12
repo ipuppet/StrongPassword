@@ -40,7 +40,7 @@ class Factory {
             type: "matrix",
             props: {
                 id: "menu",
-                columns: 3,
+                columns: this.menu_data.length,
                 itemHeight: 50,
                 spacing: 0,
                 scrollEnabled: false,
@@ -113,18 +113,16 @@ class Factory {
                 navBarHidden: true,
                 statusBarStyle: 0,
             },
-            layout: $layout.fill,
+            layout: $layout.fillSafeArea,
             views: [
                 {
                     type: "view",
                     props: {
                         clipsToBounds: true,
                     },
-                    layout: (make, view) => {
-                        make.top.equalTo(view.super.safeAreaTop).offset(-10)
-                        make.width.equalTo(view.super)
-                        make.left.right.inset(0)
-                        make.bottom.inset(0)
+                    layout: make => {
+                        make.top.inset(20)
+                        make.left.right.bottom.inset(0)
                     },
                     views: views
                 },
