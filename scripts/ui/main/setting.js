@@ -1,61 +1,8 @@
 const info = JSON.parse($file.read("config.json"))['info']
 
-class SettingUI {
+class SettingUIBase {
     constructor(kernel) {
         this.kernel = kernel
-    }
-
-    readme() {
-        const content = $file.read("README.md").string
-        this.kernel.ui_push([{
-            type: "markdown",
-            props: {
-                content: content,
-            },
-            layout: (make, view) => {
-                make.size.equalTo(view.super)
-            }
-        }])
-    }
-
-    backup_to_iCloud() {
-        const backup_action = () => {
-            if (this.kernel.storage.backup_to_iCloud()) {
-                $ui.alert($l10n('BACKUP_SUCCESS'))
-            } else {
-                $ui.alert($l10n('BACKUP_ERROR'))
-            }
-        }
-        if (this.kernel.storage.has_backup()) {
-            $ui.alert({
-                title: $l10n("BACKUP"),
-                message: $l10n("ALREADY_HAS_BACKUP"),
-                actions: [
-                    {
-                        title: $l10n("OK"),
-                        handler: () => {
-                            backup_action()
-                        }
-                    },
-                    { title: $l10n("CANCEL") }
-                ]
-            })
-        } else {
-            backup_action()
-        }
-    }
-
-    recover_from_iCloud() {
-        $drive.open({
-            handler: data => {
-                if (this.kernel.storage.recover_from_iCloud(data)) {
-                    $ui.alert({
-                        title: $l10n("RECOVER"),
-                        message: $l10n("RECOVER_SUCCESS"),
-                    });
-                }
-            }
-        })
     }
 
     update_setting(key, value) {
@@ -412,6 +359,66 @@ class SettingUI {
 
     get_events() {
         return {}
+    }
+}
+
+class SettingUI extends SettingUIBase {
+    constructor(kernel) {
+        super(kernel)
+        this.kernel = kernel
+    }
+
+    readme() {
+        const content = $file.read("README.md").string
+        this.kernel.ui_push([{
+            type: "markdown",
+            props: {
+                content: content,
+            },
+            layout: (make, view) => {
+                make.size.equalTo(view.super)
+            }
+        }])
+    }
+
+    backup_to_iCloud() {
+        const backup_action = () => {
+            if (this.kernel.storage.backup_to_iCloud()) {
+                $ui.alert($l10n('BACKUP_SUCCESS'))
+            } else {
+                $ui.alert($l10n('BACKUP_ERROR'))
+            }
+        }
+        if (this.kernel.storage.has_backup()) {
+            $ui.alert({
+                title: $l10n("BACKUP"),
+                message: $l10n("ALREADY_HAS_BACKUP"),
+                actions: [
+                    {
+                        title: $l10n("OK"),
+                        handler: () => {
+                            backup_action()
+                        }
+                    },
+                    { title: $l10n("CANCEL") }
+                ]
+            })
+        } else {
+            backup_action()
+        }
+    }
+
+    recover_from_iCloud() {
+        $drive.open({
+            handler: data => {
+                if (this.kernel.storage.recover_from_iCloud(data)) {
+                    $ui.alert({
+                        title: $l10n("RECOVER"),
+                        message: $l10n("RECOVER_SUCCESS"),
+                    });
+                }
+            }
+        })
     }
 }
 
