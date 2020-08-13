@@ -1,7 +1,7 @@
-const { EditorUI } = require("./editor")
 class StorageUI {
     constructor(kernel) {
         this.kernel = kernel
+        const { EditorUI } = require("./editor")
         this.editor = new EditorUI(this.kernel)
         this.undo_time = 3000 // 撤销时间 毫秒
         this.undo_t = null // 撤销按钮

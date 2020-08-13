@@ -1,5 +1,3 @@
-const { settings } = require("cluster")
-
 class Generator {
     constructor(setting) {
         this.setting = setting
