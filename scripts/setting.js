@@ -1,8 +1,8 @@
 class Setting {
     constructor() {
-        this.path = "assets/setting.json"
+        this.path = "/assets/setting.json"
         this.setting = {}
-        this.struct = JSON.parse($file.read("setting.json"))
+        this.struct = JSON.parse($file.read("/setting.json"))
         let user = {}
         if ($file.exists(this.path)) {
             user = JSON.parse($file.read(this.path))
