@@ -55,7 +55,7 @@ class Factory {
                         },
                         layout: (make, view) => {
                             make.centerX.equalTo(view.super)
-                            make.width.height.equalTo(25)
+                            make.size.equalTo(25)
                             make.top.inset(7)
                         },
                     },
