@@ -5,13 +5,11 @@ class Factory {
         this.menu_data = [
             {
                 icon: {
-                    image: $image("assets/icon/password.png", "assets/icon/password-dark.png"),
-                    alpha: 1
+                    image: $image("assets/icon/password.png", "assets/icon/password-dark.png")
                 },
                 title: {
                     text: $l10n("PASSWORD"),
-                    textColor: $color("primaryText"),
-                    alpha: 1
+                    textColor: $color("primaryText")
                 }
             },
             {
@@ -36,6 +34,12 @@ class Factory {
     }
 
     menu() {
+        for (let i = 0; i < this.menu_data.length; i++) {
+            if (this.selected_page === i) {
+                this.menu_data[i].icon["alpha"] = 1
+                this.menu_data[i].title["alpha"] = 1
+            }
+        }
         return {
             type: "matrix",
             props: {
