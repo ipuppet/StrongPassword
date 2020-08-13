@@ -14,16 +14,12 @@ class SettingUIBase {
             type: "label",
             props: {
                 text: title,
-                textColor: $color({
-                    light: "primaryText",
-                    dark: "#545454"
-                }),
+                textColor: $color("primaryText"),
                 align: $align.left
             },
             layout: (make, view) => {
-                make.height.equalTo(50)
+                make.height.equalTo(view.super)
                 make.left.inset(15)
-                make.right.inset(100)
             }
         }
     }
@@ -43,8 +39,16 @@ class SettingUIBase {
                         align: $align.right,
                         textColor: $color("darkGray")
                     },
+                    layout: (make, view) => {
+                        make.centerY.equalTo(view.prev)
+                        make.right.inset(15)
+                        make.width.equalTo(200)
+                    }
+                },
+                {// 监听点击动作
+                    type: "view",
                     events: {
-                        tapped: function () {
+                        tapped: () => {
                             $ui.alert({
                                 title: title,
                                 message: more_info,
@@ -62,9 +66,8 @@ class SettingUIBase {
                         }
                     },
                     layout: (make, view) => {
-                        make.centerY.equalTo(view.prev)
-                        make.right.inset(15)
-                        make.width.equalTo(200)
+                        make.right.inset(0)
+                        make.size.equalTo(view.super)
                     }
                 }
             ],
@@ -72,7 +75,7 @@ class SettingUIBase {
         }
     }
 
-    create_switch(id, title, on = true) {
+    create_switch(key, title, on = true) {
         return {
             type: "view",
             views: [
@@ -84,7 +87,7 @@ class SettingUIBase {
                     },
                     events: {
                         changed: sender => {
-                            if (!this.update_setting(id, sender.on)) {
+                            if (!this.update_setting(key, sender.on)) {
                                 sender.on = !sender.on
                             }
                         }
@@ -99,7 +102,7 @@ class SettingUIBase {
         }
     }
 
-    create_string(id, title, text = "") {
+    create_string(key, title, text = "") {
         return {
             type: "view",
             views: [
@@ -125,11 +128,11 @@ class SettingUIBase {
                                     {
                                         type: "text",
                                         props: {
-                                            id: id,
+                                            id: key,
                                             align: $align.left,
                                             text: text
                                         },
-                                        layout: (make, view) => {
+                                        layout: make => {
                                             make.left.right.inset(10)
                                             make.top.inset(20)
                                             make.height.equalTo(90)
@@ -143,14 +146,14 @@ class SettingUIBase {
                                             titleEdgeInsets: 10,
                                             contentEdgeInsets: 0,
                                         },
-                                        layout: (make, view) => {
+                                        layout: make => {
                                             make.right.inset(10)
                                             make.bottom.inset(25)
-                                            make.height.width.equalTo(30)
+                                            make.size.equalTo(30)
                                         },
                                         events: {
                                             tapped: () => {
-                                                if (this.update_setting(id, $(id).text)) {
+                                                if (this.update_setting(key, $(key).text)) {
                                                     popover.dismiss()
                                                 }
                                             }
@@ -163,7 +166,7 @@ class SettingUIBase {
                     layout: (make, view) => {
                         make.centerY.equalTo(view.prev)
                         make.right.inset(15)
-                        make.height.width.equalTo(25)
+                        make.size.equalTo(25)
                     }
                 }
             ],
@@ -171,7 +174,7 @@ class SettingUIBase {
         }
     }
 
-    create_stepper(id, title, value = 1, min = 1, max = 12) {
+    create_stepper(key, title, value = 1, min = 1, max = 12) {
         return {
             type: "view",
             views: [
@@ -179,16 +182,13 @@ class SettingUIBase {
                 {
                     type: "label",
                     props: {
-                        id: id,
+                        id: key,
                         text: value,
-                        textColor: $color({
-                            light: "primaryText",
-                            dark: "#545454"
-                        }),
+                        textColor: $color("primaryText"),
                         align: $align.left
                     },
                     layout: (make, view) => {
-                        make.height.equalTo(50)
+                        make.height.equalTo(view.super)
                         make.right.inset(120)
                     }
                 },
@@ -201,9 +201,9 @@ class SettingUIBase {
                     },
                     events: {
                         changed: (sender) => {
-                            $(id).text = sender.value
-                            if (!this.update_setting(id, sender.value)) {
-                                $(id).text = this.kernel.setting.get(id)
+                            $(key).text = sender.value
+                            if (!this.update_setting(key, sender.value)) {
+                                $(key).text = this.kernel.setting.get(key)
                             }
                         }
                     },
@@ -256,6 +256,38 @@ class SettingUIBase {
                         make.right.inset(15)
                         make.height.equalTo(50)
                         make.width.equalTo(view.super)
+                    }
+                }
+            ],
+            layout: $layout.fill,
+        }
+    }
+
+    create_tab(key, title, items, value) {
+        for (let i = 0; i < items.length; i++) {
+            items[i] = $l10n(items[i])
+        }
+        return {
+            type: "view",
+            views: [
+                this.create_line_label(title),
+                {
+                    type: "tab",
+                    props: {
+                        items: items,
+                        index: value,
+                        dynamicWidth: true,
+                    },
+                    layout: (make, view) => {
+                        make.right.inset(15)
+                        make.centerY.equalTo(view.prev)
+                    },
+                    events: {
+                        changed: (sender) => {
+                            let items = sender.items
+                            let index = sender.index
+                            this.update_setting(key, index)
+                        }
                     }
                 }
             ],
@@ -345,6 +377,9 @@ class SettingUIBase {
                         break
                     case "script":
                         row = this.create_script($l10n(item.title), value)
+                        break
+                    case "tab":
+                        row = this.create_tab(item.key, $l10n(item.title), item.items, value)
                         break
                 }
                 rows.push(row)
