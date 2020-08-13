@@ -284,9 +284,7 @@ class SettingUIBase {
                     },
                     events: {
                         changed: (sender) => {
-                            let items = sender.items
-                            let index = sender.index
-                            this.update_setting(key, index)
+                            this.update_setting(key, sender.index)
                         }
                     }
                 }
