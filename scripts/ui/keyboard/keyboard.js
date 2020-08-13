@@ -14,7 +14,7 @@ class KeyboardUI {
 
     generate_button_handler() {
         if (!$cache.get("password")) {
-            $cache.set("password", this.kernel.generate_strong_password())
+            $cache.set("password", this.kernel.generator.generate())
             // 显示密码
             $("password").title = $cache.get("password")
             // 是否自动复制
