@@ -398,7 +398,6 @@ class SettingUIBase {
 class SettingUI extends SettingUIBase {
     constructor(kernel) {
         super(kernel)
-        this.kernel = kernel
     }
 
     readme() {
