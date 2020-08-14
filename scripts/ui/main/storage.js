@@ -1,7 +1,8 @@
+const EditorUI = require("./editor")
+
 class StorageUI {
     constructor(kernel) {
         this.kernel = kernel
-        const { EditorUI } = require("./editor")
         this.editor = new EditorUI(this.kernel)
         this.undo_time = 3000 // 撤销时间 毫秒
         this.undo_t = null // 撤销按钮
@@ -79,13 +80,13 @@ class StorageUI {
     }
 
     get_views() {
-        let delete_confirm = this.kernel.setting.get("setting.general.delete_confirm")
         this.data = this.password_list_to_ui(this.kernel.storage.all())
         return [
             {
                 type: "label",
                 props: {
                     text: $l10n("STORAGE"),
+                    textColor: $color("primaryText", "secondaryText"),
                     align: $align.left,
                     font: $font("bold", 34),
                     line: 1,
@@ -152,10 +153,11 @@ class StorageUI {
                     },
                     data: this.data,
                     actions: [{
-                        title: delete_confirm ? $l10n("DELETE") : "delete",
+                        title: $l10n("DELETE"),
                         color: $color("red"),
                         handler: (sender, indexPath) => {
                             let delete_action = () => {
+                                sender.delete(indexPath)
                                 let id = this.data[indexPath.item].id.text
                                 let password = this.data[indexPath.item]
                                 this.data = sender.data
@@ -164,6 +166,7 @@ class StorageUI {
                                     indexPath: indexPath,
                                     value: password
                                 })
+                                $cache.set("list", sender.data)
                                 // 显示按钮
                                 $("undo").hidden = false
                                 // 按钮消失
@@ -171,13 +174,16 @@ class StorageUI {
                                 this.undo_t = setTimeout(() => {
                                     $("undo").hidden = true
                                     $cache.remove("delete")
+                                    $cache.remove("list")
                                 }, this.undo_time)
                                 // 执行真正删除操作
                                 this.delete_t = setTimeout(() => {
                                     if (this.kernel.storage.delete(id)) {
-                                        //$ui.success($l10n("DELETE_SUCCESS"))
+                                        if ($("password_list").data[indexPath.item].id.text === id) {
+                                            $("password_list").delete(indexPath)
+                                        }
                                     } else {
-                                        sender.insert({
+                                        $("password_list").insert({
                                             indexPath: indexPath,
                                             value: password
                                         })
@@ -186,7 +192,7 @@ class StorageUI {
                                     }
                                 }, this.undo_time)
                             }
-                            if (delete_confirm) {
+                            if (this.kernel.setting.get("setting.general.delete_confirm")) {
                                 $ui.alert({
                                     title: $l10n("ALERT_INFO"),
                                     message: $l10n("CONFIRM_DELETE_MSG"),
@@ -194,7 +200,6 @@ class StorageUI {
                                         {
                                             title: $l10n("OK"),
                                             handler: () => {
-                                                sender.delete(indexPath)
                                                 delete_action()
                                             }
                                         },
@@ -304,8 +309,10 @@ class StorageUI {
                 type: "view",
                 props: {
                     id: "undo",
-                    hidden: true,
-                    bgcolor: $color("#00FFFF"),
+                    hidden: this.undo_t === null,
+                    bgcolor: $color("primarySurface"),
+                    borderWidth: 1,
+                    borderColor: $color("systemGray6"),
                     cornerRadius: 20,
                 },
                 views: [
@@ -314,7 +321,7 @@ class StorageUI {
                         props: {
                             font: $font(18),
                             text: $l10n("UNDO"),
-                            textColor: $color("white"),
+                            textColor: $color("primaryText", "secondaryText"),
                             align: $align.center
                         },
                         layout: (make, view) => {
@@ -325,7 +332,8 @@ class StorageUI {
                     {
                         type: "button",
                         props: {
-                            image: $image("assets/icon/undo-white.png"),
+                            symbol: "arrow.counterclockwise",
+                            tintColor: $color("primaryText", "secondaryText"),
                             bgcolor: $color("clear")
                         },
                         layout: (make, view) => {
@@ -346,37 +354,27 @@ class StorageUI {
                         $("password_list").insert($cache.get("delete"))
                         this.data = $("password_list").data
                         $cache.remove("delete")
+                        $cache.remove("list")
                     }
                 },
                 layout: (make, view) => {
                     make.centerX.equalTo(view.super)
-                    if ($device.isIphoneX) {
-                        make.bottom.inset(55 + 60)
-                    } else {
-                        make.bottom.inset(55 + 20)
-                    }
                     make.height.equalTo(40)
                     make.width.equalTo(125)
+                    make.bottom.equalTo(view.super.safeAreaBottom).offset(-75)
                 },
             },
             {
                 type: "button",
                 props: {
-                    title: "+",
-                    font: $font(26),
-                    titleColor: $color({
-                        light: "#ADADAD",
-                        dark: "#C0C0C0"
-                    }),
+                    symbol: "plus",
+                    tintColor: $color("primaryText", "secondaryText"),
                     bgcolor: $color("clear")
                 },
-                layout: make => {
+                layout: (make, view) => {
                     make.right.inset(20)
-                    if ($device.isIphoneX) {
-                        make.bottom.inset(55 + 60)
-                    } else {
-                        make.bottom.inset(55 + 20)
-                    }
+                    make.size.equalTo(30)
+                    make.bottom.equalTo(view.super.safeAreaBottom).offset(-80)
                 },
                 events: {
                     tapped: () => {
@@ -393,7 +391,8 @@ class StorageUI {
                 // 直接写会不明原因无法更新
                 // 放到箭头函数里就没问题
                 let update = () => {
-                    this.data = this.password_list_to_ui(this.kernel.storage.all())
+                    let cache = $cache.get("list")
+                    this.data = cache ? cache : this.password_list_to_ui(this.kernel.storage.all())
                     $("password_list").data = this.data
                 }
                 update()
@@ -402,6 +401,4 @@ class StorageUI {
     }
 }
 
-module.exports = {
-    StorageUI: StorageUI
-}
+module.exports = StorageUI

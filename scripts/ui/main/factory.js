@@ -2,44 +2,46 @@ class Factory {
     constructor(kernel) {
         this.kernel = kernel
         this.selected_page = 0 // 首页屏幕 0首页 1储藏室 2设置
+        this.events = {}
+        this.page_index = [
+            "home",
+            "storage",
+            "setting",
+        ]
         this.menu_data = [
             {
-                icon: {
-                    image: $image("assets/icon/password.png", "assets/icon/password-dark.png")
-                },
-                title: {
-                    text: $l10n("PASSWORD"),
-                    textColor: $color("primaryText")
-                }
+                icon: { symbol: "lock.circle" },
+                title: { text: $l10n("PASSWORD") }
             },
             {
-                icon: {
-                    image: $image("assets/icon/storage.png", "assets/icon/storage-dark.png")
-                },
-                title: {
-                    text: $l10n("STORAGE"),
-                    textColor: $color("primaryText")
-                }
+                icon: { symbol: "archivebox" },
+                title: { text: $l10n("STORAGE") }
             },
             {
-                icon: {
-                    image: $image("assets/icon/setting.png", "assets/icon/setting-dark.png")
-                },
-                title: {
-                    text: $l10n("SETTING"),
-                    textColor: $color("primaryText")
-                }
+                icon: { symbol: "gear" },
+                title: { text: $l10n("SETTING") }
             }
         ]
     }
 
-    menu() {
+    get_menu_data() {
         for (let i = 0; i < this.menu_data.length; i++) {
             if (this.selected_page === i) {
                 this.menu_data[i].icon["alpha"] = 1
                 this.menu_data[i].title["alpha"] = 1
+                this.menu_data[i].icon["tintColor"] = $color("systemLink")
+                this.menu_data[i].title["textColor"] = $color("systemLink")
+            } else {
+                this.menu_data[i].icon["alpha"] = 0.5
+                this.menu_data[i].title["alpha"] = 0.5
+                this.menu_data[i].icon["tintColor"] = $color("primaryText")
+                this.menu_data[i].title["textColor"] = $color("primaryText")
             }
         }
+        return this.menu_data
+    }
+
+    menu() {
         return {
             type: "matrix",
             props: {
@@ -54,8 +56,7 @@ class Factory {
                         type: "image",
                         props: {
                             id: "icon",
-                            bgcolor: $color("clear"),
-                            alpha: 0.5
+                            bgcolor: $color("clear")
                         },
                         layout: (make, view) => {
                             make.centerX.equalTo(view.super)
@@ -67,8 +68,7 @@ class Factory {
                         type: "label",
                         props: {
                             id: "title",
-                            font: $font(10),
-                            alpha: 0.5
+                            font: $font(10)
                         },
                         layout: (make, view) => {
                             make.centerX.equalTo(view.prev)
@@ -76,7 +76,7 @@ class Factory {
                         }
                     }
                 ],
-                data: this.menu_data,
+                data: this.get_menu_data(),
             },
             layout: (make, view) => {
                 make.top.inset(0)
@@ -90,27 +90,63 @@ class Factory {
             },
             events: {
                 didSelect: (sender, indexPath) => {
-                    let new_data = []
-                    for (let i in sender.data) {
-                        let tmp = sender.data[i]
-                        if (Number(i) === indexPath.item) {
-                            tmp.title["alpha"] = 1
-                            tmp.icon["alpha"] = 1
-                        } else {
-                            tmp.title["alpha"] = 0.5
-                            tmp.icon["alpha"] = 0.5
-                        }
-                        new_data.push(tmp)
-                    }
-                    this.menu_data = new_data
                     this.selected_page = indexPath.item
-                    this.render()
+                    for (let i = 0; i < this.page_index.length; i++) {
+                        if (i === this.selected_page) {
+                            if (this.events[i]["appeared"])
+                                this.events[i].appeared()
+                            $(this.page_index[i]).hidden = false
+                        }
+                        else {
+                            $(this.page_index[i]).hidden = true
+                        }
+                    }
+                    setTimeout(() => { sender.data = this.get_menu_data() }, 60)
                 }
             }
         }
     }
 
-    creator(views, events) {
+    creator(views, events, index) {
+        this.events[index] = events
+        return {
+            type: "view",
+            props: {
+                id: this.page_index[index],
+                hidden: this.selected_page !== index,
+                clipsToBounds: true,
+            },
+            layout: (make, view) => {
+                make.size.equalTo(view.super)
+            },
+            views: views
+        }
+    }
+
+    home() {
+        const HomeUI = require("./home")
+        let ui_interface = new HomeUI(this.kernel)
+        return this.creator(ui_interface.get_views(), ui_interface.get_events(), 0)
+    }
+
+    storage() {
+        const StorageUI = require("./storage")
+        let ui_interface = new StorageUI(this.kernel)
+        return this.creator(ui_interface.get_views(), ui_interface.get_events(), 1)
+    }
+
+    setting() {
+        const SettingUI = require("./setting")
+        let ui_interface = new SettingUI(this.kernel)
+        return this.creator(ui_interface.get_views(), ui_interface.get_events(), 2)
+    }
+
+    render() {
+        const views = [
+            this.home(),
+            this.storage(),
+            this.setting(),
+        ]
         $ui.render({
             type: "view",
             props: {
@@ -166,43 +202,9 @@ class Factory {
                         }
                     }
                 }
-            ],
-            events: events
+            ]
         })
     }
-
-    render() {
-        const create_home = () => {
-            const { HomeUI } = require("./home")
-            let ui_interface = new HomeUI(this.kernel)
-            this.creator(ui_interface.get_views(), ui_interface.get_events())
-        }
-        const create_storage = () => {
-            const { StorageUI } = require("./storage")
-            let ui_interface = new StorageUI(this.kernel)
-            this.creator(ui_interface.get_views(), ui_interface.get_events())
-        }
-        const create_setting = () => {
-            const { SettingUI } = require("./setting")
-            let ui_interface = new SettingUI(this.kernel)
-            this.creator(ui_interface.get_views(), ui_interface.get_events())
-        }
-        switch (this.selected_page) {
-            case 0: // 首页
-                create_home()
-                break
-            case 1: // 储藏室
-                create_storage()
-                break
-            case 2: // 设置
-                create_setting()
-                break
-            default:
-                return
-        }
-    }
 }
 
-module.exports = {
-    Factory: Factory
-}
+module.exports = Factory

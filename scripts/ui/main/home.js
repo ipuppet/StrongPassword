@@ -1,3 +1,5 @@
+const EditorUI = require("./editor")
+
 class HomeUI {
     constructor(kernel) {
         this.kernel = kernel
@@ -45,11 +47,12 @@ class HomeUI {
                 type: "label",
                 props: {
                     text: $l10n("STRONG_PASSWORD_APP"),
+                    textColor: $color("primaryText", "secondaryText"),
                     align: $align.left,
                     font: $font("bold", 34),
                     line: 1,
                 },
-                layout: (make,view) => {
+                layout: (make, view) => {
                     make.left.right.inset(10)
                     make.height.equalTo(40)
                     make.top.equalTo(view.super.safeAreaTop).offset(50)
@@ -62,14 +65,8 @@ class HomeUI {
                     title: $cache.get("password"),
                     align: $align.center,
                     editable: false,
-                    bgcolor: $color({
-                        light: "#eff0f2",
-                        dark: "#4B4B4B"
-                    }),
-                    titleColor: $color({
-                        light: "#4B4B4B",
-                        dark: "#DDDDDD"
-                    })
+                    bgcolor: $color("systemGray2", "systemFill"),
+                    textColor: $color("primaryText", "secondaryText"),
                 },
                 layout: (make, view) => {
                     make.left.right.inset(10)
@@ -89,10 +86,7 @@ class HomeUI {
                     align: $align.left,
                     line: 1,
                     font: $font(12),
-                    textColor: $color({
-                        light: "#C0C0C0",
-                        dark: "#DDDDDD"
-                    })
+                    textColor: $color("systemPlaceholderText")
                 },
                 layout: make => {
                     make.left.inset(10)
@@ -112,7 +106,6 @@ class HomeUI {
                 events: {
                     tapped: () => {
                         if ($cache.get("password")) {
-                            const { EditorUI } = require("./editor")
                             new EditorUI(this.kernel).push({ password: $cache.get("password") })
                         }
                     }
@@ -142,6 +135,4 @@ class HomeUI {
     }
 }
 
-module.exports = {
-    HomeUI: HomeUI
-}
+module.exports = HomeUI

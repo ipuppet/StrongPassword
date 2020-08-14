@@ -28,6 +28,4 @@ class Setting {
     }
 }
 
-module.exports = {
-    Setting: Setting
-}
+module.exports = Setting

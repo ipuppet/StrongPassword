@@ -14,7 +14,7 @@ class SettingUIBase {
             type: "label",
             props: {
                 text: title,
-                textColor: $color("primaryText"),
+                textColor: $color("primaryText", "secondaryText"),
                 align: $align.left
             },
             layout: (make, view) => {
@@ -110,12 +110,9 @@ class SettingUIBase {
                 {
                     type: "button",
                     props: {
-                        image: $image("assets/icon/edit.png", "assets/icon/edit-dark.png"),
+                        symbol: "square.and.pencil",
                         bgcolor: $color("clear"),
-                        titleColor: $color({
-                            light: "#ADADAD",
-                            dark: "#C0C0C0"
-                        })
+                        tintColor: $color("primaryText"),
                     },
                     events: {
                         tapped: sender => {
@@ -166,7 +163,7 @@ class SettingUIBase {
                     layout: (make, view) => {
                         make.centerY.equalTo(view.prev)
                         make.right.inset(15)
-                        make.size.equalTo(25)
+                        make.size.equalTo(50)
                     }
                 }
             ],
@@ -184,7 +181,7 @@ class SettingUIBase {
                     props: {
                         id: key,
                         text: value,
-                        textColor: $color("primaryText"),
+                        textColor: $color("primaryText", "secondaryText"),
                         align: $align.left
                     },
                     layout: (make, view) => {
@@ -228,9 +225,9 @@ class SettingUIBase {
                         {// 仅用于显示图片
                             type: "button",
                             props: {
+                                symbol: "chevron.right",
                                 bgcolor: $color("clear"),
-                                image: $imagekit.flip(
-                                    $image("assets/icon/back.png", "assets/icon/back-dark.png"), 1)
+                                tintColor: $color("primaryText", "secondaryText")
                             },
                             layout: (make, view) => {
                                 make.centerY.equalTo(view.super)
@@ -311,6 +308,7 @@ class SettingUIBase {
                             type: "label",
                             props: {
                                 text: $l10n("SETTING"),
+                                textColor: $color("primaryText", "secondaryText"),
                                 align: $align.left,
                                 font: $font("bold", 34),
                                 line: 1
@@ -454,6 +452,4 @@ class SettingUI extends SettingUIBase {
     }
 }
 
-module.exports = {
-    SettingUI: SettingUI
-}
+module.exports = SettingUI

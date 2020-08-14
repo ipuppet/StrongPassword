@@ -116,6 +116,4 @@ class Storage {
     }
 }
 
-module.exports = {
-    Storage: Storage
-}
+module.exports = Storage

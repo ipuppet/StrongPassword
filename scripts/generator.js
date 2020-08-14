@@ -29,6 +29,4 @@ class Generator {
     }
 }
 
-module.exports = {
-    Generator: Generator
-}
+module.exports = Generator

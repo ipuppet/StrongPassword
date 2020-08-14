@@ -5,17 +5,17 @@ class MainUI {
     }
 
     ui_main() {
-        const { Factory } = require("./main/factory")
+        const Factory = require("./main/factory")
         new Factory(this.kernel).render()
     }
 
     ui_keyboard() {
-        const { KeyboardUI } = require("./keyboard/keyboard")
+        const KeyboardUI = require("./keyboard/keyboard")
         new KeyboardUI(this.kernel).render()
     }
 
-    ui_today(){
-        const { TodayUI } = require("./today/today")
+    ui_today() {
+        const TodayUI = require("./today/today")
         new TodayUI(this.kernel).render()
     }
 
@@ -40,6 +40,4 @@ class MainUI {
     }
 }
 
-module.exports = {
-    MainUI: MainUI
-}
+module.exports = MainUI

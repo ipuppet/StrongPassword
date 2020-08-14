@@ -37,8 +37,8 @@ class EditorUI {
             {
                 type: "button",
                 props: {
-                    title: $l10n("COPY"),
-                    image: $image("assets/icon/copy.png", "assets/icon/copy-dark.png"),
+                    symbol: "doc.on.doc",
+                    tintColor: $color("primaryText", "secondaryText"),
                     bgcolor: $color("clear")
                 },
                 layout: make => {
@@ -59,8 +59,8 @@ class EditorUI {
             {
                 type: "button",
                 props: {
-                    title: $l10n("SAVE"),
-                    image: $image("assets/icon/check.png", "assets/icon/check-dark.png"),
+                    symbol: "checkmark",
+                    tintColor: $color("primaryText", "secondaryText"),
                     bgcolor: $color("clear")
                 },
                 layout: make => {
@@ -87,12 +87,9 @@ class EditorUI {
                 type: "label",
                 props: {
                     text: $l10n("ACCOUNT"),
+                    textColor: $color("primaryText", "secondaryText"),
                     align: $align.left,
                     font: $font(16),
-                    textColor: $color({
-                        light: "#C0C0C0",
-                        dark: "#DDDDDD"
-                    }),
                     line: 1,
                 },
                 layout: make => {
@@ -110,6 +107,7 @@ class EditorUI {
                     insets: 0,
                     text: password.account,
                     placeholder: $l10n("ACCOUNT"),
+                    textColor: $color("primaryText", "secondaryText"),
                 },
                 layout: (make, view) => {
                     make.right.inset(10)
@@ -126,12 +124,9 @@ class EditorUI {
                 type: "label",
                 props: {
                     text: $l10n("PASSWORD"),
+                    textColor: $color("primaryText", "secondaryText"),
                     align: $align.left,
                     font: $font(16),
-                    textColor: $color({
-                        light: "#C0C0C0",
-                        dark: "#DDDDDD"
-                    }),
                     line: 1,
                 },
                 layout: (make, view) => {
@@ -148,6 +143,7 @@ class EditorUI {
                     align: $align.left,
                     text: password.password,
                     placeholder: $l10n("PASSWORD"),
+                    textColor: $color("primaryText", "secondaryText"),
                 },
                 layout: (make, view) => {
                     make.right.inset(10)
@@ -171,11 +167,8 @@ class EditorUI {
                         props: {
                             height: 20,
                             text: $l10n("WEBSITE"),
-                            textColor: $color({
-                                light: "#C0C0C0",
-                                dark: "#DDDDDD"
-                            }),
                             align: $align.left,
+                            textColor: $color("primaryText", "secondaryText"),
                             font: $font(12)
                         }
                     },
@@ -196,13 +189,9 @@ class EditorUI {
             {
                 type: "button",
                 props: {
-                    title: "+",
-                    bgcolor: $color("clear"),
-                    font: $font(25),
-                    titleColor: $color({
-                        light: "#ADADAD",
-                        dark: "#C0C0C0"
-                    })
+                    symbol: "plus",
+                    tintColor: $color("primaryText", "secondaryText"),
+                    bgcolor: $color("clear")
                 },
                 layout: (make, view) => {
                     make.right.inset(10)
@@ -246,19 +235,14 @@ class EditorUI {
                                 {
                                     type: "button",
                                     props: {
-                                        title: "+",
-                                        titleColor: $color({
-                                            light: "#ADADAD",
-                                            dark: "#C0C0C0"
-                                        }),
-                                        titleEdgeInsets: 10,
-                                        contentEdgeInsets: 0,
+                                        symbol: "plus",
+                                        tintColor: $color("primaryText", "secondaryText"),
+                                        bgcolor: $color("clear")
                                     },
                                     layout: make => {
                                         make.right.inset(10)
-                                        make.width.equalTo(30)
-                                        make.height.equalTo(30)
-                                        make.centerY.equalTo(0).offset(20)
+                                        make.size.equalTo(30)
+                                        make.bottom.inset(40)
                                     },
                                     events: {
                                         tapped: () => {
@@ -284,6 +268,4 @@ class EditorUI {
     }
 }
 
-module.exports = {
-    EditorUI: EditorUI
-}
+module.exports = EditorUI

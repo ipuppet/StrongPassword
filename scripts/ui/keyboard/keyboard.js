@@ -392,6 +392,4 @@ class KeyboardUI {
     }
 }
 
-module.exports = {
-    KeyboardUI: KeyboardUI
-}
+module.exports = KeyboardUI

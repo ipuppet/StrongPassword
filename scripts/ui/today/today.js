@@ -391,6 +391,4 @@ class TodayUI {
     }
 }
 
-module.exports = {
-    TodayUI: TodayUI
-}
+module.exports = TodayUI
