@@ -36,7 +36,7 @@ class Storage {
     search(kw) {
         let result = this.sqlite.query({
             sql: "SELECT * FROM password WHERE account like ? or website like ?",
-            args: ["%" + kw + "%", "%" + kw + "%"]
+            args: [`%${kw}%`, `%${kw}%`]
         })
         let data = this.parse(result)
         return data
