@@ -4,6 +4,7 @@ class StorageUI {
     constructor(kernel) {
         this.kernel = kernel
         this.editor = new EditorUI(this.kernel)
+        $cache.set("storage_list", this.to_list_template(this.kernel.storage.all()))
         this.undo_time = 3000 // 撤销时间 毫秒
         this.undo_t = null // 撤销按钮
         this.delete_t = null // 真正的删除操作
@@ -11,14 +12,14 @@ class StorageUI {
 
     search(kw) {
         if (kw === "") {
-            $("password_list").data = this.password_list_to_ui(this.kernel.storage.all())
+            $("storage_list").data = this.to_list_template(this.kernel.storage.all())
             return
         }
         let data = this.kernel.storage.search(kw)
         if (data.length > 0) {
-            $("password_list").data = this.password_list_to_ui(data)
+            $("storage_list").data = this.to_list_template(data)
         } else {
-            $("password_list").data = [{
+            $("storage_list").data = [{
                 id: {
                     text: ""
                 },
@@ -44,7 +45,7 @@ class StorageUI {
         }
     }
 
-    password_list_to_ui(data) {
+    to_list_template(data) {
         function get_label(password) {
             return {
                 id: {
@@ -80,7 +81,6 @@ class StorageUI {
     }
 
     get_views() {
-        this.data = this.password_list_to_ui(this.kernel.storage.all())
         return [
             {
                 type: "label",
@@ -125,7 +125,7 @@ class StorageUI {
             {
                 type: "list",
                 props: {
-                    id: "password_list",
+                    id: "storage_list",
                     style: 1,
                     reorder: false,
                     indicatorInsets: $insets(0, 0, 50, 0),
@@ -151,43 +151,39 @@ class StorageUI {
                             }
                         ]
                     },
-                    data: this.data,
+                    data: $cache.get("storage_list"),
                     actions: [{
-                        title: $l10n("DELETE"),
+                        title: "delete",
                         color: $color("red"),
                         handler: (sender, indexPath) => {
+                            // 缓存storage_list延后更新，用来获取列表中被删除的条目的信息
+                            let password = $cache.get("storage_list")[indexPath.item]
                             let delete_action = () => {
-                                sender.delete(indexPath)
-                                let id = this.data[indexPath.item].id.text
-                                let password = this.data[indexPath.item]
-                                this.data = sender.data
+                                let id = $cache.get("storage_list")[indexPath.item].id.text
+                                // 更新缓存内容
+                                $cache.set("storage_list", sender.data)
                                 // 将被删除的内容写入缓存，用于撤销
-                                $cache.set("delete", {
+                                $cache.set("storage_deleted", {
                                     indexPath: indexPath,
                                     value: password
                                 })
-                                $cache.set("list", sender.data)
                                 // 显示按钮
                                 $("undo").hidden = false
-                                // 按钮消失
                                 clearTimeout(this.undo_t)// 防止按钮显示错乱
+                                // 按钮消失倒计时
                                 this.undo_t = setTimeout(() => {
                                     $("undo").hidden = true
-                                    $cache.remove("delete")
-                                    $cache.remove("list")
+                                    $cache.remove("storage_deleted")
                                 }, this.undo_time)
-                                // 执行真正删除操作
+                                // 真正删除操作
                                 this.delete_t = setTimeout(() => {
-                                    if (this.kernel.storage.delete(id)) {
-                                        if ($("password_list").data[indexPath.item].id.text === id) {
-                                            $("password_list").delete(indexPath)
-                                        }
-                                    } else {
-                                        $("password_list").insert({
+                                    if (!this.kernel.storage.delete(id)) {
+                                        sender.insert({
                                             indexPath: indexPath,
                                             value: password
                                         })
-                                        this.data.splice(indexPath.item, password)
+                                        // 删除失败，恢复缓存内容
+                                        $cache.set("storage_list", sender.data)
                                         $ui.error($l10n("DELETE_ERROR"))
                                     }
                                 }, this.undo_time)
@@ -203,7 +199,15 @@ class StorageUI {
                                                 delete_action()
                                             }
                                         },
-                                        { title: $l10n("CANCEL") }
+                                        {
+                                            title: $l10n("CANCEL"),
+                                            handler: () => {
+                                                sender.insert({
+                                                    indexPath: indexPath,
+                                                    value: password
+                                                })
+                                            }
+                                        }
                                     ]
                                 })
                             } else {
@@ -296,7 +300,7 @@ class StorageUI {
                                 website: JSON.parse(sender.object(indexPath).website_data.text),
                                 date: sender.object(indexPath).date.text
                             }
-                            this.editor.push(password)
+                            this.editor.push(password, indexPath.item)
                         }
                     }
                 },
@@ -351,10 +355,9 @@ class StorageUI {
                         // 隐藏按钮
                         $("undo").hidden = true
                         // 将被删除的列表项重新插入
-                        $("password_list").insert($cache.get("delete"))
-                        this.data = $("password_list").data
-                        $cache.remove("delete")
-                        $cache.remove("list")
+                        $("storage_list").insert($cache.get("storage_deleted"))
+                        $cache.set("storage_list", $("storage_list").data)
+                        $cache.remove("storage_deleted")
                     }
                 },
                 layout: (make, view) => {
@@ -383,21 +386,6 @@ class StorageUI {
                 }
             }
         ]
-    }
-
-    get_events() {
-        return {
-            appeared: async () => {
-                // 直接写会不明原因无法更新
-                // 放到箭头函数里就没问题
-                let update = () => {
-                    let cache = $cache.get("list")
-                    this.data = cache ? cache : this.password_list_to_ui(this.kernel.storage.all())
-                    $("password_list").data = this.data
-                }
-                update()
-            }
-        }
     }
 }
 

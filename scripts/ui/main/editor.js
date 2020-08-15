@@ -3,7 +3,7 @@ class EditorUI {
         this.kernel = kernel
     }
 
-    save(password, is_update = false) {
+    save(password, is_update, index) {
         if (password.password === "") {
             $ui.toast($l10n("NO_PASSWORD"))
             return false
@@ -16,6 +16,36 @@ class EditorUI {
         }
         if (result) {
             $ui.success($l10n("SAVE_SUCCESS"))
+            // 更新storage_list缓存
+            let list = $cache.get("storage_list")
+            let template = {
+                id: {
+                    text: password.id
+                },
+                website_data: {
+                    text: JSON.stringify(password.website)
+                },
+                website: {
+                    text: password.website.length > 0 ? password.website[0] : "NULL"
+                },
+                password: {
+                    text: password.password
+                },
+                account: {
+                    text: password.account
+                },
+                date: {
+                    text: password.date
+                },
+                no_result: {
+                    text: ""
+                }
+            }
+            if (is_update) list[index] = template
+            else list.push(template)
+            $cache.set("storage_list", list)
+            // 更新列表
+            $("storage_list").data = list
             setTimeout(() => {
                 $ui.pop()
             }, 500)
@@ -24,7 +54,7 @@ class EditorUI {
         }
     }
 
-    push(password = null) {
+    push(password = null, index = null) {
         if (password === null) {
             password = {
                 account: "",
@@ -77,7 +107,7 @@ class EditorUI {
                         if (undefined !== password.id) {
                             is_update = true
                         }
-                        this.save(password, is_update)
+                        this.save(password, is_update, index)
                     }
                 }
             }

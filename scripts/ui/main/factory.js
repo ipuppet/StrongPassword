@@ -1,27 +1,7 @@
-class Factory {
+class FactoryBase {
     constructor(kernel) {
         this.kernel = kernel
-        this.selected_page = 0 // 首页屏幕 0首页 1储藏室 2设置
-        this.events = {}
-        this.page_index = [
-            "home",
-            "storage",
-            "setting",
-        ]
-        this.menu_data = [
-            {
-                icon: { symbol: "lock.circle" },
-                title: { text: $l10n("PASSWORD") }
-            },
-            {
-                icon: { symbol: "archivebox" },
-                title: { text: $l10n("STORAGE") }
-            },
-            {
-                icon: { symbol: "gear" },
-                title: { text: $l10n("SETTING") }
-            }
-        ]
+        this.selected_page = 0 // 当前显示的页面
     }
 
     get_menu_data() {
@@ -93,22 +73,19 @@ class Factory {
                     this.selected_page = indexPath.item
                     for (let i = 0; i < this.page_index.length; i++) {
                         if (i === this.selected_page) {
-                            if (this.events[i]["appeared"])
-                                this.events[i].appeared()
                             $(this.page_index[i]).hidden = false
                         }
                         else {
                             $(this.page_index[i]).hidden = true
                         }
                     }
-                    setTimeout(() => { sender.data = this.get_menu_data() }, 60)
+                    setTimeout(() => { sender.data = this.get_menu_data() }, 100)
                 }
             }
         }
     }
 
-    creator(views, events, index) {
-        this.events[index] = events
+    creator(views, index) {
         return {
             type: "view",
             props: {
@@ -123,30 +100,7 @@ class Factory {
         }
     }
 
-    home() {
-        const HomeUI = require("./home")
-        let ui_interface = new HomeUI(this.kernel)
-        return this.creator(ui_interface.get_views(), ui_interface.get_events(), 0)
-    }
-
-    storage() {
-        const StorageUI = require("./storage")
-        let ui_interface = new StorageUI(this.kernel)
-        return this.creator(ui_interface.get_views(), ui_interface.get_events(), 1)
-    }
-
-    setting() {
-        const SettingUI = require("./setting")
-        let ui_interface = new SettingUI(this.kernel)
-        return this.creator(ui_interface.get_views(), ui_interface.get_events(), 2)
-    }
-
     render() {
-        const views = [
-            this.home(),
-            this.storage(),
-            this.setting(),
-        ]
         $ui.render({
             type: "view",
             props: {
@@ -164,7 +118,7 @@ class Factory {
                         make.top.inset(20)
                         make.left.right.bottom.inset(0)
                     },
-                    views: views
+                    views: this.views
                 },
                 {
                     type: "view",
@@ -204,6 +158,54 @@ class Factory {
                 }
             ]
         })
+    }
+}
+
+class Factory extends FactoryBase {
+    constructor(kernel) {
+        super(kernel)
+        this.page_index = [// 通过索引获取页面id
+            "home",// 0 => 首页
+            "storage",// 1 => 储藏室
+            "setting",// 2 => 设置
+        ]
+        this.views = [
+            this.home(),
+            this.storage(),
+            this.setting(),
+        ]
+        this.menu_data = [
+            {
+                icon: { symbol: "lock.circle" },
+                title: { text: $l10n("PASSWORD") }
+            },
+            {
+                icon: { symbol: "archivebox" },
+                title: { text: $l10n("STORAGE") }
+            },
+            {
+                icon: { symbol: "gear" },
+                title: { text: $l10n("SETTING") }
+            }
+        ]
+    }
+
+    home() {
+        const HomeUI = require("./home")
+        let ui_interface = new HomeUI(this.kernel)
+        return this.creator(ui_interface.get_views(), 0)
+    }
+
+    storage() {
+        const StorageUI = require("./storage")
+        let ui_interface = new StorageUI(this.kernel)
+        return this.creator(ui_interface.get_views(), 1)
+    }
+
+    setting() {
+        const SettingUI = require("./setting")
+        let ui_interface = new SettingUI(this.kernel)
+        return this.creator(ui_interface.get_views(), 2)
     }
 }
 
