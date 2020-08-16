@@ -73,7 +73,7 @@ class Kernel {
                                 make.top.inset(20)
                                 make.width.equalTo(view.super)
                                 make.height.equalTo(20)
-                            },
+                            }
                         },
                         {
                             type: "view",
@@ -82,7 +82,7 @@ class Kernel {
                                 make.top.equalTo(view.prev).offset(30)
                                 make.width.equalTo(view.super)
                                 make.bottom.equalTo(view.super.safeAreaBottom)
-                            },
+                            }
                         }
                     ]
                 }
