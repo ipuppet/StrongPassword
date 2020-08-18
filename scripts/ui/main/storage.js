@@ -3,7 +3,8 @@ const EditorUI = require("./editor")
 class StorageUI {
     constructor(kernel, factory) {
         this.kernel = kernel
-        this.editor = new EditorUI(this.kernel, factory)
+        this.factory = factory
+        this.editor = new EditorUI(this.kernel, this.factory)
         $cache.set("storage_list", StorageUI.template_list(this.kernel.storage.all()))
         this.undo_time = 3000 // 撤销时间 毫秒
         this.undo_t = null // 撤销按钮

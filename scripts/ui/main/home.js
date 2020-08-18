@@ -3,7 +3,8 @@ const EditorUI = require("./editor")
 class HomeUI {
     constructor(kernel, factory) {
         this.kernel = kernel
-        this.editor = new EditorUI(this.kernel, factory)
+        this.factory = factory
+        this.editor = new EditorUI(this.kernel, this.factory)
     }
 
     copy_password(password) {
