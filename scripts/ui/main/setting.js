@@ -386,10 +386,6 @@ class SettingUIBase {
         }
         return sections
     }
-
-    get_events() {
-        return {}
-    }
 }
 
 class SettingUI extends SettingUIBase {

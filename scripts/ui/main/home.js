@@ -129,10 +129,6 @@ class HomeUI {
             }
         ]
     }
-
-    get_events() {
-        return {}
-    }
 }
 
 module.exports = HomeUI
