@@ -15,7 +15,7 @@ class SettingUIBase {
             type: "label",
             props: {
                 text: title,
-                textColor: $color("primaryText", "secondaryText"),
+                textColor: this.factory.text_color,
                 align: $align.left
             },
             layout: (make, view) => {
@@ -182,7 +182,7 @@ class SettingUIBase {
                     props: {
                         id: key,
                         text: value,
-                        textColor: $color("primaryText", "secondaryText"),
+                        textColor: this.factory.text_color,
                         align: $align.left
                     },
                     layout: (make, view) => {
@@ -228,7 +228,7 @@ class SettingUIBase {
                             props: {
                                 symbol: "chevron.right",
                                 bgcolor: $color("clear"),
-                                tintColor: $color("primaryText", "secondaryText")
+                                tintColor: this.factory.text_color
                             },
                             layout: (make, view) => {
                                 make.centerY.equalTo(view.super)
@@ -292,63 +292,32 @@ class SettingUIBase {
     }
 
     get_views() {
-        return [
-            {
-                type: "list",
-                props: {
-                    style: 1,
-                    bgcolor: $color("clear"),
-                    rowHeight: 50,
-                    indicatorInsets: $insets(40, 0, 50, 0),
-                    header: {
-                        type: "view",
-                        props: {
-                            height: 90
-                        },
-                        views: [{
-                            type: "label",
-                            props: {
-                                text: $l10n("SETTING"),
-                                textColor: $color("primaryText", "secondaryText"),
-                                align: $align.left,
-                                font: $font("bold", 34),
-                                line: 1
-                            },
-                            layout: (make, view) => {
-                                make.left.inset(10)
-                                make.top.equalTo(view.super.safeAreaTop).offset(50)
-                            }
-                        }]
+        let header = this.factory.standard_header("setting_title", $l10n("SETTING"))
+        let footer = {
+            type: "view",
+            props: {
+                height: 130,
+            },
+            views: [
+                {
+                    type: "label",
+                    props: {
+                        font: $font(14),
+                        text: `${$l10n("VERSION")} ${info.version} © ${info.author}`,
+                        textColor: $color({
+                            light: "#C0C0C0",
+                            dark: "#545454"
+                        }),
+                        align: $align.center
                     },
-                    footer: {
-                        type: "view",
-                        props: {
-                            height: 130,
-                        },
-                        views: [
-                            {
-                                type: "label",
-                                props: {
-                                    font: $font(14),
-                                    text: `${$l10n("VERSION")} ${info.version} © ${info.author}`,
-                                    textColor: $color({
-                                        light: "#C0C0C0",
-                                        dark: "#545454"
-                                    }),
-                                    align: $align.center
-                                },
-                                layout: make => {
-                                    make.left.right.inset(0)
-                                    make.top.inset(10)
-                                }
-                            }
-                        ]
-                    },
-                    data: this.get_sections(),
-                },
-                layout: $layout.fillSafeArea
-            }
-        ]
+                    layout: make => {
+                        make.left.right.inset(0)
+                        make.top.inset(10)
+                    }
+                }
+            ]
+        }
+        return [this.factory.standard_list(header, footer, this.get_sections())]
     }
 
     get_sections() {

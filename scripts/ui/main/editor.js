@@ -44,7 +44,7 @@ class EditorUI {
                 type: "button",
                 props: {
                     symbol: "doc.on.doc",
-                    tintColor: $color("primaryText", "secondaryText"),
+                    tintColor: this.factory.text_color,
                     bgcolor: $color("clear")
                 },
                 layout: make => {
@@ -66,7 +66,7 @@ class EditorUI {
                 type: "button",
                 props: {
                     symbol: "checkmark",
-                    tintColor: $color("primaryText", "secondaryText"),
+                    tintColor: this.factory.text_color,
                     bgcolor: $color("clear")
                 },
                 layout: make => {
@@ -93,7 +93,7 @@ class EditorUI {
                 type: "label",
                 props: {
                     text: $l10n("ACCOUNT"),
-                    textColor: $color("primaryText", "secondaryText"),
+                    textColor: this.factory.text_color,
                     align: $align.left,
                     font: $font(16),
                     line: 1,
@@ -113,7 +113,7 @@ class EditorUI {
                     insets: 0,
                     text: password.account,
                     placeholder: $l10n("ACCOUNT"),
-                    textColor: $color("primaryText", "secondaryText"),
+                    textColor: this.factory.text_color,
                 },
                 layout: (make, view) => {
                     make.right.inset(10)
@@ -130,7 +130,7 @@ class EditorUI {
                 type: "label",
                 props: {
                     text: $l10n("PASSWORD"),
-                    textColor: $color("primaryText", "secondaryText"),
+                    textColor: this.factory.text_color,
                     align: $align.left,
                     font: $font(16),
                     line: 1,
@@ -149,7 +149,7 @@ class EditorUI {
                     align: $align.left,
                     text: password.password,
                     placeholder: $l10n("PASSWORD"),
-                    textColor: $color("primaryText", "secondaryText"),
+                    textColor: this.factory.text_color,
                 },
                 layout: (make, view) => {
                     make.right.inset(10)
@@ -174,7 +174,7 @@ class EditorUI {
                             height: 20,
                             text: $l10n("WEBSITE"),
                             align: $align.left,
-                            textColor: $color("primaryText", "secondaryText"),
+                            textColor: this.factory.text_color,
                             font: $font(12)
                         }
                     },
@@ -196,7 +196,7 @@ class EditorUI {
                 type: "button",
                 props: {
                     symbol: "plus",
-                    tintColor: $color("primaryText", "secondaryText"),
+                    tintColor: this.factory.text_color,
                     bgcolor: $color("clear")
                 },
                 layout: (make, view) => {
@@ -242,7 +242,7 @@ class EditorUI {
                                     type: "button",
                                     props: {
                                         symbol: "plus",
-                                        tintColor: $color("primaryText", "secondaryText"),
+                                        tintColor: this.factory.text_color,
                                         bgcolor: $color("clear")
                                     },
                                     layout: make => {

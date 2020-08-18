@@ -92,7 +92,7 @@ class StorageUI {
                 type: "label",
                 props: {
                     text: $l10n("STORAGE"),
-                    textColor: $color("primaryText", "secondaryText"),
+                    textColor: this.factory.text_color,
                     align: $align.left,
                     font: $font("bold", 34),
                     line: 1,
@@ -331,7 +331,7 @@ class StorageUI {
                         props: {
                             font: $font(18),
                             text: $l10n("UNDO"),
-                            textColor: $color("primaryText", "secondaryText"),
+                            textColor: this.factory.text_color,
                             align: $align.center
                         },
                         layout: (make, view) => {
@@ -343,7 +343,7 @@ class StorageUI {
                         type: "button",
                         props: {
                             symbol: "arrow.counterclockwise",
-                            tintColor: $color("primaryText", "secondaryText"),
+                            tintColor: this.factory.text_color,
                             bgcolor: $color("clear")
                         },
                         layout: (make, view) => {
@@ -377,7 +377,7 @@ class StorageUI {
                 type: "button",
                 props: {
                     symbol: "plus",
-                    tintColor: $color("primaryText", "secondaryText"),
+                    tintColor: this.factory.text_color,
                     bgcolor: $color("clear")
                 },
                 layout: (make, view) => {

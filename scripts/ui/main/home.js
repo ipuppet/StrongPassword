@@ -48,7 +48,7 @@ class HomeUI {
                 type: "label",
                 props: {
                     text: $l10n("STRONG_PASSWORD_APP"),
-                    textColor: $color("primaryText", "secondaryText"),
+                    textColor: this.factory.text_color,
                     align: $align.left,
                     font: $font("bold", 34),
                     line: 1,
@@ -67,7 +67,7 @@ class HomeUI {
                     align: $align.center,
                     editable: false,
                     bgcolor: $color("systemGray2", "systemFill"),
-                    textColor: $color("primaryText", "secondaryText"),
+                    textColor: this.factory.text_color,
                 },
                 layout: (make, view) => {
                     make.left.right.inset(10)

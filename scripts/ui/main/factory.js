@@ -2,6 +2,13 @@ class FactoryBase {
     constructor(kernel) {
         this.kernel = kernel
         this.selected_page = 0 // 当前显示的页面
+        // all
+        this.blur_style = $blurStyle.thinMaterial
+        this.text_color = $color("primaryText", "secondaryText")
+        // header
+        this.title_size = 35
+        this.title_size_max = 40
+        this.top_offset = -10
     }
 
     ui_push(views, parent_title = $l10n("BACK"), nav_buttons = []) {
@@ -10,7 +17,7 @@ class FactoryBase {
                 type: "button",
                 props: {
                     symbol: "chevron.left",
-                    tintColor: $color("primaryText", "secondaryText"),
+                    tintColor: this.text_color,
                     bgcolor: $color("clear")
                 },
                 layout: make => {
@@ -22,7 +29,7 @@ class FactoryBase {
                 type: "label",
                 props: {
                     text: parent_title,
-                    textColor: $color("primaryText", "secondaryText"),
+                    textColor: this.text_color,
                     font: $font(18)
                 },
                 layout: (make, view) => {
@@ -82,6 +89,64 @@ class FactoryBase {
                 }
             ]
         })
+    }
+
+    standard_header(id, title) {
+        return {
+            type: "view",
+            info: { id: id, title: title }, // 供动画使用
+            props: {
+                height: 90
+            },
+            views: [{
+                type: "label",
+                props: {
+                    id: id,
+                    text: title,
+                    textColor: this.text_color,
+                    align: $align.left,
+                    font: $font("bold", 35),
+                    line: 1
+                },
+                layout: (make, view) => {
+                    make.left.inset(10)
+                    make.top.equalTo(view.super.safeAreaTop).offset(50)
+                }
+            }]
+        }
+    }
+
+    /**
+     * 标准列表视图
+     * @param {Object} header 该对象中需要包含一个标题label的id和title (info: { id: id, title: title }) 供动画使用
+     * @param {*} footer 视图对象
+     * @param {*} data 
+     * @param {*} events 
+     */
+    standard_list(header, footer, data, events = {}) {
+        return {
+            type: "list",
+            props: {
+                style: 1,
+                bgcolor: $color("clear"),
+                rowHeight: 50,
+                indicatorInsets: $insets(40, 0, 50, 0),
+                header: header,
+                footer: footer,
+                data: data,
+            },
+            events: Object.assign({
+                didScroll: sender => {
+                    if (sender.contentOffset.y <= this.top_offset) {
+                        let size = 35 - sender.contentOffset.y * 0.04
+                        if (size > this.title_size_max)
+                            size = this.title_size_max
+                        $(header.info.id).font = $font("bold", size)
+                    }
+                }
+            }, events),
+            layout: $layout.fillSafeArea
+        }
     }
 
     get_menu_data() {
@@ -210,7 +275,7 @@ class FactoryBase {
                         {
                             type: "blur",
                             props: {
-                                style: $blurStyle.thinMaterial,
+                                style: this.blur_style,
                             },
                             layout: $layout.fill,
                         },
