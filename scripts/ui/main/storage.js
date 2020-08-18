@@ -4,79 +4,85 @@ class StorageUI {
     constructor(kernel) {
         this.kernel = kernel
         this.editor = new EditorUI(this.kernel)
-        $cache.set("storage_list", this.to_list_template(this.kernel.storage.all()))
+        $cache.set("storage_list", StorageUI.template_list(this.kernel.storage.all()))
         this.undo_time = 3000 // 撤销时间 毫秒
         this.undo_t = null // 撤销按钮
         this.delete_t = null // 真正的删除操作
     }
 
+    static set_data(list) {
+        list = StorageUI.template_list(list)
+        $("storage_list").data = list
+        $cache.set("storage_list", list)
+    }
+
+    /**
+     * 更新列表的数据
+     * @param {Object} password 密码
+     * @param {*} index 位置，如果为null则直接插入数据
+     */
+    static update(password, index = null) {
+        let list = $cache.get("storage_list")
+        index = index === null ? list.length : index
+        // 更新列表数据
+        list[index] = StorageUI.template(password)
+        $("storage_list").data = list
+        // 同步到缓存
+        $cache.set("storage_list", list)
+    }
+
+    static template(password, no_result = "") {
+        return {
+            id: {
+                text: password.id
+            },
+            website_data: {
+                text: JSON.stringify(password.website)
+            },
+            website: {
+                text: password.website.length > 0 ? password.website[0] : ""
+            },
+            password: {
+                text: password.password
+            },
+            account: {
+                text: password.account
+            },
+            date: {
+                text: password.date
+            },
+            no_result: {
+                text: no_result
+            }
+        }
+    }
+
+    static template_list(data) {
+        let result = []
+        for (let password of data) {
+            result.push(StorageUI.template(password))
+        }
+        return result
+    }
+
     search(kw) {
         if (kw === "") {
-            $("storage_list").data = this.to_list_template(this.kernel.storage.all())
+            $("storage_list").data = StorageUI.template_list(this.kernel.storage.all())
             return
         }
         let data = this.kernel.storage.search(kw)
         if (data.length > 0) {
-            $("storage_list").data = this.to_list_template(data)
+            $("storage_list").data = StorageUI.template_list(data)
         } else {
-            $("storage_list").data = [{
-                id: {
-                    text: ""
-                },
-                website_data: {
-                    text: ""
-                },
-                website: {
-                    text: ""
-                },
-                password: {
-                    text: ""
-                },
-                account: {
-                    text: ""
-                },
-                date: {
-                    text: ""
-                },
-                no_result: {
-                    text: $l10n("NO_RESULT")
-                }
-            }]
-        }
-    }
-
-    to_list_template(data) {
-        function get_label(password) {
-            return {
-                id: {
-                    text: password.id
-                },
-                website_data: {
-                    text: JSON.stringify(password.website)
-                },
-                website: {
-                    text: password.website.length > 0 ? password.website[0] : "NULL"
-                },
-                password: {
-                    text: password.password
-                },
-                account: {
-                    text: password.account
-                },
-                date: {
-                    text: password.date
-                },
-                no_result: {
-                    text: ""
-                }
+            let password = {
+                id: "",
+                website_data: "",
+                website: [],
+                password: "",
+                account: "",
+                date: "",
             }
-        }
-        if (this.all_data !== false) {
-            let result = []
-            for (let password of data) {
-                result.push(get_label(password))
-            }
-            return result
+            $("storage_list").data = [StorageUI.template(password, $l10n("NO_RESULT"))]
         }
     }
 

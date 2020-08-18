@@ -16,36 +16,11 @@ class EditorUI {
         }
         if (result) {
             $ui.success($l10n("SAVE_SUCCESS"))
-            // 更新storage_list缓存
-            let list = $cache.get("storage_list")
-            let template = {
-                id: {
-                    text: password.id
-                },
-                website_data: {
-                    text: JSON.stringify(password.website)
-                },
-                website: {
-                    text: password.website.length > 0 ? password.website[0] : "NULL"
-                },
-                password: {
-                    text: password.password
-                },
-                account: {
-                    text: password.account
-                },
-                date: {
-                    text: password.date
-                },
-                no_result: {
-                    text: ""
-                }
-            }
-            if (is_update) list[index] = template
-            else list.push(template)
-            $cache.set("storage_list", list)
-            // 更新列表
-            $("storage_list").data = list
+            // 更新storage_list
+            let storage = require("./storage")
+            index = is_update ? index : null
+            storage.update(password, index)
+            // 弹出窗口
             setTimeout(() => {
                 $ui.pop()
             }, 500)

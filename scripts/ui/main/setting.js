@@ -437,10 +437,14 @@ class SettingUI extends SettingUIBase {
         $drive.open({
             handler: data => {
                 if (this.kernel.storage.recover_from_iCloud(data)) {
+                    // 更新列表
+                    let storage = require("./storage")
+                    storage.set_data(this.kernel.storage.all())
+                    // 弹窗提示
                     $ui.alert({
                         title: $l10n("RECOVER"),
                         message: $l10n("RECOVER_SUCCESS"),
-                    });
+                    })
                 }
             }
         })
