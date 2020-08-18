@@ -124,29 +124,35 @@ class FactoryBase {
      * @param {*} events 
      */
     standard_list(header, footer, data, events = {}) {
-        return {
-            type: "list",
-            props: {
-                style: 1,
-                bgcolor: $color("clear"),
-                rowHeight: 50,
-                indicatorInsets: $insets(40, 0, 50, 0),
-                header: header,
-                footer: footer,
-                data: data,
-            },
-            events: Object.assign({
-                didScroll: sender => {
-                    if (sender.contentOffset.y <= this.top_offset) {
-                        let size = 35 - sender.contentOffset.y * 0.04
-                        if (size > this.title_size_max)
-                            size = this.title_size_max
-                        $(header.info.id).font = $font("bold", size)
-                    }
-                }
-            }, events),
-            layout: $layout.fillSafeArea
-        }
+        return [
+            {
+                type: "view",
+                layout: $layout.fill,
+                views: [{
+                    type: "list",
+                    props: {
+                        style: 1,
+                        bgcolor: $color("clear"),
+                        rowHeight: 50,
+                        indicatorInsets: $insets(40, 0, 50, 0),
+                        header: header,
+                        footer: footer,
+                        data: data,
+                    },
+                    events: Object.assign({
+                        didScroll: sender => {
+                            if (sender.contentOffset.y <= this.top_offset) {
+                                let size = 35 - sender.contentOffset.y * 0.04
+                                if (size > this.title_size_max)
+                                    size = this.title_size_max
+                                $(header.info.id).font = $font("bold", size)
+                            }
+                        }
+                    }, events),
+                    layout: $layout.fill
+                }]
+            }
+        ]
     }
 
     get_menu_data() {

@@ -317,7 +317,7 @@ class SettingUIBase {
                 }
             ]
         }
-        return [this.factory.standard_list(header, footer, this.get_sections())]
+        return this.factory.standard_list(header, footer, this.get_sections())
     }
 
     get_sections() {
