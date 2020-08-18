@@ -21,7 +21,7 @@ class Generator {
 
     generate() {
         this.update()
-        var result = [];
+        var result = []
         for (let i = 0; i < this.part; i++) {
             result.push(this._generate_part())
         }
