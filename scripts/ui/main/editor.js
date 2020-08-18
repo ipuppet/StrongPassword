@@ -270,7 +270,7 @@ class EditorUI {
                 }
             }
         ]
-        this.factory.ui_push(views, $l10n("BACK"), nav_buttons)
+        this.factory.push(views, $l10n("BACK"), nav_buttons)
     }
 }
 
