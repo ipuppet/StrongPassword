@@ -45,21 +45,7 @@ class HomeUI {
 
     get_views() {
         return [
-            {
-                type: "label",
-                props: {
-                    text: $l10n("STRONG_PASSWORD_APP"),
-                    textColor: this.factory.text_color,
-                    align: $align.left,
-                    font: $font("bold", 34),
-                    line: 1,
-                },
-                layout: (make, view) => {
-                    make.left.right.inset(10)
-                    make.height.equalTo(40)
-                    make.top.equalTo(view.super.safeAreaTop).offset(50)
-                }
-            },
+            this.factory.standard_header("home_view", $l10n("STRONG_PASSWORD_APP")),
             {
                 type: "button",
                 props: {

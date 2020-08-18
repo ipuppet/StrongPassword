@@ -89,22 +89,7 @@ class StorageUI {
 
     get_views() {
         return [
-            {
-                type: "label",
-                props: {
-                    text: $l10n("STORAGE"),
-                    textColor: this.factory.text_color,
-                    align: $align.left,
-                    font: $font("bold", 34),
-                    line: 1,
-                },
-                layout: (make, view) => {
-                    make.left.inset(10)
-                    make.width.equalTo(120)
-                    make.height.equalTo(40)
-                    make.top.equalTo(view.super.safeAreaTop).offset(50)
-                }
-            },
+            this.factory.standard_header("storage_view", $l10n("STORAGE")),
             {
                 type: "input",
                 props: {
@@ -113,9 +98,9 @@ class StorageUI {
                     type: $kbType.search,
                     autoFontSize: true,
                 },
-                layout: (make, view) => {
+                layout: make => {
                     make.height.equalTo(40)
-                    make.top.equalTo(view.prev)
+                    make.top.equalTo($("storage_view").top)
                     make.right.inset(10)
                     make.left.inset(130)
                 },
