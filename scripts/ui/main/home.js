@@ -1,8 +1,9 @@
 const EditorUI = require("./editor")
 
 class HomeUI {
-    constructor(kernel) {
+    constructor(kernel, factory) {
         this.kernel = kernel
+        this.editor = new EditorUI(this.kernel, factory)
     }
 
     copy_password(password) {
@@ -106,7 +107,7 @@ class HomeUI {
                 events: {
                     tapped: () => {
                         if ($cache.get("password")) {
-                            new EditorUI(this.kernel).push({ password: $cache.get("password") })
+                            this.editor.push({ password: $cache.get("password") })
                         }
                     }
                 }

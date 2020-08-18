@@ -4,6 +4,86 @@ class FactoryBase {
         this.selected_page = 0 // 当前显示的页面
     }
 
+    ui_push(views, parent_title = $l10n("BACK"), nav_buttons = []) {
+        nav_buttons = [
+            {
+                type: "button",
+                props: {
+                    symbol: "chevron.left",
+                    tintColor: $color("primaryText", "secondaryText"),
+                    bgcolor: $color("clear")
+                },
+                layout: make => {
+                    make.left.inset(10)
+                    make.size.equalTo(30)
+                }
+            },
+            {
+                type: "label",
+                props: {
+                    text: parent_title,
+                    textColor: $color("primaryText", "secondaryText"),
+                    font: $font(18)
+                },
+                layout: (make, view) => {
+                    make.height.equalTo(view.prev)
+                    make.left.equalTo(view.prev.right)
+                }
+            },
+            {
+                type: "view",
+                props: {
+                    bgolor: $color("blue")
+                },
+                layout: (make, view) => {
+                    make.height.equalTo(view.prev)
+                    make.width.equalTo(view.prev).offset(20)
+                    make.left.inset(10)
+                },
+                events: {
+                    tapped: () => {
+                        $ui.pop()
+                    }
+                }
+            }
+        ].concat(nav_buttons)
+        $ui.push({
+            props: {
+                navBarHidden: true,
+                statusBarStyle: 0
+            },
+            views: [
+                {
+                    type: "view",
+                    props: {
+                        clipsToBounds: true,
+                    },
+                    layout: $layout.fillSafeArea,
+                    views: [
+                        {
+                            type: "view",
+                            views: nav_buttons,
+                            layout: (make, view) => {
+                                make.top.inset(20)
+                                make.width.equalTo(view.super)
+                                make.height.equalTo(20)
+                            }
+                        },
+                        {
+                            type: "view",
+                            views: views,
+                            layout: (make, view) => {
+                                make.top.equalTo(view.prev).offset(30)
+                                make.width.equalTo(view.super)
+                                make.bottom.equalTo(view.super.safeAreaBottom)
+                            }
+                        }
+                    ]
+                }
+            ]
+        })
+    }
+
     get_menu_data() {
         for (let i = 0; i < this.menu_data.length; i++) {
             if (this.selected_page === i) {
@@ -192,19 +272,19 @@ class Factory extends FactoryBase {
 
     home() {
         const HomeUI = require("./home")
-        let ui_interface = new HomeUI(this.kernel)
+        let ui_interface = new HomeUI(this.kernel, this)
         return this.creator(ui_interface.get_views(), 0)
     }
 
     storage() {
         const StorageUI = require("./storage")
-        let ui_interface = new StorageUI(this.kernel)
+        let ui_interface = new StorageUI(this.kernel, this)
         return this.creator(ui_interface.get_views(), 1)
     }
 
     setting() {
         const SettingUI = require("./setting")
-        let ui_interface = new SettingUI(this.kernel)
+        let ui_interface = new SettingUI(this.kernel, this)
         return this.creator(ui_interface.get_views(), 2)
     }
 }

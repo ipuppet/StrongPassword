@@ -1,8 +1,9 @@
 const info = JSON.parse($file.read("config.json"))['info']
 
 class SettingUIBase {
-    constructor(kernel) {
+    constructor(kernel, factory) {
         this.kernel = kernel
+        this.factory = factory
     }
 
     update_setting(key, value) {
@@ -389,13 +390,13 @@ class SettingUIBase {
 }
 
 class SettingUI extends SettingUIBase {
-    constructor(kernel) {
-        super(kernel)
+    constructor(kernel, factory) {
+        super(kernel, factory)
     }
 
     readme() {
         const content = $file.read("/README.md").string
-        this.kernel.ui_push([{
+        this.factory.ui_push([{
             type: "markdown",
             props: {
                 content: content,

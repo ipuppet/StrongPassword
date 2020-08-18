@@ -1,6 +1,7 @@
 class EditorUI {
-    constructor(kernel) {
+    constructor(kernel, factory) {
         this.kernel = kernel
+        this.factory = factory
     }
 
     save(password, is_update, index) {
@@ -269,7 +270,7 @@ class EditorUI {
                 }
             }
         ]
-        this.kernel.ui_push(views, $l10n("BACK"), nav_buttons)
+        this.factory.ui_push(views, $l10n("BACK"), nav_buttons)
     }
 }
 
