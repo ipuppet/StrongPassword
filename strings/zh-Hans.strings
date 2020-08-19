@@ -24,7 +24,6 @@
 "BACKUP_SUCCESS" = "备份成功";
 "BACKUP_ERROR" = "备份失败";
 "RECOVER" = "恢复";
-"WHICH_FILE_TO_RECOVER_FROM" = "从哪个文件恢复？";
 "RECOVER_SUCCESS" = "恢复成功";
 "RECOVER_ERROR" = "恢复失败";
 

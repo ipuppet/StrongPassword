@@ -24,7 +24,6 @@
 "BACKUP_SUCCESS" = "Successful backup";
 "BACKUP_ERROR" = "Backup failed";
 "RECOVER" = "Recover";
-"WHICH_FILE_TO_RECOVER_FROM" = "Which file to recover from?";
 "RECOVER_SUCCESS" = "Successful recovery";
 "RECOVER_ERROR" = "Recovery failed";
 
