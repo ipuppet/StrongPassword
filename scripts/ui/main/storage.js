@@ -326,7 +326,7 @@ class StorageUI {
                         }
                     },
                     {
-                        type: "button",
+                        type: "image",
                         props: {
                             symbol: "arrow.counterclockwise",
                             tintColor: this.factory.text_color,
@@ -335,7 +335,7 @@ class StorageUI {
                         layout: (make, view) => {
                             make.centerY.equalTo(view.super)
                             make.right.inset(30)
-                            make.height.width.equalTo(20)
+                            make.size.equalTo(18)
                         }
                     }
                 ],
