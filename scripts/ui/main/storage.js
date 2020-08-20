@@ -187,9 +187,7 @@ class StorageUI {
                                     actions: [
                                         {
                                             title: $l10n("OK"),
-                                            handler: () => {
-                                                delete_action()
-                                            }
+                                            handler: delete_action
                                         },
                                         {
                                             title: $l10n("CANCEL"),
