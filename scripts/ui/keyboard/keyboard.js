@@ -81,6 +81,7 @@ class KeyboardUI {
                 }
             }
         }
+
         if (this.all_data !== false) {
             let result = []
             for (let password of data) {
@@ -91,151 +92,153 @@ class KeyboardUI {
     }
 
     storage_ui() {
-        return [{
-            type: "list",
-            props: {
-                id: "password_list",
-                style: 1,
-                reorder: false,
-                rowHeight: 60,
-                header: {
-                    type: "view",
-                    props: { height: 35 },
-                    views: [
-                        {
-                            type: "label",
-                            props: {
-                                font: $font(12),
-                                text: $l10n("CLICK_TO_COPY"),
-                                textColor: $color({
-                                    light: "#C0C0C0",
-                                    dark: "#545454"
-                                }),
-                                align: $align.left
-                            },
-                            layout: make => {
-                                make.left.inset(10)
-                                make.bottom.inset(5)
+        return [
+            {
+                type: "list",
+                props: {
+                    id: "password_list",
+                    style: 1,
+                    reorder: false,
+                    rowHeight: 60,
+                    header: {
+                        type: "view",
+                        props: {height: 35},
+                        views: [
+                            {
+                                type: "label",
+                                props: {
+                                    font: $font(12),
+                                    text: $l10n("CLICK_TO_COPY"),
+                                    textColor: $color({
+                                        light: "#C0C0C0",
+                                        dark: "#545454"
+                                    }),
+                                    align: $align.left
+                                },
+                                layout: make => {
+                                    make.left.inset(10)
+                                    make.bottom.inset(5)
+                                }
                             }
+                        ]
+                    },
+                    footer: {
+                        type: "view",
+                        views: [
+                            {
+                                type: "label",
+                                props: {
+                                    font: $font(14),
+                                    text: $l10n("LIST_END"),
+                                    textColor: $color({
+                                        light: "#C0C0C0",
+                                        dark: "#545454"
+                                    }),
+                                    align: $align.center
+                                },
+                                layout: make => {
+                                    make.bottom.inset(5)
+                                    make.left.right.inset(0)
+                                }
+                            }
+                        ]
+                    },
+                    data: [],
+                    template: {
+                        views: [
+                            {
+                                type: "label",
+                                props: {
+                                    id: "id",
+                                    hidden: true,
+                                }
+                            },
+                            {
+                                type: "label",
+                                props: {
+                                    id: "website_data",
+                                    hidden: true,
+                                }
+                            },
+                            {
+                                type: "label",
+                                props: {
+                                    id: "website",
+                                    font: $font(18),
+                                    align: $align.left
+                                },
+                                layout: make => {
+                                    make.top.inset(10)
+                                    make.left.inset(10)
+                                }
+                            },
+                            {
+                                type: "label",
+                                props: {
+                                    id: "account",
+                                    font: $font(14),
+                                    textColor: $color({
+                                        light: "#C0C0C0",
+                                        dark: "#545454"
+                                    }),
+                                    align: $align.left
+                                },
+                                layout: make => {
+                                    make.bottom.inset(5)
+                                    make.left.inset(10)
+                                }
+                            },
+                            {
+                                type: "label",
+                                props: {
+                                    id: "date",
+                                    font: $font(14),
+                                    textColor: $color({
+                                        light: "#C0C0C0",
+                                        dark: "#545454"
+                                    }),
+                                    align: $align.right
+                                },
+                                layout: make => {
+                                    make.bottom.inset(5)
+                                    make.right.inset(10)
+                                }
+                            },
+                            {
+                                type: "label",
+                                props: {
+                                    id: "no_result",
+                                    align: $align.center
+                                },
+                                layout: make => {
+                                    make.left.right.inset(10)
+                                    make.top.inset(15)
+                                }
+                            }
+                        ]
+                    },
+                    actions: [{
+                        title: $l10n("INSERT_ACCOUNT"),
+                        handler: (sender, indexPath) => {
+                            while ($keyboard.hasText)
+                                $keyboard.delete()
+                            $keyboard.insert(sender.object(indexPath).account.text)
+                            $keyboard.playInputClick()
                         }
-                    ]
+                    }],
                 },
-                footer: {
-                    type: "view",
-                    views: [
-                        {
-                            type: "label",
-                            props: {
-                                font: $font(14),
-                                text: $l10n("LIST_END"),
-                                textColor: $color({
-                                    light: "#C0C0C0",
-                                    dark: "#545454"
-                                }),
-                                align: $align.center
-                            },
-                            layout: (make, view) => {
-                                make.bottom.inset(5)
-                                make.left.right.inset(0)
-                            }
-                        }
-                    ]
-                },
-                data: [],
-                template: {
-                    views: [
-                        {
-                            type: "label",
-                            props: {
-                                id: "id",
-                                hidden: true,
-                            }
-                        },
-                        {
-                            type: "label",
-                            props: {
-                                id: "website_data",
-                                hidden: true,
-                            }
-                        },
-                        {
-                            type: "label",
-                            props: {
-                                id: "website",
-                                font: $font(18),
-                                align: $align.left
-                            },
-                            layout: (make, view) => {
-                                make.top.inset(10)
-                                make.left.inset(10)
-                            }
-                        },
-                        {
-                            type: "label",
-                            props: {
-                                id: "account",
-                                font: $font(14),
-                                textColor: $color({
-                                    light: "#C0C0C0",
-                                    dark: "#545454"
-                                }),
-                                align: $align.left
-                            },
-                            layout: (make, view) => {
-                                make.bottom.inset(5)
-                                make.left.inset(10)
-                            }
-                        },
-                        {
-                            type: "label",
-                            props: {
-                                id: "date",
-                                font: $font(14),
-                                textColor: $color({
-                                    light: "#C0C0C0",
-                                    dark: "#545454"
-                                }),
-                                align: $align.right
-                            },
-                            layout: (make, view) => {
-                                make.bottom.inset(5)
-                                make.right.inset(10)
-                            }
-                        },
-                        {
-                            type: "label",
-                            props: {
-                                id: "no_result",
-                                align: $align.center
-                            },
-                            layout: (make, view) => {
-                                make.left.right.inset(10)
-                                make.top.inset(15)
-                            }
-                        }
-                    ]
-                },
-                actions: [{
-                    title: $l10n("INSERT_ACCOUNT"),
-                    handler: (sender, indexPath) => {
-                        while ($keyboard.hasText)
-                            $keyboard.delete()
-                        $keyboard.insert(sender.object(indexPath).account.text)
-                        $keyboard.playInputClick()
+                events: {
+                    didSelect: (sender, indexPath, data) => {
+                        let password = data.password.text
+                        this.copy_password(password)
                     }
-                }],
-            },
-            events: {
-                didSelect: (sender, indexPath, data) => {
-                    let password = data.password.text
-                    this.copy_password(password)
-                }
-            },
-            layout: make => {
-                make.top.equalTo($("tab").bottom).offset(10)
-                make.left.bottom.right.equalTo(0)
-            },
-        }]
+                },
+                layout: make => {
+                    make.top.equalTo($("tab").bottom).offset(10)
+                    make.left.bottom.right.equalTo(0)
+                },
+            }
+        ]
     }
 
     home_ui() {
@@ -266,77 +269,77 @@ class KeyboardUI {
                 }
             }
         },
-        {
-            type: "label",
-            props: {
-                text: $l10n("CLICK_TO_COPY"),
-                align: $align.left,
-                line: 1,
-                font: $font(12),
-                textColor: $color({
-                    light: "#C0C0C0",
-                    dark: "#DDDDDD"
-                })
-            },
-            layout: make => {
-                make.left.inset(10)
-                make.top.equalTo($("password").top).offset(40)
-            }
-        },
-        {
-            type: "button",
-            props: {
-                title: $l10n("SAVE"),
-                contentEdgeInsets: 10
-            },
-            layout: make => {
-                make.left.bottom.inset(10)
-                make.width.equalTo(80)
-            },
-            events: {
-                tapped: () => {
-                    $ui.alert({
-                        title: $l10n("ALERT_INFO"),
-                        message: $l10n("IF_SAVE_THIS_PASSWORD"),
-                        actions: [
-                            {
-                                title: $l10n("OK"),
-                                handler: () => {
-                                    if ($cache.get("password")) {
-                                        let password = {
-                                            password: $cache.get("password"),
-                                            account: "AUTO-SAVE",
-                                            date: new Date().toLocaleDateString(),
-                                            website: ["AUTO-SAVE"]
-                                        }
-                                        this.save(password)
-                                    }
-                                }
-                            },
-                            {
-                                title: $l10n("CANCEL")
-                            }
-                        ]
+            {
+                type: "label",
+                props: {
+                    text: $l10n("CLICK_TO_COPY"),
+                    align: $align.left,
+                    line: 1,
+                    font: $font(12),
+                    textColor: $color({
+                        light: "#C0C0C0",
+                        dark: "#DDDDDD"
                     })
+                },
+                layout: make => {
+                    make.left.inset(10)
+                    make.top.equalTo($("password").top).offset(40)
                 }
-            }
-        },
-        {
-            type: "button",
-            props: {
-                title: $l10n("GENERATE_BUTTON"),
-                contentEdgeInsets: 10
             },
-            layout: make => {
-                make.right.bottom.inset(10)
-                make.left.inset(100)
-            },
-            events: {
-                tapped: () => {
-                    this.generate_button_handler()
+            {
+                type: "button",
+                props: {
+                    title: $l10n("SAVE"),
+                    contentEdgeInsets: 10
+                },
+                layout: make => {
+                    make.left.bottom.inset(10)
+                    make.width.equalTo(80)
+                },
+                events: {
+                    tapped: () => {
+                        $ui.alert({
+                            title: $l10n("ALERT_INFO"),
+                            message: $l10n("IF_SAVE_THIS_PASSWORD"),
+                            actions: [
+                                {
+                                    title: $l10n("OK"),
+                                    handler: () => {
+                                        if ($cache.get("password")) {
+                                            let password = {
+                                                password: $cache.get("password"),
+                                                account: "AUTO-SAVE",
+                                                date: new Date().toLocaleDateString(),
+                                                website: ["AUTO-SAVE"]
+                                            }
+                                            this.save(password)
+                                        }
+                                    }
+                                },
+                                {
+                                    title: $l10n("CANCEL")
+                                }
+                            ]
+                        })
+                    }
                 }
-            }
-        }]
+            },
+            {
+                type: "button",
+                props: {
+                    title: $l10n("GENERATE_BUTTON"),
+                    contentEdgeInsets: 10
+                },
+                layout: make => {
+                    make.right.bottom.inset(10)
+                    make.left.inset(100)
+                },
+                events: {
+                    tapped: () => {
+                        this.generate_button_handler()
+                    }
+                }
+            }]
     }
 
     render() {
@@ -347,7 +350,7 @@ class KeyboardUI {
                     props: {
                         items: [$l10n("GENERATE_BUTTON"), $l10n("STORAGE")]
                     },
-                    layout: (make, view) => {
+                    layout: make => {
                         make.left.top.right.inset(10)
                     },
                     events: {
@@ -370,7 +373,7 @@ class KeyboardUI {
                         hidden: false
                     },
                     views: this.home_ui(),
-                    layout: (make, view) => {
+                    layout: make => {
                         make.left.bottom.right.inset(0)
                         make.top.inset(50)
                     }
@@ -382,7 +385,7 @@ class KeyboardUI {
                         hidden: true
                     },
                     views: this.storage_ui(),
-                    layout: (make, view) => {
+                    layout: make => {
                         make.left.bottom.right.inset(0)
                         make.top.inset(50)
                     }

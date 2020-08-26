@@ -37,7 +37,7 @@ class SettingUI extends BaseUISetting {
                             backup_action()
                         }
                     },
-                    { title: $l10n("CANCEL") }
+                    {title: $l10n("CANCEL")}
                 ]
             })
         } else {

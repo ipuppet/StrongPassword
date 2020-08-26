@@ -2,9 +2,9 @@ class Storage {
     constructor(setting) {
         this.setting = setting
         this.local_db = "/assets/StrongPassword.db"
-        this.icloud_path = "drive://StrongPassword/"
-        this.icloud_db = this.icloud_path + "StrongPassword.db"
-        this.icloud_auto_db = this.icloud_path + "auto.db"
+        this.iCloud_path = "drive://StrongPassword/"
+        this.iCloud_db = this.iCloud_path + "StrongPassword.db"
+        this.iCloud_auto_db = this.iCloud_path + "auto.db"
         this.sqlite = $sqlite.open(this.local_db)
         this.sqlite.update("CREATE TABLE IF NOT EXISTS password(id INTEGER PRIMARY KEY NOT NULL, account TEXT, password TEXT, date TEXT, website TEXT)")
     }
@@ -38,12 +38,11 @@ class Storage {
             sql: "SELECT * FROM password WHERE account like ? or website like ?",
             args: [`%${kw}%`, `%${kw}%`]
         })
-        let data = this.parse(result)
-        return data
+        return this.parse(result)
     }
 
     save(password) {
-        let result = null
+        let result
         password.website = password.website ? password.website : []
         result = this.sqlite.update({
             sql: "INSERT INTO password (account, password, date, website) values(?, ?, ?, ?)",
@@ -51,12 +50,12 @@ class Storage {
         })
         if (result.result) {
             if (this.setting.get("setting.backup.auto_backup")) {
-                if (!$file.exists(this.icloud_path)) {
-                    $file.mkdir(this.icloud_path)
+                if (!$file.exists(this.iCloud_path)) {
+                    $file.mkdir(this.iCloud_path)
                 }
                 $file.write({
-                    data: $data({ path: this.local_db }),
-                    path: this.icloud_auto_db
+                    data: $data({path: this.local_db}),
+                    path: this.iCloud_auto_db
                 })
             }
             return true
@@ -66,16 +65,16 @@ class Storage {
     }
 
     has_backup() {
-        return $file.exists(this.icloud_db)
+        return $file.exists(this.iCloud_db)
     }
 
     backup_to_iCloud() {
-        if (!$file.exists(this.icloud_path)) {
-            $file.mkdir(this.icloud_path)
+        if (!$file.exists(this.iCloud_path)) {
+            $file.mkdir(this.iCloud_path)
         }
         return $file.write({
-            data: $data({ path: this.local_db }),
-            path: this.icloud_db
+            data: $data({path: this.local_db}),
+            path: this.iCloud_db
         })
     }
 
@@ -91,7 +90,7 @@ class Storage {
     }
 
     update(password) {
-        let result = null
+        let result
         result = this.sqlite.update({
             sql: "UPDATE password SET password = ?, date = ?, website = ?,account = ? WHERE id = ?",
             args: [password.password, password.date, JSON.stringify(password.website), password.account, password.id]

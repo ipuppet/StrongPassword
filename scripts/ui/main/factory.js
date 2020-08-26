@@ -18,16 +18,16 @@ class Factory extends BaseUI {
         // 菜单
         this.menu_data = [
             {
-                icon: { symbol: "lock.circle" },
-                title: { text: $l10n("PASSWORD") }
+                icon: {symbol: "lock.circle"},
+                title: {text: $l10n("PASSWORD")}
             },
             {
-                icon: { symbol: "archivebox" },
-                title: { text: $l10n("STORAGE") }
+                icon: {symbol: "archivebox"},
+                title: {text: $l10n("STORAGE")}
             },
             {
-                icon: { symbol: "gear" },
-                title: { text: $l10n("SETTING") }
+                icon: {symbol: "gear"},
+                title: {text: $l10n("SETTING")}
             }
         ]
     }

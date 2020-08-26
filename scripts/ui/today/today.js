@@ -79,6 +79,7 @@ class TodayUI {
                 }
             }
         }
+
         if (this.all_data !== false) {
             let result = []
             for (let password of data) {
@@ -99,7 +100,7 @@ class TodayUI {
                 rowHeight: 60,
                 header: {
                     type: "view",
-                    props: { height: 35 },
+                    props: {height: 35},
                     views: [
                         {
                             type: "label",
@@ -133,7 +134,7 @@ class TodayUI {
                                 }),
                                 align: $align.center
                             },
-                            layout: (make, view) => {
+                            layout: make => {
                                 make.bottom.inset(5)
                                 make.left.right.inset(0)
                             }
@@ -142,9 +143,6 @@ class TodayUI {
                 },
                 data: [],
                 template: {
-                    props: {
-
-                    },
                     views: [
                         {
                             type: "label",
@@ -167,7 +165,7 @@ class TodayUI {
                                 font: $font(20),
                                 align: $align.left
                             },
-                            layout: (make, view) => {
+                            layout: make => {
                                 make.top.inset(10)
                                 make.left.inset(10)
                             }
@@ -183,7 +181,7 @@ class TodayUI {
                                 }),
                                 align: $align.left
                             },
-                            layout: (make, view) => {
+                            layout: make => {
                                 make.bottom.inset(5)
                                 make.left.inset(10)
                             }
@@ -199,7 +197,7 @@ class TodayUI {
                                 }),
                                 align: $align.right
                             },
-                            layout: (make, view) => {
+                            layout: make => {
                                 make.bottom.inset(5)
                                 make.right.inset(10)
                             }
@@ -210,7 +208,7 @@ class TodayUI {
                                 id: "no_result",
                                 align: $align.center
                             },
-                            layout: (make, view) => {
+                            layout: make => {
                                 make.left.right.inset(10)
                                 make.top.inset(15)
                             }
@@ -238,104 +236,106 @@ class TodayUI {
     }
 
     home_ui() {
-        return [{
-            type: "button",
-            props: {
-                id: "password",
-                title: $cache.get("password"),
-                align: $align.center,
-                editable: false,
-                bgcolor: $color({
-                    light: "#eff0f2",
-                    dark: "#4B4B4B"
-                }),
-                titleColor: $color({
-                    light: "#4B4B4B",
-                    dark: "#DDDDDD"
-                })
-            },
-            layout: (make, view) => {
-                make.left.right.inset(10)
-                make.centerY.equalTo(view.super).multipliedBy(0.5)
-                make.height.equalTo(40)
-            },
-            events: {
-                tapped: sender => {
-                    this.copy_data(sender.title.trim())
-                }
-            }
-        },
-        {
-            type: "label",
-            props: {
-                text: $l10n("CLICK_TO_COPY"),
-                align: $align.left,
-                line: 1,
-                font: $font(12),
-                textColor: $color({
-                    light: "#545454",
-                    dark: "#DDDDDD"
-                })
-            },
-            layout: make => {
-                make.left.inset(10)
-                make.top.equalTo($("password").top).offset(40)
-            }
-        },
-        {
-            type: "button",
-            props: {
-                title: $l10n("SAVE"),
-                contentEdgeInsets: 10
-            },
-            layout: make => {
-                make.left.bottom.inset(10)
-                make.width.equalTo(80)
-            },
-            events: {
-                tapped: () => {
-                    $ui.alert({
-                        title: $l10n("ALERT_INFO"),
-                        message: $l10n("IF_SAVE_THIS_PASSWORD"),
-                        actions: [
-                            {
-                                title: $l10n("OK"),
-                                handler: () => {
-                                    if ($cache.get("password")) {
-                                        let password = {
-                                            password: $cache.get("password"),
-                                            account: "AUTO-SAVE",
-                                            date: new Date().toLocaleDateString(),
-                                            website: ["AUTO-SAVE"]
-                                        }
-                                        this.save(password)
-                                    }
-                                }
-                            },
-                            {
-                                title: $l10n("CANCEL")
-                            }
-                        ]
+        return [
+            {
+                type: "button",
+                props: {
+                    id: "password",
+                    title: $cache.get("password"),
+                    align: $align.center,
+                    editable: false,
+                    bgcolor: $color({
+                        light: "#eff0f2",
+                        dark: "#4B4B4B"
+                    }),
+                    titleColor: $color({
+                        light: "#4B4B4B",
+                        dark: "#DDDDDD"
                     })
+                },
+                layout: (make, view) => {
+                    make.left.right.inset(10)
+                    make.centerY.equalTo(view.super).multipliedBy(0.5)
+                    make.height.equalTo(40)
+                },
+                events: {
+                    tapped: sender => {
+                        this.copy_data(sender.title.trim())
+                    }
+                }
+            },
+            {
+                type: "label",
+                props: {
+                    text: $l10n("CLICK_TO_COPY"),
+                    align: $align.left,
+                    line: 1,
+                    font: $font(12),
+                    textColor: $color({
+                        light: "#545454",
+                        dark: "#DDDDDD"
+                    })
+                },
+                layout: make => {
+                    make.left.inset(10)
+                    make.top.equalTo($("password").top).offset(40)
+                }
+            },
+            {
+                type: "button",
+                props: {
+                    title: $l10n("SAVE"),
+                    contentEdgeInsets: 10
+                },
+                layout: make => {
+                    make.left.bottom.inset(10)
+                    make.width.equalTo(80)
+                },
+                events: {
+                    tapped: () => {
+                        $ui.alert({
+                            title: $l10n("ALERT_INFO"),
+                            message: $l10n("IF_SAVE_THIS_PASSWORD"),
+                            actions: [
+                                {
+                                    title: $l10n("OK"),
+                                    handler: () => {
+                                        if ($cache.get("password")) {
+                                            let password = {
+                                                password: $cache.get("password"),
+                                                account: "AUTO-SAVE",
+                                                date: new Date().toLocaleDateString(),
+                                                website: ["AUTO-SAVE"]
+                                            }
+                                            this.save(password)
+                                        }
+                                    }
+                                },
+                                {
+                                    title: $l10n("CANCEL")
+                                }
+                            ]
+                        })
+                    }
+                }
+            },
+            {
+                type: "button",
+                props: {
+                    title: $l10n("GENERATE_BUTTON"),
+                    contentEdgeInsets: 10
+                },
+                layout: make => {
+                    make.right.bottom.inset(10)
+                    make.left.inset(100)
+                },
+                events: {
+                    tapped: () => {
+                        this.generate_button_handler()
+                    }
                 }
             }
-        },
-        {
-            type: "button",
-            props: {
-                title: $l10n("GENERATE_BUTTON"),
-                contentEdgeInsets: 10
-            },
-            layout: make => {
-                make.right.bottom.inset(10)
-                make.left.inset(100)
-            },
-            events: {
-                tapped: () => {
-                    this.generate_button_handler()
-                }
-            }
-        }]
+        ]
     }
 
     render() {
@@ -346,7 +346,7 @@ class TodayUI {
                     props: {
                         items: [$l10n("GENERATE_BUTTON"), $l10n("STORAGE")]
                     },
-                    layout: (make, view) => {
+                    layout: make => {
                         make.left.top.right.inset(10)
                     },
                     events: {
@@ -369,7 +369,7 @@ class TodayUI {
                         hidden: false
                     },
                     views: this.home_ui(),
-                    layout: (make, view) => {
+                    layout: make => {
                         make.left.bottom.right.inset(0)
                         make.top.inset(50)
                     }
@@ -381,7 +381,7 @@ class TodayUI {
                         hidden: true
                     },
                     views: this.storage_ui(),
-                    layout: (make, view) => {
+                    layout: make => {
                         make.left.bottom.right.inset(0)
                         make.top.inset(50)
                     }

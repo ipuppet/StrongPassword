@@ -9,7 +9,7 @@ class EditorUI {
             $ui.toast($l10n("NO_PASSWORD"))
             return false
         }
-        let result = false
+        let result
         if (is_update) {
             result = this.kernel.storage.update(password)
         } else {
@@ -179,12 +179,7 @@ class EditorUI {
                         }
                     },
                     data: password.website,
-                    actions: [
-                        {
-                            title: "delete",
-                            handler: () => { }
-                        }
-                    ]
+                    actions: [{title: "delete"}]
                 },
                 layout: (make, view) => {
                     make.left.right.inset(10)
