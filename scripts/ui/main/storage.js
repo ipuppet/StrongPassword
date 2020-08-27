@@ -180,7 +180,7 @@ class StorageUI {
                                     }
                                 }, this.undo_time)
                             }
-                            if (this.kernel.setting.get("setting.general.delete_confirm")) {
+                            if (this.kernel.setting.get("general.delete_confirm")) {
                                 $ui.alert({
                                     title: $l10n("ALERT_INFO"),
                                     message: $l10n("CONFIRM_DELETE_MSG"),

@@ -49,7 +49,7 @@ class Storage {
             args: [password.account, password.password, password.date, JSON.stringify(password.website)]
         })
         if (result.result) {
-            if (this.setting.get("setting.backup.auto_backup")) {
+            if (this.setting.get("backup.auto_backup")) {
                 if (!$file.exists(this.iCloud_path)) {
                     $file.mkdir(this.iCloud_path)
                 }

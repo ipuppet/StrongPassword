@@ -20,7 +20,7 @@ class HomeUI {
             // 显示密码
             $("password_show").title = $cache.get("password")
             // 是否自动复制
-            if (this.kernel.setting.get("setting.general.auto_copy")) {
+            if (this.kernel.setting.get("general.auto_copy")) {
                 this.copy_password($cache.get("password"))
             }
         } else {

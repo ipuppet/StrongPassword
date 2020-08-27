@@ -5,10 +5,10 @@ class Generator {
     }
 
     update() {
-        this.part = this.setting.get("setting.generator.part")
-        this.length = this.setting.get("setting.generator.length")
-        this.connector = this.setting.get("setting.generator.connector") ? "-" : ""
-        this.character_set = this.setting.get("setting.generator.character_set")
+        this.part = this.setting.get("generator.part")
+        this.length = this.setting.get("generator.length")
+        this.connector = this.setting.get("generator.connector") ? "-" : ""
+        this.character_set = this.setting.get("generator.character_set")
     }
 
     _generate_part() {

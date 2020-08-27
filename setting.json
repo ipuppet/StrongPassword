@@ -5,13 +5,13 @@
             {
                 "title": "AUTO_COPY",
                 "type": "switch",
-                "key": "setting.general.auto_copy",
+                "key": "general.auto_copy",
                 "value": true
             },
             {
                 "title": "DELETE_CONFIRM",
                 "type": "switch",
-                "key": "setting.general.delete_confirm",
+                "key": "general.delete_confirm",
                 "value": true
             }
         ]
@@ -22,19 +22,19 @@
             {
                 "title": "AUTO_BACKUP_ICLOUD",
                 "type": "switch",
-                "key": "setting.backup.auto_backup",
+                "key": "backup.auto_backup",
                 "value": true
             },
             {
                 "title": "BACKUP_ICLOUD",
                 "type": "script",
-                "key": "setting.backup.backup",
+                "key": "backup.backup",
                 "value": "this.backup_to_iCloud()"
             },
             {
                 "title": "RECOVER_ICLOUD",
                 "type": "script",
-                "key": "setting.backup.recover",
+                "key": "backup.recover",
                 "value": "this.recover_from_iCloud()"
             }
         ]
@@ -45,25 +45,25 @@
             {
                 "title": "GENERATOR_PART",
                 "type": "stepper",
-                "key": "setting.generator.part",
+                "key": "generator.part",
                 "value": 3
             },
             {
                 "title": "GENERATOR_LENGTH",
                 "type": "stepper",
-                "key": "setting.generator.length",
+                "key": "generator.length",
                 "value": 6
             },
             {
                 "title": "GENERATOR_CONNECTOR",
                 "type": "switch",
-                "key": "setting.generator.connector",
+                "key": "generator.connector",
                 "value": true
             },
             {
                 "title": "GENERATOR_CHARACTER_SET",
                 "type": "string",
-                "key": "setting.generator.character_set",
+                "key": "generator.character_set",
                 "value": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             }
         ]
@@ -74,13 +74,13 @@
             {
                 "title": "Github",
                 "type": "info",
-                "key": "setting.about.github",
+                "key": "about.github",
                 "value": "https://github.com/ipuppet/StrongPassword"
             },
             {
                 "title": "AUTHOR",
                 "type": "info",
-                "key": "setting.about.author",
+                "key": "about.author",
                 "value": [
                     "ipuppet",
                     "https://blog.ipuppet.cn"
@@ -89,7 +89,7 @@
             {
                 "title": "README",
                 "type": "script",
-                "key": "setting.about.readme",
+                "key": "about.readme",
                 "value": "this.readme()"
             }
         ]

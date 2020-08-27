@@ -16,7 +16,7 @@ class TodayUI {
             // 显示密码
             $("password").title = $cache.get("password")
             // 是否自动输入
-            if (this.kernel.setting.get("setting.keyboard.auto_insert")) {
+            if (this.kernel.setting.get("keyboard.auto_insert")) {
                 this.copy_data($cache.get("password"))
             }
         } else {
