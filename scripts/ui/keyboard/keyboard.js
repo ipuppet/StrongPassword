@@ -102,7 +102,7 @@ class KeyboardUI {
                     rowHeight: 60,
                     header: {
                         type: "view",
-                        props: {height: 35},
+                        props: { height: 35 },
                         views: [
                             {
                                 type: "label",
@@ -150,14 +150,14 @@ class KeyboardUI {
                                 type: "label",
                                 props: {
                                     id: "id",
-                                    hidden: true,
+                                    hidden: true
                                 }
                             },
                             {
                                 type: "label",
                                 props: {
                                     id: "website_data",
-                                    hidden: true,
+                                    hidden: true
                                 }
                             },
                             {
@@ -225,7 +225,7 @@ class KeyboardUI {
                             $keyboard.insert(sender.object(indexPath).account.text)
                             $keyboard.playInputClick()
                         }
-                    }],
+                    }]
                 },
                 events: {
                     didSelect: (sender, indexPath, data) => {
@@ -236,7 +236,7 @@ class KeyboardUI {
                 layout: make => {
                     make.top.equalTo($("tab").bottom).offset(10)
                     make.left.bottom.right.equalTo(0)
-                },
+                }
             }
         ]
     }
@@ -364,7 +364,7 @@ class KeyboardUI {
                                 $("storage").hidden = false
                             }
                         }
-                    },
+                    }
                 },
                 {
                     type: "view",

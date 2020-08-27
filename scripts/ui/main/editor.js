@@ -96,7 +96,7 @@ class EditorUI {
                     textColor: this.factory.text_color,
                     align: $align.left,
                     font: $font(16),
-                    line: 1,
+                    line: 1
                 },
                 layout: make => {
                     make.left.inset(10)
@@ -113,7 +113,7 @@ class EditorUI {
                     insets: 0,
                     text: password.account,
                     placeholder: $l10n("ACCOUNT"),
-                    textColor: this.factory.text_color,
+                    textColor: this.factory.text_color
                 },
                 layout: (make, view) => {
                     make.right.inset(10)
@@ -133,7 +133,7 @@ class EditorUI {
                     textColor: this.factory.text_color,
                     align: $align.left,
                     font: $font(16),
-                    line: 1,
+                    line: 1
                 },
                 layout: (make, view) => {
                     make.left.inset(10)
@@ -149,7 +149,7 @@ class EditorUI {
                     align: $align.left,
                     text: password.password,
                     placeholder: $l10n("PASSWORD"),
-                    textColor: this.factory.text_color,
+                    textColor: this.factory.text_color
                 },
                 layout: (make, view) => {
                     make.right.inset(10)
@@ -179,13 +179,13 @@ class EditorUI {
                         }
                     },
                     data: password.website,
-                    actions: [{title: "delete"}]
+                    actions: [{ title: "delete" }]
                 },
                 layout: (make, view) => {
                     make.left.right.inset(10)
                     make.bottom.inset(10)
                     make.centerY.equalTo(view.super).multipliedBy(1.5)
-                },
+                }
             },
             {
                 type: "button",
@@ -213,7 +213,7 @@ class EditorUI {
                                         id: "website_inbox",
                                         type: $kbType.url,
                                         align: $align.left,
-                                        placeholder: $l10n("WEBSITE"),
+                                        placeholder: $l10n("WEBSITE")
                                     },
                                     layout: make => {
                                         make.left.right.inset(10)

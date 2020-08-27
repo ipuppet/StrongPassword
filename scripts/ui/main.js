@@ -33,7 +33,7 @@ class MainUI {
             default:
                 $ui.alert({
                     title: $l10n("ALERT_INFO"),
-                    message: "后续可能开发，敬请期待！",
+                    message: "后续可能开发，敬请期待！"
                 })
         }
 

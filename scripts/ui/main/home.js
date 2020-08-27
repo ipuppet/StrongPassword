@@ -54,7 +54,7 @@ class HomeUI {
                     align: $align.center,
                     editable: false,
                     bgcolor: $color("systemGray2", "systemFill"),
-                    textColor: this.factory.text_color,
+                    textColor: this.factory.text_color
                 },
                 layout: (make, view) => {
                     make.left.right.inset(10)
@@ -94,7 +94,7 @@ class HomeUI {
                 events: {
                     tapped: () => {
                         if ($cache.get("password")) {
-                            this.editor.push({password: $cache.get("password")})
+                            this.editor.push({ password: $cache.get("password") })
                         }
                     }
                 }

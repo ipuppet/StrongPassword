@@ -81,7 +81,7 @@ class StorageUI {
                 website: [],
                 password: "",
                 account: "",
-                date: "",
+                date: ""
             }
             $("storage_list").data = [StorageUI.template(password, $l10n("NO_RESULT"))]
         }
@@ -96,7 +96,7 @@ class StorageUI {
                     id: "storage_search",
                     placeholder: $l10n("STORAGE_SEARCH"),
                     type: $kbType.search,
-                    autoFontSize: true,
+                    autoFontSize: true
                 },
                 layout: make => {
                     make.height.equalTo(40)
@@ -109,8 +109,8 @@ class StorageUI {
                         this.search(sender.text.trim())
                     },
                     returned: sender => {
-                        this.search(sender.text.trim()),
-                            sender.blur()
+                        this.search(sender.text.trim())
+                        sender.blur()
                     }
                 }
             },
@@ -136,7 +136,7 @@ class StorageUI {
                                     }),
                                     align: $align.center
                                 },
-                                layout: (make, view) => {
+                                layout: make => {
                                     make.bottom.inset(5)
                                     make.left.right.inset(0)
                                 }
@@ -212,14 +212,14 @@ class StorageUI {
                                 type: "label",
                                 props: {
                                     id: "id",
-                                    hidden: true,
+                                    hidden: true
                                 }
                             },
                             {
                                 type: "label",
                                 props: {
                                     id: "website_data",
-                                    hidden: true,
+                                    hidden: true
                                 }
                             },
                             {
@@ -229,7 +229,7 @@ class StorageUI {
                                     font: $font(18),
                                     align: $align.left
                                 },
-                                layout: (make, view) => {
+                                layout: make => {
                                     make.top.inset(10)
                                     make.left.inset(10)
                                 }
@@ -245,7 +245,7 @@ class StorageUI {
                                     }),
                                     align: $align.left
                                 },
-                                layout: (make, view) => {
+                                layout: make => {
                                     make.bottom.inset(5)
                                     make.left.inset(10)
                                 }
@@ -261,7 +261,7 @@ class StorageUI {
                                     }),
                                     align: $align.right
                                 },
-                                layout: (make, view) => {
+                                layout: make => {
                                     make.bottom.inset(5)
                                     make.right.inset(10)
                                 }
@@ -272,7 +272,7 @@ class StorageUI {
                                     id: "no_result",
                                     align: $align.center
                                 },
-                                layout: (make, view) => {
+                                layout: make => {
                                     make.left.right.inset(10)
                                     make.top.inset(15)
                                 }
@@ -297,7 +297,7 @@ class StorageUI {
                 layout: make => {
                     make.top.equalTo($("storage_search").top).offset(70)
                     make.bottom.right.left.inset(0)
-                },
+                }
             },
             {
                 type: "view",
@@ -307,7 +307,7 @@ class StorageUI {
                     bgcolor: $color("primarySurface"),
                     borderWidth: 1,
                     borderColor: $color("systemGray6"),
-                    cornerRadius: 20,
+                    cornerRadius: 20
                 },
                 views: [
                     {
@@ -345,8 +345,9 @@ class StorageUI {
                         // 隐藏按钮
                         $("undo").hidden = true
                         // 将被删除的列表项重新插入
-                        $("storage_list").insert($cache.get("storage_deleted"))
-                        $cache.set("storage_list", $("storage_list").data)
+                        let storage_list = $("storage_list")
+                        storage_list.insert($cache.get("storage_deleted"))
+                        $cache.set("storage_list", storage_list.data)
                         $cache.remove("storage_deleted")
                     }
                 },
@@ -355,7 +356,7 @@ class StorageUI {
                     make.height.equalTo(40)
                     make.width.equalTo(125)
                     make.bottom.equalTo(view.super.safeAreaBottom).offset(-75)
-                },
+                }
             },
             {
                 type: "button",

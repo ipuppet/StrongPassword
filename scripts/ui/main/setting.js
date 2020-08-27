@@ -9,9 +9,7 @@ class SettingUI extends BaseUISetting {
         const content = $file.read("/README.md").string
         this.factory.push([{
             type: "markdown",
-            props: {
-                content: content,
-            },
+            props: { content: content },
             layout: (make, view) => {
                 make.size.equalTo(view.super)
             }
@@ -21,9 +19,9 @@ class SettingUI extends BaseUISetting {
     backup_to_iCloud() {
         const backup_action = () => {
             if (this.kernel.storage.backup_to_iCloud()) {
-                $ui.alert($l10n('BACKUP_SUCCESS'))
+                $ui.alert($l10n("BACKUP_SUCCESS"))
             } else {
-                $ui.alert($l10n('BACKUP_ERROR'))
+                $ui.alert($l10n("BACKUP_ERROR"))
             }
         }
         if (this.kernel.storage.has_backup()) {
@@ -37,7 +35,7 @@ class SettingUI extends BaseUISetting {
                             backup_action()
                         }
                     },
-                    {title: $l10n("CANCEL")}
+                    { title: $l10n("CANCEL") }
                 ]
             })
         } else {
@@ -55,7 +53,7 @@ class SettingUI extends BaseUISetting {
                     // 弹窗提示
                     $ui.alert({
                         title: $l10n("RECOVER"),
-                        message: $l10n("RECOVER_SUCCESS"),
+                        message: $l10n("RECOVER_SUCCESS")
                     })
                 }
             }

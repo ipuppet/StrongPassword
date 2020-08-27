@@ -17,11 +17,11 @@ class Storage {
         let data = []
         while (result.result.next()) {
             data.push({
-                id: result.result.get('id'),
-                account: result.result.get('account'),
-                password: result.result.get('password'),
-                date: result.result.get('date'),
-                website: JSON.parse(result.result.get('website')),
+                id: result.result.get("id"),
+                account: result.result.get("account"),
+                password: result.result.get("password"),
+                date: result.result.get("date"),
+                website: JSON.parse(result.result.get("website"))
             })
         }
         // result.result.close()
@@ -54,7 +54,7 @@ class Storage {
                     $file.mkdir(this.iCloud_path)
                 }
                 $file.write({
-                    data: $data({path: this.local_db}),
+                    data: $data({ path: this.local_db }),
                     path: this.iCloud_auto_db
                 })
             }
@@ -73,7 +73,7 @@ class Storage {
             $file.mkdir(this.iCloud_path)
         }
         return $file.write({
-            data: $data({path: this.local_db}),
+            data: $data({ path: this.local_db }),
             path: this.iCloud_db
         })
     }

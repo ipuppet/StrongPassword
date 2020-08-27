@@ -100,7 +100,7 @@ class TodayUI {
                 rowHeight: 60,
                 header: {
                     type: "view",
-                    props: {height: 35},
+                    props: { height: 35 },
                     views: [
                         {
                             type: "label",
@@ -148,14 +148,14 @@ class TodayUI {
                             type: "label",
                             props: {
                                 id: "id",
-                                hidden: true,
+                                hidden: true
                             }
                         },
                         {
                             type: "label",
                             props: {
                                 id: "website_data",
-                                hidden: true,
+                                hidden: true
                             }
                         },
                         {
@@ -220,7 +220,7 @@ class TodayUI {
                     handler: (sender, indexPath) => {
                         this.copy_data(sender.object(indexPath).account.text)
                     }
-                }],
+                }]
             },
             events: {
                 didSelect: (sender, indexPath, data) => {
@@ -231,7 +231,7 @@ class TodayUI {
             layout: make => {
                 make.top.equalTo($("tab").bottom).offset(10)
                 make.left.bottom.right.equalTo(0)
-            },
+            }
         }]
     }
 
@@ -360,7 +360,7 @@ class TodayUI {
                                 $("storage").hidden = false
                             }
                         }
-                    },
+                    }
                 },
                 {
                     type: "view",
