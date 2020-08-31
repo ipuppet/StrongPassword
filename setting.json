@@ -3,12 +3,20 @@
         "title": "GENERAL",
         "items": [
             {
+                "icon": [
+                    "doc.on.doc.fill",
+                    "#9B59B6"
+                ],
                 "title": "AUTO_COPY",
                 "type": "switch",
                 "key": "general.auto_copy",
                 "value": true
             },
             {
+                "icon": [
+                    "trash.fill",
+                    "#FF6600"
+                ],
                 "title": "DELETE_CONFIRM",
                 "type": "switch",
                 "key": "general.delete_confirm",
@@ -20,18 +28,29 @@
         "title": "BACKUP",
         "items": [
             {
+                "icon": [
+                    "icloud.fill",
+                    "#6699FF"
+                ],
                 "title": "AUTO_BACKUP_ICLOUD",
                 "type": "switch",
                 "key": "backup.auto_backup",
                 "value": true
             },
             {
+                "icon": [
+                    "icloud.and.arrow.up.fill"
+                ],
                 "title": "BACKUP_ICLOUD",
                 "type": "script",
                 "key": "backup.backup",
                 "value": "this.backup_to_iCloud()"
             },
             {
+                "icon": [
+                    "arrow.clockwise.icloud.fill",
+                    "#FFCC33"
+                ],
                 "title": "RECOVER_ICLOUD",
                 "type": "script",
                 "key": "backup.recover",
@@ -43,24 +62,40 @@
         "title": "ADVANCED",
         "items": [
             {
+                "icon": [
+                    "square.fill.and.line.vertical.square.fill",
+                    "#F4D03F"
+                ],
                 "title": "GENERATOR_PART",
                 "type": "stepper",
                 "key": "generator.part",
                 "value": 3
             },
             {
+                "icon": [
+                    "pencil.and.ellipsis.rectangle",
+                    "#EB984E"
+                ],
                 "title": "GENERATOR_LENGTH",
                 "type": "stepper",
                 "key": "generator.length",
                 "value": 6
             },
             {
+                "icon": [
+                    "link",
+                    "#3498DB"
+                ],
                 "title": "GENERATOR_CONNECTOR",
                 "type": "switch",
                 "key": "generator.connector",
                 "value": true
             },
             {
+                "icon": [
+                    "textformat",
+                    "#1ABC9C"
+                ],
                 "title": "GENERATOR_CHARACTER_SET",
                 "type": "string",
                 "key": "generator.character_set",
@@ -72,12 +107,20 @@
         "title": "ABOUT",
         "items": [
             {
+                "icon": [
+                    "/assets/icon/github.com.ico",
+                    "clear"
+                ],
                 "title": "Github",
                 "type": "info",
                 "key": "about.github",
                 "value": "https://github.com/ipuppet/StrongPassword"
             },
             {
+                "icon": [
+                    "person.fill",
+                    "#FF9900"
+                ],
                 "title": "AUTHOR",
                 "type": "info",
                 "key": "about.author",
@@ -87,6 +130,10 @@
                 ]
             },
             {
+                "icon": [
+                    "book.fill",
+                    "#A569BD"
+                ],
                 "title": "README",
                 "type": "script",
                 "key": "about.readme",
