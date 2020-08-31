@@ -12,6 +12,8 @@
 
 **请保存好您的密码文件，不要泄漏给他人。**
 
+设置页面参考 Aligege [影视大全](https://liuguogy.github.io/JSBox-addins/?q=show&objectId=5ec5f46dc1c17600084c5f23)
+
 ### 存储说明
 
 密码存储文件：`assets/StrongPassword.db`
