@@ -57,7 +57,7 @@ class HomeUI {
                     textColor: this.factory.text_color
                 },
                 layout: (make, view) => {
-                    make.left.right.inset(10)
+                    make.left.right.inset(20)
                     make.height.equalTo(40)
                     make.centerY.equalTo(view.super).multipliedBy(0.5)
                 },
@@ -76,8 +76,8 @@ class HomeUI {
                     font: $font(12),
                     textColor: $color("systemPlaceholderText")
                 },
-                layout: make => {
-                    make.left.inset(10)
+                layout: (make, view) => {
+                    make.left.right.equalTo(view.prev)
                     make.top.equalTo($("password_show").top).offset(40)
                 }
             },
@@ -87,8 +87,8 @@ class HomeUI {
                     title: $l10n("SAVE"),
                     contentEdgeInsets: 10
                 },
-                layout: make => {
-                    make.left.right.inset(10)
+                layout: (make, view) => {
+                    make.left.right.equalTo(view.prev)
                     make.centerY.equalTo(-20).multipliedBy(1.2)
                 },
                 events: {
@@ -105,8 +105,8 @@ class HomeUI {
                     title: $l10n("GENERATE_BUTTON"),
                     contentEdgeInsets: 10
                 },
-                layout: make => {
-                    make.left.right.inset(10)
+                layout: (make, view) => {
+                    make.left.right.equalTo(view.prev)
                     make.centerY.equalTo(-20).multipliedBy(1.6)
                 },
                 events: {

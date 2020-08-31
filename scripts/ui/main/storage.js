@@ -90,7 +90,7 @@ class StorageUI {
     get_views() {
         return [
             this.factory.standard_header("storage_view", $l10n("STORAGE")),
-            {
+            { // 搜索
                 type: "input",
                 props: {
                     id: "storage_search",
@@ -99,10 +99,10 @@ class StorageUI {
                     autoFontSize: true
                 },
                 layout: make => {
-                    make.height.equalTo(40)
-                    make.top.equalTo($("storage_view").top)
-                    make.right.inset(10)
-                    make.left.inset(130)
+                    make.height.equalTo(35)
+                    make.centerY.equalTo($("storage_view").centerY)
+                    make.right.inset(20)
+                    make.left.inset(150)
                 },
                 events: {
                     changed: sender => {
@@ -114,7 +114,7 @@ class StorageUI {
                     }
                 }
             },
-            {
+            { // 列表
                 type: "list",
                 props: {
                     id: "storage_list",
@@ -294,12 +294,12 @@ class StorageUI {
                         }
                     }
                 },
-                layout: make => {
-                    make.top.equalTo($("storage_search").top).offset(70)
+                layout: (make, view) => {
+                    make.top.equalTo(view.prev.top).offset(50)
                     make.bottom.right.left.inset(0)
                 }
             },
-            {
+            { // 撤销
                 type: "view",
                 props: {
                     id: "undo",
@@ -358,7 +358,7 @@ class StorageUI {
                     make.bottom.equalTo(view.super.safeAreaBottom).offset(-75)
                 }
             },
-            {
+            { // 添加
                 type: "button",
                 props: {
                     symbol: "plus",
