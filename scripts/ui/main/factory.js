@@ -3,33 +3,6 @@ const BaseUI = require("/scripts/ui/components/base-ui")
 class Factory extends BaseUI {
     constructor(kernel) {
         super(kernel)
-        // 视图与菜单对应关系
-        this.page_index = [// 通过索引获取页面id
-            "home",// 0 => 首页
-            "storage",// 1 => 储藏室
-            "setting"// 2 => 设置
-        ]
-        // 视图
-        this.views = [
-            this.home(),
-            this.storage(),
-            this.setting()
-        ]
-        // 菜单
-        this.menus = [
-            {
-                icon: ["lock.circle", "lock.circle.fill"],
-                title: $l10n("PASSWORD")
-            },
-            {
-                icon: ["archivebox", "archivebox.fill"],
-                title: $l10n("STORAGE")
-            },
-            {
-                icon: "gear",
-                title: $l10n("SETTING")
-            }
-        ]
     }
 
     home() {
@@ -48,6 +21,37 @@ class Factory extends BaseUI {
         const SettingUI = require("./setting")
         let ui_interface = new SettingUI(this.kernel, this)
         return this.creator(ui_interface.get_views(), 2)
+    }
+
+    /**
+     * 渲染页面
+     */
+    async render() {
+        // 视图
+        this.set_views([
+            this.home(),
+            this.storage(),
+            this.setting()
+        ])
+        // 菜单
+        this.set_menus([
+            {
+                icon: ["lock.circle", "lock.circle.fill"],
+                page: "home",
+                title: $l10n("PASSWORD")
+            },
+            {
+                icon: ["archivebox", "archivebox.fill"],
+                page: "storage",
+                title: $l10n("STORAGE")
+            },
+            {
+                icon: "gear",
+                page: "setting",
+                title: $l10n("SETTING")
+            }
+        ])
+        super.render()
     }
 }
 
