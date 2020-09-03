@@ -21,8 +21,10 @@ class SettingUI extends BaseUISetting {
         const backup_action = () => {
             if (this.kernel.storage.backup_to_iCloud()) {
                 $ui.alert($l10n("BACKUP_SUCCESS"))
+                this.done()
             } else {
                 $ui.alert($l10n("BACKUP_ERROR"))
+                this.cancel()
             }
         }
         if (this.kernel.storage.has_backup()) {
@@ -34,10 +36,12 @@ class SettingUI extends BaseUISetting {
                         title: $l10n("OK"),
                         handler: () => {
                             backup_action()
-                            this.done()
                         }
                     },
-                    { title: $l10n("CANCEL") }
+                    {
+                        title: $l10n("CANCEL"),
+                        handler: () => { this.cancel() }
+                    }
                 ]
             })
         } else {
@@ -54,6 +58,8 @@ class SettingUI extends BaseUISetting {
                     let storage = require("./storage")
                     storage.set_data(this.kernel.storage.all())
                     this.done()
+                } else {
+                    this.cancel()
                 }
             }
         })
