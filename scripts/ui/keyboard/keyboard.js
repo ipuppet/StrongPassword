@@ -3,7 +3,7 @@ class KeyboardUI {
         this.kernel = kernel
     }
 
-    copy_password(password) {
+    copyPassword(password) {
         // 苹果隐私保护，第三方输入法无法输入密码
         // 故此处使用复制
         if (password !== null) {
@@ -12,14 +12,14 @@ class KeyboardUI {
         }
     }
 
-    generate_button_handler() {
+    generateButtonHandler() {
         if (!$cache.get("password")) {
             $cache.set("password", this.kernel.generator.generate())
             // 显示密码
             $("password").title = $cache.get("password")
             // 是否自动复制
-            if (this.kernel.setting.get("general.auto_copy")) {
-                this.copy_password($cache.get("password"))
+            if (this.kernel.setting.get("general.autoCopy")) {
+                this.copyPassword($cache.get("password"))
             }
         } else {
             $ui.alert({
@@ -30,7 +30,7 @@ class KeyboardUI {
                         title: $l10n("OK"),
                         handler: () => {
                             $cache.remove("password")
-                            this.generate_button_handler()
+                            this.generateButtonHandler()
                         }
                     },
                     {
@@ -55,13 +55,13 @@ class KeyboardUI {
         return false
     }
 
-    password_list_to_ui(data) {
-        function get_label(password) {
+    passwordListToUi(data) {
+        function getLabel(password) {
             return {
                 id: {
                     text: password.id
                 },
-                website_data: {
+                websiteData: {
                     text: JSON.stringify(password.website)
                 },
                 website: {
@@ -76,27 +76,27 @@ class KeyboardUI {
                 date: {
                     text: password.date
                 },
-                no_result: {
+                noResult: {
                     text: ""
                 }
             }
         }
 
-        if (this.all_data !== false) {
+        if (this.allData !== false) {
             let result = []
             for (let password of data) {
-                result.push(get_label(password))
+                result.push(getLabel(password))
             }
             return result
         }
     }
 
-    storage_ui() {
+    storageUi() {
         return [
             {
                 type: "list",
                 props: {
-                    id: "password_list",
+                    id: "password-list",
                     style: 1,
                     reorder: false,
                     rowHeight: 60,
@@ -156,7 +156,7 @@ class KeyboardUI {
                             {
                                 type: "label",
                                 props: {
-                                    id: "website_data",
+                                    id: "website-data",
                                     hidden: true
                                 }
                             },
@@ -207,7 +207,7 @@ class KeyboardUI {
                             {
                                 type: "label",
                                 props: {
-                                    id: "no_result",
+                                    id: "no-result",
                                     align: $align.center
                                 },
                                 layout: make => {
@@ -230,7 +230,7 @@ class KeyboardUI {
                 events: {
                     didSelect: (sender, indexPath, data) => {
                         let password = data.password.text
-                        this.copy_password(password)
+                        this.copyPassword(password)
                     }
                 },
                 layout: make => {
@@ -241,7 +241,7 @@ class KeyboardUI {
         ]
     }
 
-    home_ui() {
+    homeUi() {
         return [{
             type: "button",
             props: {
@@ -265,7 +265,7 @@ class KeyboardUI {
             },
             events: {
                 tapped: sender => {
-                    this.copy_password(sender.title.trim())
+                    this.copyPassword(sender.title.trim())
                 }
             }
         },
@@ -336,7 +336,7 @@ class KeyboardUI {
                 },
                 events: {
                     tapped: () => {
-                        this.generate_button_handler()
+                        this.generateButtonHandler()
                     }
                 }
             }]
@@ -360,7 +360,7 @@ class KeyboardUI {
                                 $("storage").hidden = true
                             } else if (sender.index === 1) {
                                 $("home").hidden = true
-                                $("password_list").data = this.password_list_to_ui(this.kernel.storage.all())
+                                $("password-list").data = this.passwordListToUi(this.kernel.storage.all())
                                 $("storage").hidden = false
                             }
                         }
@@ -372,7 +372,7 @@ class KeyboardUI {
                         id: "home",
                         hidden: false
                     },
-                    views: this.home_ui(),
+                    views: this.homeUi(),
                     layout: make => {
                         make.left.bottom.right.inset(0)
                         make.top.inset(50)
@@ -384,7 +384,7 @@ class KeyboardUI {
                         id: "storage",
                         hidden: true
                     },
-                    views: this.storage_ui(),
+                    views: this.storageUi(),
                     layout: make => {
                         make.left.bottom.right.inset(0)
                         make.top.inset(50)

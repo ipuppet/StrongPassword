@@ -3,21 +3,21 @@ class TodayUI {
         this.kernel = kernel
     }
 
-    copy_data(data) {
+    copyData(data) {
         if (data) {
             $clipboard.text = data
             $ui.toast($l10n("COPY_SUCCESS"))
         }
     }
 
-    generate_button_handler() {
+    generateButtonHandler() {
         if (!$cache.get("password")) {
             $cache.set("password", this.kernel.generator.generate())
             // 显示密码
             $("password").title = $cache.get("password")
             // 是否自动输入
-            if (this.kernel.setting.get("keyboard.auto_insert")) {
-                this.copy_data($cache.get("password"))
+            if (this.kernel.setting.get("keyboard.autoInsert")) {
+                this.copyData($cache.get("password"))
             }
         } else {
             $ui.alert({
@@ -28,7 +28,7 @@ class TodayUI {
                         title: $l10n("OK"),
                         handler: () => {
                             $cache.remove("password")
-                            this.generate_button_handler()
+                            this.generateButtonHandler()
                         }
                     },
                     {
@@ -53,13 +53,13 @@ class TodayUI {
         return false
     }
 
-    password_list_to_ui(data) {
-        function get_label(password) {
+    passwordListToUi(data) {
+        function getLabel(password) {
             return {
                 id: {
                     text: password.id
                 },
-                website_data: {
+                websiteData: {
                     text: JSON.stringify(password.website)
                 },
                 website: {
@@ -74,26 +74,26 @@ class TodayUI {
                 date: {
                     text: password.date
                 },
-                no_result: {
+                noResult: {
                     text: ""
                 }
             }
         }
 
-        if (this.all_data !== false) {
+        if (this.allData !== false) {
             let result = []
             for (let password of data) {
-                result.push(get_label(password))
+                result.push(getLabel(password))
             }
             return result
         }
     }
 
-    storage_ui() {
+    storageUi() {
         return [{
             type: "list",
             props: {
-                id: "password_list",
+                id: "passwordList",
                 style: 1,
                 reorder: false,
                 bgcolor: $color("clear"),
@@ -154,7 +154,7 @@ class TodayUI {
                         {
                             type: "label",
                             props: {
-                                id: "website_data",
+                                id: "websiteData",
                                 hidden: true
                             }
                         },
@@ -205,7 +205,7 @@ class TodayUI {
                         {
                             type: "label",
                             props: {
-                                id: "no_result",
+                                id: "noResult",
                                 align: $align.center
                             },
                             layout: make => {
@@ -218,14 +218,14 @@ class TodayUI {
                 actions: [{
                     title: $l10n("COPY_ACCOUNT"),
                     handler: (sender, indexPath) => {
-                        this.copy_data(sender.object(indexPath).account.text)
+                        this.copyData(sender.object(indexPath).account.text)
                     }
                 }]
             },
             events: {
                 didSelect: (sender, indexPath, data) => {
                     let password = data.password.text
-                    this.copy_data(password)
+                    this.copyData(password)
                 }
             },
             layout: make => {
@@ -235,7 +235,7 @@ class TodayUI {
         }]
     }
 
-    home_ui() {
+    homeUi() {
         return [
             {
                 type: "button",
@@ -260,7 +260,7 @@ class TodayUI {
                 },
                 events: {
                     tapped: sender => {
-                        this.copy_data(sender.title.trim())
+                        this.copyData(sender.title.trim())
                     }
                 }
             },
@@ -331,7 +331,7 @@ class TodayUI {
                 },
                 events: {
                     tapped: () => {
-                        this.generate_button_handler()
+                        this.generateButtonHandler()
                     }
                 }
             }
@@ -356,7 +356,7 @@ class TodayUI {
                                 $("storage").hidden = true
                             } else if (sender.index === 1) {
                                 $("home").hidden = true
-                                $("password_list").data = this.password_list_to_ui(this.kernel.storage.all())
+                                $("password-list").data = this.passwordListToUi(this.kernel.storage.all())
                                 $("storage").hidden = false
                             }
                         }
@@ -368,7 +368,7 @@ class TodayUI {
                         id: "home",
                         hidden: false
                     },
-                    views: this.home_ui(),
+                    views: this.homeUi(),
                     layout: make => {
                         make.left.bottom.right.inset(0)
                         make.top.inset(50)
@@ -380,7 +380,7 @@ class TodayUI {
                         id: "storage",
                         hidden: true
                     },
-                    views: this.storage_ui(),
+                    views: this.storageUi(),
                     layout: make => {
                         make.left.bottom.right.inset(0)
                         make.top.inset(50)

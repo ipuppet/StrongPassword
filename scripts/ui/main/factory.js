@@ -7,20 +7,20 @@ class Factory extends BaseUI {
 
     home() {
         const HomeUI = require("./home")
-        let ui_interface = new HomeUI(this.kernel, this)
-        return this.creator(ui_interface.get_views(), 0)
+        let interfaceUi = new HomeUI(this.kernel, this)
+        return this.creator(interfaceUi.getViews(), 0)
     }
 
     storage() {
         const StorageUI = require("./storage")
-        let ui_interface = new StorageUI(this.kernel, this)
-        return this.creator(ui_interface.get_views(), 1)
+        let interfaceUi = new StorageUI(this.kernel, this)
+        return this.creator(interfaceUi.getViews(), 1)
     }
 
     setting() {
         const SettingUI = require("./setting")
-        let ui_interface = new SettingUI(this.kernel, this)
-        return this.creator(ui_interface.get_views(), 2)
+        let interfaceUi = new SettingUI(this.kernel, this)
+        return this.creator(interfaceUi.getViews(), 2)
     }
 
     /**
@@ -28,13 +28,13 @@ class Factory extends BaseUI {
      */
     async render() {
         // 视图
-        this.set_views([
+        this.setViews([
             this.home(),
             this.storage(),
             this.setting()
         ])
         // 菜单
-        this.set_menus([
+        this.setMenus([
             {
                 icon: ["lock.circle", "lock.circle.fill"],
                 page: "home",

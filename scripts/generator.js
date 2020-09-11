@@ -8,13 +8,13 @@ class Generator {
         this.part = this.setting.get("generator.part")
         this.length = this.setting.get("generator.length")
         this.connector = this.setting.get("generator.connector") ? "-" : ""
-        this.character_set = this.setting.get("generator.character_set")
+        this.characterSet = this.setting.get("generator.characterSet")
     }
 
-    _generate_part() {
+    generatePart() {
         let result = ""
         for (let i = 0; i < this.length; i++) {
-            result += this.character_set[Math.floor(Math.random() * this.character_set.length)]
+            result += this.characterSet[Math.floor(Math.random() * this.characterSet.length)]
         }
         return result
     }
@@ -23,7 +23,7 @@ class Generator {
         this.update()
         var result = []
         for (let i = 0; i < this.part; i++) {
-            result.push(this._generate_part())
+            result.push(this.generatePart())
         }
         return result.join(this.connector)
     }

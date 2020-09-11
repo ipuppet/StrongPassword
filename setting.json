@@ -9,7 +9,7 @@
                 ],
                 "title": "AUTO_COPY",
                 "type": "switch",
-                "key": "general.auto_copy",
+                "key": "general.autoCopy",
                 "value": true
             },
             {
@@ -19,7 +19,7 @@
                 ],
                 "title": "DELETE_CONFIRM",
                 "type": "switch",
-                "key": "general.delete_confirm",
+                "key": "general.deleteConfirm",
                 "value": true
             }
         ]
@@ -34,7 +34,7 @@
                 ],
                 "title": "AUTO_BACKUP_ICLOUD",
                 "type": "switch",
-                "key": "backup.auto_backup",
+                "key": "backup.autoBackup",
                 "value": true
             },
             {
@@ -44,7 +44,7 @@
                 "title": "BACKUP_ICLOUD",
                 "type": "script",
                 "key": "backup.backup",
-                "value": "this.backup_to_iCloud()"
+                "value": "this.backupToICloud()"
             },
             {
                 "icon": [
@@ -54,7 +54,7 @@
                 "title": "RECOVER_ICLOUD",
                 "type": "script",
                 "key": "backup.recover",
-                "value": "this.recover_from_iCloud()"
+                "value": "this.recoverFromICloud()"
             }
         ]
     },
@@ -98,7 +98,7 @@
                 ],
                 "title": "GENERATOR_CHARACTER_SET",
                 "type": "string",
-                "key": "generator.character_set",
+                "key": "generator.characterSet",
                 "value": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             }
         ]

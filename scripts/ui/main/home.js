@@ -7,21 +7,21 @@ class HomeUI {
         this.editor = new EditorUI(this.kernel, this.factory)
     }
 
-    copy_password(password) {
+    copyPassword(password) {
         if (password !== null) {
             $clipboard.text = password
             $ui.toast($l10n("COPY_SUCCESS"))
         }
     }
 
-    generate_button_handler() {
+    generateButtonHandler() {
         if (!$cache.get("password")) {
             $cache.set("password", this.kernel.generator.generate())
             // 显示密码
-            $("password_show").title = $cache.get("password")
+            $("password-show").title = $cache.get("password")
             // 是否自动复制
-            if (this.kernel.setting.get("general.auto_copy")) {
-                this.copy_password($cache.get("password"))
+            if (this.kernel.setting.get("general.autoCopy")) {
+                this.copyPassword($cache.get("password"))
             }
         } else {
             $ui.alert({
@@ -32,7 +32,7 @@ class HomeUI {
                         title: $l10n("OK"),
                         handler: () => {
                             $cache.remove("password")
-                            this.generate_button_handler()
+                            this.generateButtonHandler()
                         }
                     },
                     {
@@ -43,18 +43,18 @@ class HomeUI {
         }
     }
 
-    get_views() {
+    getViews() {
         return [
-            this.factory.standard_header("home_view", $l10n("STRONG_PASSWORD_APP")),
+            this.factory.standardHeader("home-view", $l10n("STRONG_PASSWORD_APP")),
             {
                 type: "button",
                 props: {
-                    id: "password_show",
+                    id: "password-show",
                     title: $cache.get("password"),
                     align: $align.center,
                     editable: false,
                     bgcolor: $color("systemGray2", "systemFill"),
-                    textColor: this.factory.text_color
+                    textColor: this.factory.textColor
                 },
                 layout: (make, view) => {
                     make.left.right.inset(20)
@@ -63,7 +63,7 @@ class HomeUI {
                 },
                 events: {
                     tapped: sender => {
-                        this.copy_password(sender.title.trim())
+                        this.copyPassword(sender.title.trim())
                     }
                 }
             },
@@ -78,7 +78,7 @@ class HomeUI {
                 },
                 layout: (make, view) => {
                     make.left.right.equalTo(view.prev)
-                    make.top.equalTo($("password_show").top).offset(40)
+                    make.top.equalTo($("password-show").top).offset(40)
                 }
             },
             {
@@ -111,7 +111,7 @@ class HomeUI {
                 },
                 events: {
                     tapped: () => {
-                        this.generate_button_handler()
+                        this.generateButtonHandler()
                     }
                 }
             }

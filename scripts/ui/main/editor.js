@@ -4,22 +4,22 @@ class EditorUI {
         this.factory = factory
     }
 
-    save(password, is_update, index) {
+    save(password, isUpdate, index) {
         if (password.password === "") {
             $ui.toast($l10n("NO_PASSWORD"))
             return false
         }
         let result
-        if (is_update) {
+        if (isUpdate) {
             result = this.kernel.storage.update(password)
         } else {
             result = this.kernel.storage.save(password)
         }
         if (result) {
             $ui.success($l10n("SAVE_SUCCESS"))
-            // 更新storage_list
+            // 更新storage-list
             let storage = require("./storage")
-            index = is_update ? index : null
+            index = isUpdate ? index : null
             storage.update(password, index)
             // 弹出窗口
             setTimeout(() => {
@@ -39,12 +39,12 @@ class EditorUI {
                 date: ""
             }
         }
-        let nav_buttons = [
+        let navButtons = [
             {
                 type: "button",
                 props: {
                     symbol: "doc.on.doc",
-                    tintColor: this.factory.text_color,
+                    tintColor: this.factory.textColor,
                     bgcolor: $color("clear")
                 },
                 layout: make => {
@@ -66,7 +66,7 @@ class EditorUI {
                 type: "button",
                 props: {
                     symbol: "checkmark",
-                    tintColor: this.factory.text_color,
+                    tintColor: this.factory.textColor,
                     bgcolor: $color("clear")
                 },
                 layout: make => {
@@ -79,11 +79,11 @@ class EditorUI {
                         password.password = $("password").text.trim()
                         password.website = $("website").data
                         password.date = new Date().toLocaleDateString()
-                        let is_update = false
+                        let isUpdate = false
                         if (undefined !== password.id) {
-                            is_update = true
+                            isUpdate = true
                         }
-                        this.save(password, is_update, index)
+                        this.save(password, isUpdate, index)
                     }
                 }
             }
@@ -93,7 +93,7 @@ class EditorUI {
                 type: "label",
                 props: {
                     text: $l10n("ACCOUNT"),
-                    textColor: this.factory.text_color,
+                    textColor: this.factory.texColor,
                     align: $align.left,
                     font: $font(16),
                     line: 1
@@ -113,7 +113,7 @@ class EditorUI {
                     insets: 0,
                     text: password.account,
                     placeholder: $l10n("ACCOUNT"),
-                    textColor: this.factory.text_color
+                    textColor: this.factory.textColor
                 },
                 layout: (make, view) => {
                     make.right.inset(10)
@@ -130,7 +130,7 @@ class EditorUI {
                 type: "label",
                 props: {
                     text: $l10n("PASSWORD"),
-                    textColor: this.factory.text_color,
+                    textColor: this.factory.textColor,
                     align: $align.left,
                     font: $font(16),
                     line: 1
@@ -149,7 +149,7 @@ class EditorUI {
                     align: $align.left,
                     text: password.password,
                     placeholder: $l10n("PASSWORD"),
-                    textColor: this.factory.text_color
+                    textColor: this.factory.textColor
                 },
                 layout: (make, view) => {
                     make.right.inset(10)
@@ -174,7 +174,7 @@ class EditorUI {
                             height: 20,
                             text: $l10n("WEBSITE"),
                             align: $align.left,
-                            textColor: this.factory.text_color,
+                            textColor: this.factory.textColor,
                             font: $font(12)
                         }
                     },
@@ -191,7 +191,7 @@ class EditorUI {
                 type: "button",
                 props: {
                     symbol: "plus",
-                    tintColor: this.factory.text_color,
+                    tintColor: this.factory.textColor,
                     bgcolor: $color("clear")
                 },
                 layout: (make, view) => {
@@ -210,7 +210,7 @@ class EditorUI {
                                 {
                                     type: "input",
                                     props: {
-                                        id: "website_inbox",
+                                        id: "website-inbox",
                                         type: $kbType.url,
                                         align: $align.left,
                                         placeholder: $l10n("WEBSITE")
@@ -237,7 +237,7 @@ class EditorUI {
                                     type: "button",
                                     props: {
                                         symbol: "plus",
-                                        tintColor: this.factory.text_color,
+                                        tintColor: this.factory.textColor,
                                         bgcolor: $color("clear")
                                     },
                                     layout: make => {
@@ -247,15 +247,15 @@ class EditorUI {
                                     },
                                     events: {
                                         tapped: () => {
-                                            let website_inbox = $("website_inbox")
-                                            if (website_inbox.text === "") return
+                                            let websiteInbox = $("website-inbox")
+                                            if (websiteInbox.text === "") return
                                             let website = $("website")
                                             website.insert({
                                                 index: website.data.length,
-                                                value: website_inbox.text
+                                                value: websiteInbox.text
                                             })
-                                            website_inbox.blur()
-                                            website_inbox.text = ""
+                                            websiteInbox.blur()
+                                            websiteInbox.text = ""
                                         }
                                     }
                                 }
@@ -265,7 +265,7 @@ class EditorUI {
                 }
             }
         ]
-        this.factory.push(views, $l10n("BACK"), nav_buttons)
+        this.factory.push(views, $l10n("BACK"), navButtons)
     }
 }
 

@@ -16,10 +16,10 @@ class SettingUI extends BaseUISetting {
         }])
     }
 
-    backup_to_iCloud() {
+    backupToICloud() {
         this.start()
-        const backup_action = () => {
-            if (this.kernel.storage.backup_to_iCloud()) {
+        const backupAction = () => {
+            if (this.kernel.storage.backupToICloud()) {
                 $ui.alert($l10n("BACKUP_SUCCESS"))
                 this.done()
             } else {
@@ -27,7 +27,7 @@ class SettingUI extends BaseUISetting {
                 this.cancel()
             }
         }
-        if (this.kernel.storage.has_backup()) {
+        if (this.kernel.storage.hasBackup()) {
             $ui.alert({
                 title: $l10n("BACKUP"),
                 message: $l10n("ALREADY_HAS_BACKUP"),
@@ -35,7 +35,7 @@ class SettingUI extends BaseUISetting {
                     {
                         title: $l10n("OK"),
                         handler: () => {
-                            backup_action()
+                            backupAction()
                         }
                     },
                     {
@@ -45,18 +45,18 @@ class SettingUI extends BaseUISetting {
                 ]
             })
         } else {
-            backup_action()
+            backupAction()
         }
     }
 
-    recover_from_iCloud() {
+    recoverFromICloud() {
         this.start()
         $drive.open({
             handler: data => {
-                if (this.kernel.storage.recover_from_iCloud(data)) {
+                if (this.kernel.storage.recoverFromICloud(data)) {
                     // 更新列表
                     let storage = require("./storage")
-                    storage.set_data(this.kernel.storage.all())
+                    storage.setData(this.kernel.storage.all())
                     this.done()
                 } else {
                     this.cancel()
