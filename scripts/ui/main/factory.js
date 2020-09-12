@@ -20,7 +20,7 @@ class Factory extends BaseUI {
     setting() {
         const SettingUI = require("./setting")
         let interfaceUi = new SettingUI(this.kernel, this)
-        return this.creator(interfaceUi.getViews(), 2)
+        return this.creator(interfaceUi.getViews(), 2, false)
     }
 
     /**
