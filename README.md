@@ -2,6 +2,8 @@
 
 > 一个强密码生成器
 
+[通过Erots安装](https://liuguogy.github.io/JSBox-addins/?q=show&objectId=5f21af7237d3b40008e86146)
+
 一键生成强密码，提升账号安全性！
 
 - 自动复制，节约宝贵时间。
@@ -9,8 +11,6 @@
 - 可自由设置密码长度。
 - 自动切换深色模式。
 - 语言：简体中文, English
-
-[通过Erots安装](https://liuguogy.github.io/JSBox-addins/?q=show&objectId=5f21af7237d3b40008e86146)
 
 **请保存好您的密码文件，不要泄漏给他人。**
 
