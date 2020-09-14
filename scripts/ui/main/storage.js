@@ -11,6 +11,13 @@ class StorageUI {
         this.deleteT = null // 真正的删除操作
     }
 
+    copyPassword(password) {
+        if (password !== null) {
+            $clipboard.text = password
+            $ui.toast($l10n("COPY_SUCCESS"))
+        }
+    }
+
     static setData(list) {
         list = StorageUI.listTemplate(list)
         $("storage-list").data = list
@@ -144,67 +151,76 @@ class StorageUI {
                         ]
                     },
                     data: $cache.get("storageList"),
-                    actions: [{
-                        title: "delete",
-                        color: $color("red"),
-                        handler: (sender, indexPath) => {
-                            // 缓存storage-list延后更新，用来获取列表中被删除的条目的信息
-                            let password = $cache.get("storageList")[indexPath.item]
-                            let deleteAction = () => {
-                                let id = $cache.get("storageList")[indexPath.item].id.text
-                                // 更新缓存内容
-                                $cache.set("storageList", sender.data)
-                                // 将被删除的内容写入缓存，用于撤销
-                                $cache.set("storageDeleted", {
-                                    indexPath: indexPath,
-                                    value: password
-                                })
-                                // 显示按钮
-                                $("undo").hidden = false
-                                clearTimeout(this.undoT)// 防止按钮显示错乱
-                                // 按钮消失倒计时
-                                this.undoT = setTimeout(() => {
-                                    $("undo").hidden = true
-                                    $cache.remove("storageDeleted")
-                                }, this.undoTime)
-                                // 真正删除操作
-                                this.deleteT = setTimeout(() => {
-                                    if (!this.kernel.storage.delete(id)) {
-                                        sender.insert({
-                                            indexPath: indexPath,
-                                            value: password
-                                        })
-                                        // 删除失败，恢复缓存内容
-                                        $cache.set("storageList", sender.data)
-                                        $ui.error($l10n("DELETE_ERROR"))
-                                    }
-                                }, this.undoTime)
-                            }
-                            if (this.kernel.setting.get("general.deleteConfirm")) {
-                                $ui.alert({
-                                    title: $l10n("ALERT_INFO"),
-                                    message: $l10n("CONFIRM_DELETE_MSG"),
-                                    actions: [
-                                        {
-                                            title: $l10n("OK"),
-                                            handler: deleteAction
-                                        },
-                                        {
-                                            title: $l10n("CANCEL"),
-                                            handler: () => {
-                                                sender.insert({
-                                                    indexPath: indexPath,
-                                                    value: password
-                                                })
-                                            }
+                    actions: [
+                        {
+                            title: "delete",
+                            color: $color("red"),
+                            handler: (sender, indexPath) => {
+                                // 缓存storage-list延后更新，用来获取列表中被删除的条目的信息
+                                let password = $cache.get("storageList")[indexPath.item]
+                                let deleteAction = () => {
+                                    let id = $cache.get("storageList")[indexPath.item].id.text
+                                    // 更新缓存内容
+                                    $cache.set("storageList", sender.data)
+                                    // 将被删除的内容写入缓存，用于撤销
+                                    $cache.set("storageDeleted", {
+                                        indexPath: indexPath,
+                                        value: password
+                                    })
+                                    // 显示按钮
+                                    $("undo").hidden = false
+                                    clearTimeout(this.undoT)// 防止按钮显示错乱
+                                    // 按钮消失倒计时
+                                    this.undoT = setTimeout(() => {
+                                        $("undo").hidden = true
+                                        $cache.remove("storageDeleted")
+                                    }, this.undoTime)
+                                    // 真正删除操作
+                                    this.deleteT = setTimeout(() => {
+                                        if (!this.kernel.storage.delete(id)) {
+                                            sender.insert({
+                                                indexPath: indexPath,
+                                                value: password
+                                            })
+                                            // 删除失败，恢复缓存内容
+                                            $cache.set("storageList", sender.data)
+                                            $ui.error($l10n("DELETE_ERROR"))
                                         }
-                                    ]
-                                })
-                            } else {
-                                deleteAction()
+                                    }, this.undoTime)
+                                }
+                                if (this.kernel.setting.get("general.deleteConfirm")) {
+                                    $ui.alert({
+                                        title: $l10n("ALERT_INFO"),
+                                        message: $l10n("CONFIRM_DELETE_MSG"),
+                                        actions: [
+                                            {
+                                                title: $l10n("OK"),
+                                                handler: deleteAction
+                                            },
+                                            {
+                                                title: $l10n("CANCEL"),
+                                                handler: () => {
+                                                    sender.insert({
+                                                        indexPath: indexPath,
+                                                        value: password
+                                                    })
+                                                }
+                                            }
+                                        ]
+                                    })
+                                } else {
+                                    deleteAction()
+                                }
+                            }
+                        },
+                        {
+                            title: $l10n("COPY"),
+                            handler: (sender, indexPath) => {
+                                let data = sender.object(indexPath)
+                                this.copyPassword(data.password.text)
                             }
                         }
-                    }],
+                    ],
                     template: {
                         props: {},
                         views: [
