@@ -47,73 +47,114 @@ class HomeUI {
         return [
             this.factory.standardHeader("home-view", $l10n("STRONG_PASSWORD_APP")),
             {
-                type: "button",
-                props: {
-                    id: "password-show",
-                    title: $cache.get("password"),
-                    align: $align.center,
-                    editable: false,
-                    bgcolor: $color("systemGray2", "systemFill"),
-                    textColor: this.factory.textColor
-                },
-                layout: (make, view) => {
-                    make.left.right.inset(20)
-                    make.height.equalTo(40)
-                    make.centerY.equalTo(view.super).multipliedBy(0.5)
-                },
+                type: "view",
+                layout: $layout.fill,
                 events: {
-                    tapped: sender => {
-                        this.copyPassword(sender.title.trim())
-                    }
-                }
-            },
-            {
-                type: "label",
-                props: {
-                    text: $l10n("CLICK_TO_COPY"),
-                    align: $align.left,
-                    line: 1,
-                    font: $font(12),
-                    textColor: $color("systemPlaceholderText")
-                },
-                layout: (make, view) => {
-                    make.left.right.equalTo(view.prev)
-                    make.top.equalTo($("password-show").top).offset(40)
-                }
-            },
-            {
-                type: "button",
-                props: {
-                    title: $l10n("SAVE"),
-                    contentEdgeInsets: 10
-                },
-                layout: (make, view) => {
-                    make.left.right.equalTo(view.prev)
-                    make.centerY.equalTo(-20).multipliedBy(1.2)
-                },
-                events: {
-                    tapped: () => {
-                        if ($cache.get("password")) {
-                            this.editor.push({ password: $cache.get("password") })
+                    layoutSubviews: () => {
+                        let layout = () => {
+                            if (this.factory.isLargeScreen()) {
+                                $("password-show").remakeLayout((make, view) => {
+                                    make.left.inset(20)
+                                    make.height.equalTo(40)
+                                    make.width.equalTo(view.super).multipliedBy(0.5).offset(-40)
+                                    make.centerY.equalTo(view.super)
+                                })
+                                $("save-button").remakeLayout((make, view) => {
+                                    make.right.inset(20)
+                                    make.width.equalTo(view.prev)
+                                    make.centerY.equalTo(-20).offset(-40)
+                                })
+                                $("generate-button").remakeLayout((make, view) => {
+                                    make.width.right.equalTo(view.prev)
+                                    make.centerY.equalTo(-20).offset(40)
+                                })
+                            } else {
+                                $("password-show").remakeLayout(make => {
+                                    make.left.right.inset(20)
+                                    make.height.equalTo(40)
+                                    make.top.inset(200)
+                                })
+                                $("save-button").remakeLayout((make, view) => {
+                                    make.left.right.equalTo(view.prev)
+                                    make.centerY.equalTo(-20).multipliedBy(1.2)
+                                })
+                                $("generate-button").remakeLayout((make, view) => {
+                                    make.left.right.equalTo(view.prev)
+                                    make.centerY.equalTo(-20).multipliedBy(1.6)
+                                })
+                            }
+                        }
+                        if (!this.orientation) {
+                            this.orientation = $device.info.screen.orientation
+                            layout()
+                            return
+                        }
+                        if (this.orientation !== $device.info.screen.orientation) {
+                            this.orientation = $device.info.screen.orientation
+                            layout()
                         }
                     }
-                }
-            },
-            {
-                type: "button",
-                props: {
-                    title: $l10n("GENERATE_BUTTON"),
-                    contentEdgeInsets: 10
                 },
-                layout: (make, view) => {
-                    make.left.right.equalTo(view.prev)
-                    make.centerY.equalTo(-20).multipliedBy(1.6)
-                },
-                events: {
-                    tapped: () => {
-                        this.generateButtonHandler()
+                views: [
+                    {// password
+                        type: "button",
+                        props: {
+                            id: "password-show",
+                            title: $cache.get("password"),
+                            align: $align.center,
+                            editable: false,
+                            bgcolor: $color("systemGray2", "systemFill"),
+                            textColor: this.factory.textColor
+                        },
+                        events: {
+                            tapped: sender => {
+                                this.copyPassword(sender.title.trim())
+                            }
+                        }
+                    },
+                    {// 提示字符
+                        type: "label",
+                        props: {
+                            text: $l10n("CLICK_TO_COPY"),
+                            align: $align.left,
+                            line: 1,
+                            font: $font(12),
+                            textColor: $color("systemPlaceholderText")
+                        },
+                        layout: (make, view) => {
+                            make.left.right.equalTo(view.prev)
+                            make.top.equalTo(view.prev.top).offset(40)
+                        }
+                    },
+                    {// SAVE
+                        type: "button",
+                        props: {
+                            title: $l10n("SAVE"),
+                            id: "save-button",
+                            contentEdgeInsets: 10
+                        },
+                        events: {
+                            tapped: () => {
+                                if ($cache.get("password")) {
+                                    this.editor.push({ password: $cache.get("password") })
+                                }
+                            }
+                        }
+                    },
+                    {// GENERATE_BUTTON
+                        type: "button",
+                        props: {
+                            title: $l10n("GENERATE_BUTTON"),
+                            id: "generate-button",
+                            contentEdgeInsets: 10
+                        },
+                        events: {
+                            tapped: () => {
+                                this.generateButtonHandler()
+                            }
+                        }
                     }
-                }
+                ]
             }
         ]
     }
