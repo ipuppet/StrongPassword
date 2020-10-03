@@ -1,13 +1,16 @@
-const info = JSON.parse($file.read("/config.json"))["info"]
+const BaseView = require("../../Foundation/view")
 
-class BaseUISetting {
-    constructor(kernel, factory) {
-        this.kernel = kernel
-        this.factory = factory
+class View extends BaseView {
+    init() {
         this.titleSize = 35
         this.titleSizeMax = 40
         this.titleOffset = 50
         this.topOffset = -10
+    }
+
+    setInfo(info) {
+        // 默认读取"/config.json"中的内容
+        this.info = info ? info : JSON.parse($file.read("/config.json"))["info"]
     }
 
     updateSetting(key, value) {
@@ -55,7 +58,7 @@ class BaseUISetting {
                     type: "label",
                     props: {
                         text: title,
-                        textColor: this.factory.textColor,
+                        textColor: this.textColor,
                         align: $align.left
                     },
                     layout: (make, view) => {
@@ -277,7 +280,7 @@ class BaseUISetting {
                     props: {
                         id: key,
                         text: value,
-                        textColor: this.factory.textColor,
+                        textColor: this.textColor,
                         align: $align.left
                     },
                     layout: (make, view) => {
@@ -544,7 +547,7 @@ class BaseUISetting {
     }
 
     getViews() {
-        let header = this.factory.standardHeader("setting-title", $l10n("SETTING"))
+        let header = this.headerTitle("setting-title", $l10n("SETTING"))
         let footer = {
             type: "view",
             props: { height: 130 },
@@ -553,7 +556,7 @@ class BaseUISetting {
                     type: "label",
                     props: {
                         font: $font(14),
-                        text: `${$l10n("VERSION")} ${info.version} © ${info.author}`,
+                        text: `${$l10n("VERSION")} ${this.info.version} © ${this.info.author}`,
                         textColor: $color({
                             light: "#C0C0C0",
                             dark: "#545454"
@@ -704,7 +707,7 @@ class BaseUISetting {
                         views: [
                             {
                                 type: "blur",
-                                props: { style: this.factory.blurStyle },
+                                props: { style: this.blurStyle },
                                 layout: $layout.fill
                             },
                             {
@@ -756,4 +759,4 @@ class BaseUISetting {
     }
 }
 
-module.exports = BaseUISetting
+module.exports = View

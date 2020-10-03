@@ -1,8 +1,7 @@
-const BaseUISetting = require("/scripts/ui/components/base-ui-setting")
-
-class SettingUI extends BaseUISetting {
+class SettingUI {
     constructor(kernel, factory) {
-        super(kernel, factory)
+        this.kernel = kernel
+        this.factory = factory
     }
 
     readme() {

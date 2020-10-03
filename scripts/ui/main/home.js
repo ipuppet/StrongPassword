@@ -45,7 +45,7 @@ class HomeUI {
 
     getViews() {
         return [
-            this.factory.standardHeader("home-view", $l10n("STRONG_PASSWORD_APP")),
+            this.factory.headerTitle("home-view", $l10n("STRONG_PASSWORD_APP")),
             {
                 type: "view",
                 layout: $layout.fill,

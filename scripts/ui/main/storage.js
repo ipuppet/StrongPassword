@@ -96,7 +96,7 @@ class StorageUI {
 
     getViews() {
         return [
-            this.factory.standardHeader("storage-view", $l10n("STORAGE")),
+            this.factory.headerTitle("storage-view", $l10n("STORAGE")),
             { // 搜索
                 type: "input",
                 props: {
