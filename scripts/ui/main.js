@@ -4,8 +4,28 @@ class MainUI {
     }
 
     mainUi() {
-        const Factory = require("./main/factory")
-        new Factory(this.kernel).render()
+        this.kernel.UIKit.disableLargeTitle()
+        this.kernel.UIKit.setNavButtons([
+            this.kernel.UIKit.navButton("storage", "archivebox", () => {
+                this.kernel.UIKit.push({
+                    title: $l10n("STORAGE"),
+                    views: (() => {
+                        const StorageUI = require("./main/storage")
+                        const interfaceUi = new StorageUI(this.kernel, this)
+                        return interfaceUi.getView()
+                    })()
+                })
+            }),
+            this.kernel.UIKit.navButton("setting", "gear", () => {
+                this.kernel.UIKit.push({
+                    title: $l10n("SETTING"),
+                    views: this.kernel.setting.getView()
+                })
+            })
+        ])
+        const HomeUI = require("./main/home")
+        const interfaceUi = new HomeUI(this.kernel, this)
+        this.kernel.UIRender(interfaceUi.getView())
     }
 
     keyboardUi() {
@@ -35,7 +55,6 @@ class MainUI {
                     message: "后续可能开发，敬请期待！"
                 })
         }
-
     }
 }
 

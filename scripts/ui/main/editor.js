@@ -1,7 +1,6 @@
 class EditorUI {
-    constructor(kernel, factory) {
+    constructor(kernel) {
         this.kernel = kernel
-        this.factory = factory
     }
 
     save(password, isUpdate, index) {
@@ -44,7 +43,7 @@ class EditorUI {
                 type: "button",
                 props: {
                     symbol: "doc.on.doc",
-                    tintColor: this.factory.textColor,
+                    tintColor: this.kernel.UIKit.textColor,
                     bgcolor: $color("clear")
                 },
                 layout: make => {
@@ -66,7 +65,7 @@ class EditorUI {
                 type: "button",
                 props: {
                     symbol: "checkmark",
-                    tintColor: this.factory.textColor,
+                    tintColor: this.kernel.UIKit.textColor,
                     bgcolor: $color("clear")
                 },
                 layout: make => {
@@ -109,7 +108,7 @@ class EditorUI {
                             type: "label",
                             props: {
                                 text: $l10n("ACCOUNT"),
-                                textColor: this.factory.texColor,
+                                textColor: this.kernel.UIKit.texColor,
                                 align: $align.left,
                                 font: $font(16),
                                 line: 1
@@ -129,7 +128,7 @@ class EditorUI {
                                 insets: 0,
                                 text: password.account,
                                 placeholder: $l10n("ACCOUNT"),
-                                textColor: this.factory.textColor
+                                textColor: this.kernel.UIKit.textColor
                             },
                             layout: (make, view) => {
                                 make.right.inset(10)
@@ -146,7 +145,7 @@ class EditorUI {
                             type: "label",
                             props: {
                                 text: $l10n("PASSWORD"),
-                                textColor: this.factory.textColor,
+                                textColor: this.kernel.UIKit.textColor,
                                 align: $align.left,
                                 font: $font(16),
                                 line: 1
@@ -165,7 +164,7 @@ class EditorUI {
                                 align: $align.left,
                                 text: password.password,
                                 placeholder: $l10n("PASSWORD"),
-                                textColor: this.factory.textColor
+                                textColor: this.kernel.UIKit.textColor
                             },
                             layout: (make, view) => {
                                 make.right.inset(10)
@@ -192,7 +191,7 @@ class EditorUI {
                                             props: {
                                                 text: $l10n("WEBSITE"),
                                                 align: $align.left,
-                                                textColor: this.factory.textColor,
+                                                textColor: this.kernel.UIKit.textColor,
                                                 font: $font(14)
                                             },
                                             layout: (make, view) => {
@@ -203,7 +202,7 @@ class EditorUI {
                                             type: "button",
                                             props: {
                                                 symbol: "plus",
-                                                tintColor: this.factory.textColor,
+                                                tintColor: this.kernel.UIKit.textColor,
                                                 bgcolor: $color("clear")
                                             },
                                             layout: (make, view) => {
@@ -249,7 +248,7 @@ class EditorUI {
                                                                 type: "button",
                                                                 props: {
                                                                     symbol: "plus",
-                                                                    tintColor: this.factory.textColor,
+                                                                    tintColor: this.kernel.UIKit.textColor,
                                                                     bgcolor: $color("clear")
                                                                 },
                                                                 layout: make => {
@@ -296,7 +295,7 @@ class EditorUI {
                 layout: $layout.fill
             }
         ]
-        this.factory.push(views, $l10n("BACK"), navButtons)
+        this.kernel.UIKit.push(views, $l10n("BACK"), navButtons)
     }
 }
 

@@ -1,10 +1,9 @@
 const EditorUI = require("./editor")
 
 class HomeUI {
-    constructor(kernel, factory) {
+    constructor(kernel) {
         this.kernel = kernel
-        this.factory = factory
-        this.editor = new EditorUI(this.kernel, this.factory)
+        this.editor = new EditorUI(this.kernel)
     }
 
     copyPassword(password) {
@@ -43,16 +42,16 @@ class HomeUI {
         }
     }
 
-    getViews() {
+    getView() {
         return [
-            this.factory.headerTitle("home-view", $l10n("STRONG_PASSWORD_APP")),
+            this.kernel.UIKit.headerTitle("home-view", $l10n("STRONG_PASSWORD_APP")),
             {
                 type: "view",
                 layout: $layout.fill,
                 events: {
                     layoutSubviews: () => {
                         let layout = () => {
-                            if (this.factory.isLargeScreen()) {
+                            if (this.kernel.UIKit.isLargeScreen()) {
                                 $("password-show").remakeLayout((make, view) => {
                                     make.left.inset(20)
                                     make.height.equalTo(40)
@@ -104,7 +103,7 @@ class HomeUI {
                             align: $align.center,
                             editable: false,
                             bgcolor: $color("systemGray2", "systemFill"),
-                            textColor: this.factory.textColor
+                            textColor: this.kernel.UIKit.textColor
                         },
                         events: {
                             tapped: sender => {

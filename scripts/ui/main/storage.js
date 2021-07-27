@@ -1,10 +1,9 @@
 const EditorUI = require("./editor")
 
 class StorageUI {
-    constructor(kernel, factory) {
+    constructor(kernel) {
         this.kernel = kernel
-        this.factory = factory
-        this.editor = new EditorUI(this.kernel, this.factory)
+        this.editor = new EditorUI(this.kernel)
         $cache.set("storageList", StorageUI.listTemplate(this.kernel.storage.all()))
         this.undoTime = 3000 // 撤销时间 毫秒
         this.undoT = null // 撤销按钮
@@ -94,9 +93,9 @@ class StorageUI {
         }
     }
 
-    getViews() {
+    getView() {
         return [
-            this.factory.headerTitle("storage-view", $l10n("STORAGE")),
+            this.kernel.UIKit.headerTitle("storage-view", $l10n("STORAGE")),
             { // 搜索
                 type: "input",
                 props: {
@@ -331,7 +330,7 @@ class StorageUI {
                         props: {
                             font: $font(18),
                             text: $l10n("UNDO"),
-                            textColor: this.factory.textColor,
+                            textColor: this.kernel.UIKit.textColor,
                             align: $align.center
                         },
                         layout: (make, view) => {
@@ -343,7 +342,7 @@ class StorageUI {
                         type: "image",
                         props: {
                             symbol: "arrow.counterclockwise",
-                            tintColor: this.factory.textColor,
+                            tintColor: this.kernel.UIKit.textColor,
                             bgcolor: $color("clear")
                         },
                         layout: (make, view) => {
@@ -378,7 +377,7 @@ class StorageUI {
                 type: "button",
                 props: {
                     symbol: "plus",
-                    tintColor: this.factory.textColor,
+                    tintColor: this.kernel.UIKit.textColor,
                     bgcolor: $color("clear")
                 },
                 layout: (make, view) => {

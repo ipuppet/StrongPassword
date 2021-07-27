@@ -1,14 +1,8 @@
-"STRONG_PASSWORD" = "Strong Password Generateor";
+"STRONG_PASSWORD_APP" = "Strong Password Generateor";
 
 "ALERT_INFO" = "Information";
-"OK" = "OK";
-"CANCEL" = "Cancel";
-"BACK" = "Back";
 "COPY" = "Copy";
 
-"SETTING" = "SETTING";
-
-"GENERAL" = "General";
 "AUTO_COPY" = "Auto Copy";
 "DELETE_CONFIRM" = "Confirm before deleting.";
 
@@ -33,10 +27,6 @@
 "GENERATOR_LENGTH" = "Length";
 "GENERATOR_CONNECTOR" = "Connector";
 "GENERATOR_CHARACTER_SET" = "Character Set";
-
-"ABOUT" = "About";
-"VERSION" = "Version";
-"AUTHOR" = "Author";
 
 "ACCOUNT" = "Account";
 "PASSWORD" = "Password";

@@ -1,18 +1,19 @@
 class SettingUI {
-    constructor(kernel, factory) {
+    constructor(kernel) {
         this.kernel = kernel
-        this.factory = factory
     }
 
     readme() {
         const content = $file.read("/README.md").string
-        this.factory.push([{
-            type: "markdown",
-            props: { content: content },
-            layout: (make, view) => {
-                make.size.equalTo(view.super)
-            }
-        }])
+        this.kernel.UIKit.push({
+            views: [{
+                type: "markdown",
+                props: { content: content },
+                layout: (make, view) => {
+                    make.size.equalTo(view.super)
+                }
+            }]
+        })
     }
 
     backupToICloud() {

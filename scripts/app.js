@@ -1,16 +1,13 @@
-const { Kernel, VERSION } = require("../EasyJsBox/src/kernel")
-const MainUI = require("./ui/main")
+const { Kernel } = require("../EasyJsBox/src/kernel")
 const Generator = require("./generator")
 const Storage = require("./storage")
 
 class AppKernel extends Kernel {
     constructor() {
         super()
-        this.settingComponent = this._registerComponent("Setting")
+        this.settingComponent = this.registerComponent("Setting")
         this.setting = this.settingComponent.controller
         this.initSettingMethods()
-        this.page = this._registerComponent("Page")
-        this.menu = this._registerComponent("Menu")
         this.generator = new Generator(this.setting)
         this.storage = new Storage(this.setting)
     }
@@ -82,8 +79,9 @@ class AppKernel extends Kernel {
 module.exports = {
     run: () => {
         // 实例化应用核心
-        let kernel = new AppKernel()
+        const kernel = new AppKernel()
         // 渲染UI
+        const MainUI = require("./ui/main")
         new MainUI(kernel).render()
     }
 }
