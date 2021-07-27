@@ -1,7 +1,15 @@
 class Storage {
     constructor(setting) {
         this.setting = setting
-        this.localDb = "/assets/StrongPassword.db"
+        this.localDb = "/storage/StrongPassword.db"
+        // TODO 兼容旧版本
+        if ($file.exists("/assets/StrongPassword.db")) {
+            $file.move({
+                src: "/assets/StrongPassword.db",
+                dst: this.localDb
+            })
+        }
+        // end 兼容旧版本
         this.iCloudPath = "drive://StrongPassword/"
         this.iCloudDb = this.iCloudPath + "StrongPassword.db"
         this.iCloudAutoDb = this.iCloudPath + "auto.db"
