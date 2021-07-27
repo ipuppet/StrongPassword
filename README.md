@@ -16,7 +16,7 @@
 
 ### 存储说明
 
-密码存储文件：`assets/StrongPassword.db`
+密码存储文件：`storage/StrongPassword.db`
 
 可主动备份该文件，需要还原时直接覆盖原文件即可。
 
