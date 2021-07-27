@@ -77,31 +77,6 @@ class StorageUI {
 
     getView() {
         return [
-            this.kernel.UIKit.headerTitle("storage-view", $l10n("STORAGE")),
-            { // 搜索
-                type: "input",
-                props: {
-                    id: "storage-search",
-                    placeholder: $l10n("STORAGE_SEARCH"),
-                    type: $kbType.search,
-                    autoFontSize: true
-                },
-                layout: make => {
-                    make.height.equalTo(35)
-                    make.centerY.equalTo($("storage-view").centerY)
-                    make.right.inset(20)
-                    make.left.inset(150)
-                },
-                events: {
-                    changed: sender => {
-                        this.search(sender.text.trim())
-                    },
-                    returned: sender => {
-                        this.search(sender.text.trim())
-                        sender.blur()
-                    }
-                }
-            },
             { // 列表
                 type: "list",
                 props: {
@@ -110,6 +85,49 @@ class StorageUI {
                     reorder: false,
                     indicatorInsets: $insets(0, 0, 50, 0),
                     rowHeight: 60,
+                    header: {
+                        type: "view",
+                        props: { height: 130 },
+                        views: [
+                            {
+                                type: "label",
+                                props: {
+                                    text: $l10n("STORAGE"),
+                                    textColor: this.kernel.UIKit.textColor,
+                                    align: $align.left,
+                                    font: $font("bold", 35),
+                                    line: 1
+                                },
+                                layout: (make, view) => {
+                                    make.left.equalTo(view.super.safeArea).offset(20)
+                                    make.top.equalTo(view.super.safeAreaTop).offset(20)
+                                }
+                            },
+                            { // 搜索
+                                type: "input",
+                                props: {
+                                    id: "storage-search",
+                                    placeholder: $l10n("STORAGE_SEARCH"),
+                                    type: $kbType.search,
+                                    autoFontSize: true
+                                },
+                                layout: (make, view) => {
+                                    make.height.equalTo(35)
+                                    make.right.left.inset(20)
+                                    make.top.equalTo(view.prev.bottom).offset(10)
+                                },
+                                events: {
+                                    changed: sender => {
+                                        this.search(sender.text.trim())
+                                    },
+                                    returned: sender => {
+                                        this.search(sender.text.trim())
+                                        sender.blur()
+                                    }
+                                }
+                            }
+                        ]
+                    },
                     footer: {
                         type: "view",
                         views: [
@@ -282,10 +300,7 @@ class StorageUI {
                         }
                     }
                 },
-                layout: (make, view) => {
-                    make.top.equalTo(view.prev.top).offset(50)
-                    make.bottom.right.left.inset(0)
-                }
+                layout: $layout.fill
             },
             { // 撤销
                 type: "view",
