@@ -3,7 +3,7 @@ class EditorUI {
         this.kernel = kernel
     }
 
-    save(password, isUpdate, index) {
+    save(password, isUpdate) {
         if (password.password === "") {
             $ui.toast($l10n("NO_PASSWORD"))
             return false
@@ -16,10 +16,6 @@ class EditorUI {
         }
         if (result) {
             $ui.success($l10n("SAVE_SUCCESS"))
-            // 更新storage-list
-            let storage = require("./storage")
-            index = isUpdate ? index : null
-            storage.update(password, index)
             // 弹出窗口
             setTimeout(() => {
                 $ui.pop()
@@ -29,7 +25,7 @@ class EditorUI {
         }
     }
 
-    push(password = null, index = null) {
+    push(password = null, index = null, title = $l10n("EDIT")) {
         if (password === null) {
             password = {
                 account: "",
@@ -38,56 +34,34 @@ class EditorUI {
                 date: ""
             }
         }
-        let navButtons = [
+        const navButtons = [
             {
-                type: "button",
-                props: {
-                    symbol: "doc.on.doc",
-                    tintColor: this.kernel.UIKit.textColor,
-                    bgcolor: $color("clear")
-                },
-                layout: make => {
-                    make.right.inset(60)
-                    make.size.equalTo(20)
-                },
-                events: {
-                    tapped: () => {
-                        if (password.password === "") {
-                            $ui.toast($l10n("NO_PASSWORD"))
-                        } else {
-                            $clipboard.text = password.password
-                            $ui.toast($l10n("COPY_SUCCESS"))
-                        }
+                symbol: "checkmark",
+                handler: () => {
+                    password.account = $("account").text.trim()
+                    password.password = $("password").text.trim()
+                    password.website = $("website").data
+                    password.date = new Date().toLocaleDateString()
+                    let isUpdate = false
+                    if (undefined !== password.id) {
+                        isUpdate = true
                     }
+                    this.save(password, isUpdate, index)
                 }
             },
             {
-                type: "button",
-                props: {
-                    symbol: "checkmark",
-                    tintColor: this.kernel.UIKit.textColor,
-                    bgcolor: $color("clear")
-                },
-                layout: make => {
-                    make.right.inset(10)
-                    make.size.equalTo(20)
-                },
-                events: {
-                    tapped: () => {
-                        password.account = $("account").text.trim()
-                        password.password = $("password").text.trim()
-                        password.website = $("website").data
-                        password.date = new Date().toLocaleDateString()
-                        let isUpdate = false
-                        if (undefined !== password.id) {
-                            isUpdate = true
-                        }
-                        this.save(password, isUpdate, index)
+                symbol: "doc.on.doc",
+                handler: () => {
+                    if (password.password === "") {
+                        $ui.toast($l10n("NO_PASSWORD"))
+                    } else {
+                        $clipboard.text = password.password
+                        $ui.toast($l10n("COPY_SUCCESS"))
                     }
                 }
             }
         ]
-        let views = [
+        const views = [
             {
                 type: "scroll",
                 props: {
@@ -120,7 +94,7 @@ class EditorUI {
                                 make.top.equalTo(40)
                             }
                         },
-                        {// 账号输入框
+                        { // 账号输入框
                             type: "input",
                             props: {
                                 id: "account",
@@ -157,7 +131,7 @@ class EditorUI {
                                 make.top.equalTo(view.prev).offset(40 + 30)
                             }
                         },
-                        {// 密码输入框
+                        { // 密码输入框
                             type: "input",
                             props: {
                                 id: "password",
@@ -178,7 +152,7 @@ class EditorUI {
                                 }
                             }
                         },
-                        {// 网站列表
+                        { // 网站列表
                             type: "list",
                             props: {
                                 id: "website",
@@ -295,7 +269,9 @@ class EditorUI {
                 layout: $layout.fill
             }
         ]
-        this.kernel.UIKit.push(views, $l10n("BACK"), navButtons)
+        this.kernel.UIKit.push({
+            views, title, navButtons
+        })
     }
 }
 

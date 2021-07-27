@@ -10,6 +10,7 @@ class AppKernel extends Kernel {
         this.initSettingMethods()
         this.generator = new Generator(this.setting)
         this.storage = new Storage(this.setting)
+        this.cacheKey = "password"
     }
 
     /**
@@ -18,23 +19,25 @@ class AppKernel extends Kernel {
     initSettingMethods() {
         this.setting.readme = () => {
             const content = $file.read("/README.md").string
-            this.settingComponent.view.push([{
-                type: "markdown",
-                props: { content: content },
-                layout: (make, view) => {
-                    make.size.equalTo(view.super)
-                }
-            }])
+            this.UIKit.push({
+                views: [{
+                    type: "markdown",
+                    props: { content: content },
+                    layout: (make, view) => {
+                        make.size.equalTo(view.super)
+                    }
+                }]
+            })
         }
-        this.setting.backupToICloud = () => {
-            this.settingComponent.view.start()
+        this.setting.backupToICloud = animate => {
+            animate.actionStart()
             const backupAction = () => {
                 if (this.storage.backupToICloud()) {
                     $ui.alert($l10n("BACKUP_SUCCESS"))
-                    this.settingComponent.view.done()
+                    animate.actionDone()
                 } else {
                     $ui.alert($l10n("BACKUP_ERROR"))
-                    this.settingComponent.view.cancel()
+                    animate.actionCancel()
                 }
             }
             if (this.storage.hasBackup()) {
@@ -50,7 +53,7 @@ class AppKernel extends Kernel {
                         },
                         {
                             title: $l10n("CANCEL"),
-                            handler: () => { this.settingComponent.view.cancel() }
+                            handler: () => { animate.actionCancel() }
                         }
                     ]
                 })
@@ -58,17 +61,14 @@ class AppKernel extends Kernel {
                 backupAction()
             }
         }
-        this.setting.recoverFromICloud = () => {
-            this.settingComponent.view.start()
+        this.setting.recoverFromICloud = animate => {
+            animate.actionStart()
             $drive.open({
                 handler: data => {
                     if (this.storage.recoverFromICloud(data)) {
-                        // 更新列表
-                        let storage = require("./ui/main/storage")
-                        storage.setData(this.storage.all())
-                        this.settingComponent.view.done()
+                        animate.actionDone()
                     } else {
-                        this.settingComponent.view.cancel()
+                        animate.actionCancel()
                     }
                 }
             })
@@ -78,10 +78,69 @@ class AppKernel extends Kernel {
 
 module.exports = {
     run: () => {
-        // 实例化应用核心
-        const kernel = new AppKernel()
-        // 渲染UI
-        const MainUI = require("./ui/main")
-        new MainUI(kernel).render()
+        if ($app.env === $env.widget) {
+            $widget.setTimeline({
+                render: () => {
+                    return {
+                        type: "text",
+                        props: {
+                            text: "暂无"
+                        }
+                    }
+                }
+            })
+        } else if ($app.env === $env.app) {
+            const kernel = new AppKernel()
+            // 设置样式
+            kernel.UIKit.disableLargeTitle()
+            kernel.setting.setChildPage(true)
+            // 设置 navButtons
+            kernel.UIKit.setNavButtons([
+                kernel.UIKit.navButton("setting", "gear", () => {
+                    kernel.UIKit.push({
+                        title: $l10n("SETTING"),
+                        views: kernel.setting.getView()
+                    })
+                }),
+                kernel.UIKit.navButton("storage", "archivebox", () => {
+                    const StorageUI = require("./ui/main/storage")
+                    const interfaceUi = new StorageUI(kernel)
+                    kernel.UIKit.push({
+                        title: $l10n("STORAGE"),
+                        views: interfaceUi.getView(),
+                        navButtons: [{
+                            symbol: "plus",
+                            handler: () => {
+                                interfaceUi.editor.push(null, null, $l10n("ADD_PASSWORD"))
+                            }
+                        }]
+                    })
+                })
+            ])
+            const HomeUI = require("./ui/main/home")
+            const interfaceUi = new HomeUI(kernel)
+            kernel.UIRender(interfaceUi.getView())
+        } else if ($app.env === $env.keyboard) {
+            const KeyboardUI = require("./ui/keyboard/keyboard")
+            new KeyboardUI(this.kernel).render()
+        } else if ($app.env === $env.today) {
+            const TodayUI = require("./ui/today/today")
+            new TodayUI(this.kernel).render()
+        } else {
+            $intents.finish("不支持在此环境中运行")
+            $ui.render({
+                views: [{
+                    type: "label",
+                    props: {
+                        text: "不支持在此环境中运行",
+                        align: $align.center
+                    },
+                    layout: (make, view) => {
+                        make.center.equalTo(view.super)
+                        make.size.equalTo(view.super)
+                    }
+                }]
+            })
+        }
     }
 }

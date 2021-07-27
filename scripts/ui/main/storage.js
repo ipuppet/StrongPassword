@@ -4,10 +4,13 @@ class StorageUI {
     constructor(kernel) {
         this.kernel = kernel
         this.editor = new EditorUI(this.kernel)
-        $cache.set("storageList", StorageUI.listTemplate(this.kernel.storage.all()))
+        this.storageKey = {
+            deleted: "storageDeleted"
+        }
         this.undoTime = 3000 // 撤销时间 毫秒
         this.undoT = null // 撤销按钮
         this.deleteT = null // 真正的删除操作
+        this.listId = "storage-list"
     }
 
     copyPassword(password) {
@@ -17,28 +20,7 @@ class StorageUI {
         }
     }
 
-    static setData(list) {
-        list = StorageUI.listTemplate(list)
-        $("storage-list").data = list
-        $cache.set("storageList", list)
-    }
-
-    /**
-     * 更新列表的数据
-     * @param {Object} password 密码
-     * @param {*} index 位置，如果为null则直接插入数据
-     */
-    static update(password, index = null) {
-        let list = $cache.get("storageList")
-        index = index === null ? list.length : index
-        // 更新列表数据
-        list[index] = StorageUI.template(password)
-        $("storage-list").data = list
-        // 同步到缓存
-        $cache.set("storageList", list)
-    }
-
-    static template(password, noResult = "") {
+    template(password, noResult = "") {
         return {
             id: {
                 text: password.id
@@ -64,24 +46,24 @@ class StorageUI {
         }
     }
 
-    static listTemplate(data) {
-        let result = []
+    listTemplate(data) {
+        const result = []
         for (let password of data) {
-            result.push(StorageUI.template(password))
+            result.push(this.template(password))
         }
         return result
     }
 
     search(kw) {
         if (kw === "") {
-            $("storage-list").data = StorageUI.listTemplate(this.kernel.storage.all())
+            $(this.listId).data = this.listTemplate(this.kernel.storage.all())
             return
         }
-        let data = this.kernel.storage.search(kw)
+        const data = this.kernel.storage.search(kw)
         if (data.length > 0) {
-            $("storage-list").data = StorageUI.listTemplate(data)
+            $(this.listId).data = this.listTemplate(data)
         } else {
-            let password = {
+            const password = {
                 id: "",
                 websiteData: "",
                 website: [],
@@ -89,7 +71,7 @@ class StorageUI {
                 account: "",
                 date: ""
             }
-            $("storage-list").data = [StorageUI.template(password, $l10n("NO_RESULT"))]
+            $(this.listId).data = [this.template(password, $l10n("NO_RESULT"))]
         }
     }
 
@@ -123,7 +105,7 @@ class StorageUI {
             { // 列表
                 type: "list",
                 props: {
-                    id: "storage-list",
+                    id: this.listId,
                     style: 1,
                     reorder: false,
                     indicatorInsets: $insets(0, 0, 50, 0),
@@ -149,30 +131,30 @@ class StorageUI {
                             }
                         ]
                     },
-                    data: $cache.get("storageList"),
+                    data: this.listTemplate(this.kernel.storage.all()),
                     actions: [
                         {
-                            title: "delete",
+                            title: $l10n("DELETE") + " ",
                             color: $color("red"),
                             handler: (sender, indexPath) => {
-                                // 缓存storage-list延后更新，用来获取列表中被删除的条目的信息
-                                let password = $cache.get("storageList")[indexPath.item]
-                                let deleteAction = () => {
-                                    let id = $cache.get("storageList")[indexPath.item].id.text
-                                    // 更新缓存内容
-                                    $cache.set("storageList", sender.data)
+                                // 获取数据
+                                const password = sender.object(indexPath)
+                                const deleteAction = () => {
+                                    // 从列表中删除
+                                    sender.delete(indexPath)
+                                    const id = password.id.text
                                     // 将被删除的内容写入缓存，用于撤销
-                                    $cache.set("storageDeleted", {
+                                    $cache.set(this.storageKey.deleted, {
                                         indexPath: indexPath,
                                         value: password
                                     })
                                     // 显示按钮
                                     $("undo").hidden = false
-                                    clearTimeout(this.undoT)// 防止按钮显示错乱
+                                    clearTimeout(this.undoT) // 防止按钮显示错乱
                                     // 按钮消失倒计时
                                     this.undoT = setTimeout(() => {
                                         $("undo").hidden = true
-                                        $cache.remove("storageDeleted")
+                                        $cache.remove(this.storageKey.deleted)
                                     }, this.undoTime)
                                     // 真正删除操作
                                     this.deleteT = setTimeout(() => {
@@ -181,8 +163,6 @@ class StorageUI {
                                                 indexPath: indexPath,
                                                 value: password
                                             })
-                                            // 删除失败，恢复缓存内容
-                                            $cache.set("storageList", sender.data)
                                             $ui.error($l10n("DELETE_ERROR"))
                                         }
                                     }, this.undoTime)
@@ -193,18 +173,11 @@ class StorageUI {
                                         message: $l10n("CONFIRM_DELETE_MSG"),
                                         actions: [
                                             {
-                                                title: $l10n("OK"),
+                                                title: $l10n("DELETE"),
+                                                style: $alertActionType.destructive,
                                                 handler: deleteAction
                                             },
-                                            {
-                                                title: $l10n("CANCEL"),
-                                                handler: () => {
-                                                    sender.insert({
-                                                        indexPath: indexPath,
-                                                        value: password
-                                                    })
-                                                }
-                                            }
+                                            { title: $l10n("CANCEL") }
                                         ]
                                     })
                                 } else {
@@ -215,7 +188,7 @@ class StorageUI {
                         {
                             title: $l10n("COPY"),
                             handler: (sender, indexPath) => {
-                                let data = sender.object(indexPath)
+                                const data = sender.object(indexPath)
                                 this.copyPassword(data.password.text)
                             }
                         }
@@ -298,7 +271,7 @@ class StorageUI {
                 events: {
                     didSelect: (sender, indexPath, data) => {
                         if (data.noResult.text.trim() !== $l10n("NO_RESULT")) {
-                            let password = {
+                            const password = {
                                 id: sender.object(indexPath).id.text,
                                 account: sender.object(indexPath).account.text,
                                 password: sender.object(indexPath).password.text,
@@ -360,10 +333,9 @@ class StorageUI {
                         // 隐藏按钮
                         $("undo").hidden = true
                         // 将被删除的列表项重新插入
-                        let storageList = $("storage-list")
-                        storageList.insert($cache.get("storageDeleted"))
-                        $cache.set("storageList", storageList.data)
-                        $cache.remove("storageDeleted")
+                        const storageList = $(this.listId)
+                        storageList.insert($cache.get(this.storageKey.deleted))
+                        $cache.remove(this.storageKey.deleted)
                     }
                 },
                 layout: (make, view) => {
@@ -371,24 +343,6 @@ class StorageUI {
                     make.height.equalTo(40)
                     make.width.equalTo(125)
                     make.bottom.equalTo(view.super.safeAreaBottom).offset(-75)
-                }
-            },
-            { // 添加
-                type: "button",
-                props: {
-                    symbol: "plus",
-                    tintColor: this.kernel.UIKit.textColor,
-                    bgcolor: $color("clear")
-                },
-                layout: (make, view) => {
-                    make.right.inset(20)
-                    make.size.equalTo(30)
-                    make.bottom.equalTo(view.super.safeAreaBottom).offset(-80)
-                },
-                events: {
-                    tapped: () => {
-                        this.editor.push()
-                    }
                 }
             }
         ]

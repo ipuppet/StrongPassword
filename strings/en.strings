@@ -22,7 +22,6 @@
 "RECOVER_SUCCESS" = "Successful recovery";
 "RECOVER_ERROR" = "Recovery failed";
 
-"ADVANCED" = "Advanced";
 "GENERATOR_PART" = "Part";
 "GENERATOR_LENGTH" = "Length";
 "GENERATOR_CONNECTOR" = "Connector";

@@ -22,7 +22,6 @@
 "RECOVER_SUCCESS" = "恢复成功";
 "RECOVER_ERROR" = "恢复失败";
 
-"ADVANCED" = "高级";
 "GENERATOR_PART" = "分段个数";
 "GENERATOR_LENGTH" = "单分段长度";
 "GENERATOR_CONNECTOR" = "分段连接符";

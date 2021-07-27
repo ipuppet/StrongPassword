@@ -14,13 +14,13 @@ class HomeUI {
     }
 
     generateButtonHandler() {
-        if (!$cache.get("password")) {
-            $cache.set("password", this.kernel.generator.generate())
+        if (!$cache.get(this.kernel.cacheKey)) {
+            $cache.set(this.kernel.cacheKey, this.kernel.generator.generate())
             // 显示密码
-            $("password-show").title = $cache.get("password")
+            $("password-show").title = $cache.get(this.kernel.cacheKey)
             // 是否自动复制
             if (this.kernel.setting.get("general.autoCopy")) {
-                this.copyPassword($cache.get("password"))
+                this.copyPassword($cache.get(this.kernel.cacheKey))
             }
         } else {
             $ui.alert({
@@ -99,7 +99,7 @@ class HomeUI {
                         type: "button",
                         props: {
                             id: "password-show",
-                            title: $cache.get("password"),
+                            title: $cache.get(this.kernel.cacheKey),
                             align: $align.center,
                             editable: false,
                             bgcolor: $color("systemGray2", "systemFill"),
@@ -134,8 +134,8 @@ class HomeUI {
                         },
                         events: {
                             tapped: () => {
-                                if ($cache.get("password")) {
-                                    this.editor.push({ password: $cache.get("password") })
+                                if ($cache.get(this.kernel.cacheKey)) {
+                                    this.editor.push({ password: $cache.get(this.kernel.cacheKey) }, null, $l10n("SAVE"))
                                 }
                             }
                         }

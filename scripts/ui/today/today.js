@@ -11,13 +11,13 @@ class TodayUI {
     }
 
     generateButtonHandler() {
-        if (!$cache.get("password")) {
-            $cache.set("password", this.kernel.generator.generate())
+        if (!$cache.get(this.kernel.cacheKey)) {
+            $cache.set(this.kernel.cacheKey, this.kernel.generator.generate())
             // 显示密码
-            $("password").title = $cache.get("password")
+            $("password").title = $cache.get(this.kernel.cacheKey)
             // 是否自动输入
             if (this.kernel.setting.get("keyboard.autoInsert")) {
-                this.copyData($cache.get("password"))
+                this.copyData($cache.get(this.kernel.cacheKey))
             }
         } else {
             $ui.alert({
@@ -241,7 +241,7 @@ class TodayUI {
                 type: "button",
                 props: {
                     id: "password",
-                    title: $cache.get("password"),
+                    title: $cache.get(this.kernel.cacheKey),
                     align: $align.center,
                     editable: false,
                     bgcolor: $color({
@@ -300,9 +300,9 @@ class TodayUI {
                                 {
                                     title: $l10n("OK"),
                                     handler: () => {
-                                        if ($cache.get("password")) {
+                                        if ($cache.get(this.kernel.cacheKey)) {
                                             let password = {
-                                                password: $cache.get("password"),
+                                                password: $cache.get(this.kernel.cacheKey),
                                                 account: "AUTO-SAVE",
                                                 date: new Date().toLocaleDateString(),
                                                 website: ["AUTO-SAVE"]
