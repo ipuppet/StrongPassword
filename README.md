@@ -20,10 +20,6 @@
 
 可主动备份该文件，需要还原时直接覆盖原文件即可。
 
-# 设置
-
-设置页面参考 Aligege [影视大全](https://liuguogy.github.io/JSBox-addins/?q=show&objectId=5ec5f46dc1c17600084c5f23)
-
 ## 备份
 
 - ### 自动备份
