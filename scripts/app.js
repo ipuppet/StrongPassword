@@ -111,7 +111,9 @@ module.exports = {
                         navButtons: [{
                             symbol: "plus",
                             handler: () => {
-                                interfaceUi.editor.push(null, null, $l10n("ADD_PASSWORD"))
+                                interfaceUi.editor.push(null, $l10n("ADD_PASSWORD"), () => {
+                                    setTimeout(() => interfaceUi.update(), 500)
+                                })
                             }
                         }]
                     })

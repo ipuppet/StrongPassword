@@ -75,6 +75,10 @@ class StorageUI {
         }
     }
 
+    update() {
+        $(this.listId).data = this.listTemplate(this.kernel.storage.all())
+    }
+
     getView() {
         return [
             { // 列表
@@ -296,7 +300,9 @@ class StorageUI {
                                 website: JSON.parse(sender.object(indexPath).websiteData.text),
                                 date: sender.object(indexPath).date.text
                             }
-                            this.editor.push(password, indexPath.item)
+                            this.editor.push(password, $l10n("EDIT"), () => {
+                                setTimeout(() => this.update(), 500)
+                            })
                         }
                     }
                 },

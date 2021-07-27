@@ -3,7 +3,7 @@ class EditorUI {
         this.kernel = kernel
     }
 
-    save(password, isUpdate) {
+    save(password, isUpdate, callback) {
         if (password.password === "") {
             $ui.toast($l10n("NO_PASSWORD"))
             return false
@@ -19,13 +19,14 @@ class EditorUI {
             // 弹出窗口
             setTimeout(() => {
                 $ui.pop()
+                if (typeof callback === "function") callback()
             }, 500)
         } else {
             $ui.error($l10n("SAVE_ERROR"))
         }
     }
 
-    push(password = null, index = null, title = $l10n("EDIT")) {
+    push(password = null, title = $l10n("EDIT"), callback) {
         if (password === null) {
             password = {
                 account: "",
@@ -46,7 +47,7 @@ class EditorUI {
                     if (undefined !== password.id) {
                         isUpdate = true
                     }
-                    this.save(password, isUpdate, index)
+                    this.save(password, isUpdate, callback)
                 }
             },
             {

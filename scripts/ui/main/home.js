@@ -135,7 +135,7 @@ class HomeUI {
                         events: {
                             tapped: () => {
                                 if ($cache.get(this.kernel.cacheKey)) {
-                                    this.editor.push({ password: $cache.get(this.kernel.cacheKey) }, null, $l10n("SAVE"))
+                                    this.editor.push({ password: $cache.get(this.kernel.cacheKey) }, $l10n("SAVE"))
                                 }
                             }
                         }
