@@ -96,28 +96,34 @@ module.exports = {
             kernel.setting.setChildPage(true)
             // 设置 navButtons
             kernel.UIKit.setNavButtons([
-                kernel.UIKit.navButton("setting", "gear", () => {
-                    kernel.UIKit.push({
-                        title: $l10n("SETTING"),
-                        views: kernel.setting.getView()
-                    })
-                }),
-                kernel.UIKit.navButton("storage", "archivebox", () => {
-                    const StorageUI = require("./ui/main/storage")
-                    const interfaceUi = new StorageUI(kernel)
-                    kernel.UIKit.push({
-                        title: $l10n("STORAGE"),
-                        views: interfaceUi.getView(),
-                        navButtons: [{
-                            symbol: "plus",
-                            handler: () => {
-                                interfaceUi.editor.push(null, $l10n("ADD_PASSWORD"), () => {
-                                    setTimeout(() => interfaceUi.update(), 500)
-                                })
-                            }
-                        }]
-                    })
-                })
+                {
+                    symbol: "gear",
+                    handler: () => {
+                        kernel.UIKit.push({
+                            title: $l10n("SETTING"),
+                            views: kernel.setting.getView()
+                        })
+                    }
+                },
+                {
+                    symbol: "archivebox",
+                    handler: () => {
+                        const StorageUI = require("./ui/main/storage")
+                        const interfaceUi = new StorageUI(kernel)
+                        kernel.UIKit.push({
+                            title: $l10n("STORAGE"),
+                            views: interfaceUi.getView(),
+                            navButtons: [{
+                                symbol: "plus",
+                                handler: () => {
+                                    interfaceUi.editor.push(null, $l10n("ADD_PASSWORD"), () => {
+                                        setTimeout(() => interfaceUi.update(), 500)
+                                    })
+                                }
+                            }]
+                        })
+                    }
+                }
             ])
             const HomeUI = require("./ui/main/home")
             const interfaceUi = new HomeUI(kernel)

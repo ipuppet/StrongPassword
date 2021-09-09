@@ -44,7 +44,24 @@ class HomeUI {
 
     getView() {
         return [
-            this.kernel.UIKit.headerTitle("home-view", $l10n("STRONG_PASSWORD_APP")),
+            {
+                type: "view",
+                props: { height: 90 },
+                views: [{
+                    type: "label",
+                    props: {
+                        text: $l10n("STRONG_PASSWORD_APP"),
+                        textColor: this.kernel.UIKit.textColor,
+                        align: $align.left,
+                        font: $font("bold", 35),
+                        line: 1
+                    },
+                    layout: (make, view) => {
+                        make.left.equalTo(view.super.safeArea).offset(20)
+                        make.top.equalTo(view.super.safeAreaTop).offset(50)
+                    }
+                }]
+            },
             {
                 type: "view",
                 layout: $layout.fill,
