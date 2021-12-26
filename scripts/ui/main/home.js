@@ -1,3 +1,4 @@
+const { UIKit } = require("../../easy-jsbox")
 const EditorUI = require("./editor")
 
 class HomeUI {
@@ -42,7 +43,7 @@ class HomeUI {
         }
     }
 
-    getView() {
+    getViews() {
         return [
             {
                 type: "view",
@@ -51,7 +52,7 @@ class HomeUI {
                     type: "label",
                     props: {
                         text: $l10n("STRONG_PASSWORD_APP"),
-                        textColor: this.kernel.UIKit.textColor,
+                        textColor: UIKit.textColor,
                         align: $align.left,
                         font: $font("bold", 35),
                         line: 1
@@ -68,7 +69,7 @@ class HomeUI {
                 events: {
                     layoutSubviews: () => {
                         let layout = () => {
-                            if (this.kernel.UIKit.isLargeScreen()) {
+                            if (UIKit.isLargeScreen()) {
                                 $("password-show").remakeLayout((make, view) => {
                                     make.left.inset(20)
                                     make.height.equalTo(40)
@@ -120,7 +121,7 @@ class HomeUI {
                             align: $align.center,
                             editable: false,
                             bgcolor: $color("systemGray2", "systemFill"),
-                            textColor: this.kernel.UIKit.textColor
+                            textColor: UIKit.textColor
                         },
                         events: {
                             tapped: sender => {

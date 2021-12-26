@@ -1,3 +1,5 @@
+const { UIKit } = require("../../easy-jsbox")
+
 class EditorUI {
     constructor(kernel) {
         this.kernel = kernel
@@ -83,7 +85,7 @@ class EditorUI {
                             type: "label",
                             props: {
                                 text: $l10n("ACCOUNT"),
-                                textColor: this.kernel.UIKit.texColor,
+                                textColor: UIKit.texColor,
                                 align: $align.left,
                                 font: $font(16),
                                 line: 1
@@ -103,7 +105,7 @@ class EditorUI {
                                 insets: 0,
                                 text: password.account,
                                 placeholder: $l10n("ACCOUNT"),
-                                textColor: this.kernel.UIKit.textColor
+                                textColor: UIKit.textColor
                             },
                             layout: (make, view) => {
                                 make.right.inset(10)
@@ -120,7 +122,7 @@ class EditorUI {
                             type: "label",
                             props: {
                                 text: $l10n("PASSWORD"),
-                                textColor: this.kernel.UIKit.textColor,
+                                textColor: UIKit.textColor,
                                 align: $align.left,
                                 font: $font(16),
                                 line: 1
@@ -139,7 +141,7 @@ class EditorUI {
                                 align: $align.left,
                                 text: password.password,
                                 placeholder: $l10n("PASSWORD"),
-                                textColor: this.kernel.UIKit.textColor
+                                textColor: UIKit.textColor
                             },
                             layout: (make, view) => {
                                 make.right.inset(10)
@@ -166,7 +168,7 @@ class EditorUI {
                                             props: {
                                                 text: $l10n("WEBSITE"),
                                                 align: $align.left,
-                                                textColor: this.kernel.UIKit.textColor,
+                                                textColor: UIKit.textColor,
                                                 font: $font(14)
                                             },
                                             layout: (make, view) => {
@@ -177,7 +179,7 @@ class EditorUI {
                                             type: "button",
                                             props: {
                                                 symbol: "plus",
-                                                tintColor: this.kernel.UIKit.textColor,
+                                                tintColor: UIKit.textColor,
                                                 bgcolor: $color("clear")
                                             },
                                             layout: (make, view) => {
@@ -223,7 +225,7 @@ class EditorUI {
                                                                 type: "button",
                                                                 props: {
                                                                     symbol: "plus",
-                                                                    tintColor: this.kernel.UIKit.textColor,
+                                                                    tintColor: UIKit.textColor,
                                                                     bgcolor: $color("clear")
                                                                 },
                                                                 layout: make => {
@@ -270,7 +272,7 @@ class EditorUI {
                 layout: $layout.fill
             }
         ]
-        this.kernel.UIKit.push({
+        UIKit.push({
             views, title, navButtons
         })
     }

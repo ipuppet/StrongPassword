@@ -1,12 +1,16 @@
-const { Kernel } = require("../EasyJsBox/src/kernel")
+const {
+    UIKit,
+    Kernel,
+    Setting
+} = require("./easy-jsbox")
 const Generator = require("./generator")
 const Storage = require("./storage")
 
 class AppKernel extends Kernel {
     constructor() {
         super()
-        this.settingComponent = this.registerComponent("Setting")
-        this.setting = this.settingComponent.controller
+        this.setting = new Setting()
+        this.setting.loadConfig()
         this.initSettingMethods()
         this.generator = new Generator(this.setting)
         this.storage = new Storage(this.setting)
@@ -17,9 +21,9 @@ class AppKernel extends Kernel {
      * 注入设置中的脚本类型方法
      */
     initSettingMethods() {
-        this.setting.readme = () => {
-            const content = $file.read("/README.md").string
-            this.UIKit.push({
+        this.setting.method.readme = () => {
+            const content = $file.read("README.md").string
+            UIKit.push({
                 views: [{
                     type: "markdown",
                     props: { content: content },
@@ -29,7 +33,7 @@ class AppKernel extends Kernel {
                 }]
             })
         }
-        this.setting.backupToICloud = animate => {
+        this.setting.method.backupToICloud = animate => {
             animate.actionStart()
             const backupAction = () => {
                 if (this.storage.backupToICloud()) {
@@ -61,7 +65,7 @@ class AppKernel extends Kernel {
                 backupAction()
             }
         }
-        this.setting.recoverFromICloud = animate => {
+        this.setting.method.recoverFromICloud = animate => {
             animate.actionStart()
             $drive.open({
                 handler: data => {
@@ -92,15 +96,15 @@ module.exports = {
         } else if ($app.env === $env.app) {
             const kernel = new AppKernel()
             // 设置样式
-            kernel.UIKit.useJsboxNav()
+            kernel.useJsboxNav()
             // 设置 navButtons
-            kernel.UIKit.setNavButtons([
+            kernel.setNavButtons([
                 {
                     symbol: "gear",
                     handler: () => {
-                        kernel.UIKit.push({
+                        UIKit.push({
                             title: $l10n("SETTING"),
-                            views: kernel.setting.getView()
+                            views: [kernel.setting.getListView()]
                         })
                     }
                 },
@@ -109,9 +113,9 @@ module.exports = {
                     handler: () => {
                         const StorageUI = require("./ui/main/storage")
                         const interfaceUi = new StorageUI(kernel)
-                        kernel.UIKit.push({
+                        UIKit.push({
                             title: $l10n("STORAGE"),
-                            views: interfaceUi.getView(),
+                            views: interfaceUi.getViews(),
                             navButtons: [{
                                 symbol: "plus",
                                 handler: () => {
@@ -126,7 +130,9 @@ module.exports = {
             ])
             const HomeUI = require("./ui/main/home")
             const interfaceUi = new HomeUI(kernel)
-            kernel.UIRender(interfaceUi.getView())
+            kernel.UIRender({
+                views: interfaceUi.getViews()
+            })
         } else if ($app.env === $env.keyboard) {
             const KeyboardUI = require("./ui/keyboard/keyboard")
             new KeyboardUI(this.kernel).render()

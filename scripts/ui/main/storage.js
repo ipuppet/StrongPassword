@@ -1,3 +1,4 @@
+const { UIKit } = require("../../easy-jsbox")
 const EditorUI = require("./editor")
 
 class StorageUI {
@@ -79,7 +80,7 @@ class StorageUI {
         $(this.listId).data = this.listTemplate(this.kernel.storage.all())
     }
 
-    getView() {
+    getViews() {
         return [
             { // 列表
                 type: "list",
@@ -97,7 +98,7 @@ class StorageUI {
                                 type: "label",
                                 props: {
                                     text: $l10n("STORAGE"),
-                                    textColor: this.kernel.UIKit.textColor,
+                                    textColor: UIKit.textColor,
                                     align: $align.left,
                                     font: $font("bold", 35),
                                     line: 1
@@ -324,7 +325,7 @@ class StorageUI {
                         props: {
                             font: $font(18),
                             text: $l10n("UNDO"),
-                            textColor: this.kernel.UIKit.textColor,
+                            textColor: UIKit.textColor,
                             align: $align.center
                         },
                         layout: (make, view) => {
@@ -336,7 +337,7 @@ class StorageUI {
                         type: "image",
                         props: {
                             symbol: "arrow.counterclockwise",
-                            tintColor: this.kernel.UIKit.textColor,
+                            tintColor: UIKit.textColor,
                             bgcolor: $color("clear")
                         },
                         layout: (make, view) => {
