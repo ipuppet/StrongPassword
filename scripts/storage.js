@@ -1,18 +1,13 @@
 class Storage {
     constructor(setting) {
         this.setting = setting
-        this.localDb = "/storage/StrongPassword.db"
-        // TODO 兼容旧版本
-        if ($file.exists("/assets/StrongPassword.db")) {
-            $file.move({
-                src: "/assets/StrongPassword.db",
-                dst: this.localDb
-            })
-        }
-        // end 兼容旧版本
+        this.localDb = "storage/StrongPassword.db"
         this.iCloudPath = "drive://StrongPassword/"
         this.iCloudDb = this.iCloudPath + "StrongPassword.db"
         this.iCloudAutoDb = this.iCloudPath + "auto.db"
+        if (!$file.isDirectory("storage")) {
+            $file.mkdir("storage")
+        }
         this.sqlite = $sqlite.open(this.localDb)
         this.sqlite.update("CREATE TABLE IF NOT EXISTS password(id INTEGER PRIMARY KEY NOT NULL, account TEXT, password TEXT, date TEXT, website TEXT)")
     }
